@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71c742c0fb60403f8cb1da807f8676af, type: 3}
+  m_Name: GarbenTypeHolder
+  m_EditorClassIdentifier: 
+  List:
+  - {fileID: 11400000, guid: 0b959e04e94f99e4185d629a9241ec17, type: 2}
+  - {fileID: 11400000, guid: 2ee0b39b05880744e85befb3801bf4e4, type: 2}
+  - {fileID: 11400000, guid: f5191fb42f3e9ec47850edc77cb78953, type: 2}
+  - {fileID: 11400000, guid: 40f0a3f0ce21f8743a44ed0c007c6f1a, type: 2}
+  - {fileID: 11400000, guid: cf2309b2f895522498579792ed59aecd, type: 2}
+  - {fileID: 11400000, guid: 68f8f237d9c31ab42ae6faee3f851349, type: 2}
