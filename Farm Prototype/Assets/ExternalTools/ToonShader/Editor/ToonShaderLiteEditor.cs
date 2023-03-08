@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace DELTation.ToonShader.Editor
+namespace ExternalTools.ToonShader.Editor
 {
 	// ReSharper disable once UnusedType.Global
 	public class ToonShaderLiteEditor : ToonShaderEditorBase

@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: Wheat
   m_EditorClassIdentifier: 
   SeedType: 4
-  GardenBedCostArray:
-  - ResourceTypeData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
+  GardenCostArray:
+  - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
     Amount: 5
-  - ResourceTypeData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
+  - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
     Amount: 0
   GeneratorData:
-    ResourceType:
-    - {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
-    MaxCoinAmount: 5
-    MaxSeedAmount: 0
+    ResourceGeneratorAmounts:
+    - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
+      MinAmount: 2
+      MaxAmount: 8
+    - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
+      MinAmount: 0
+      MaxAmount: 4

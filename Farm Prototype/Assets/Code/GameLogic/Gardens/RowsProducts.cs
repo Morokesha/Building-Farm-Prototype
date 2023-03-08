@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Code.Gardens
+namespace Code.GameLogic.Gardens
 {
     public class RowsProducts : MonoBehaviour
     {

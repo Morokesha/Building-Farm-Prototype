@@ -1,41 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using Code.Data.ResourceData;
+using Code.Services;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Code.Management
 {
-    public class ResourceRepository : MonoBehaviour
+    public class ResourceRepository
     {
-        public event Action<ResourceType,int> ResourcesChanged;
-        
-        [SerializeField] 
+        public event Action ResourcesChanged;
+
+        private IProgressDataService _progressDataService;
         private ResourceHolder _resourceHolder;
-        
+
         private Dictionary<ResourceType, int> _resourceTypeAmountDictionary;
 
-    private void Start()
+    public void Init(IProgressDataService progressDataService,ResourceHolder resourceHolder)
     {
+        _progressDataService = progressDataService;
+        _resourceHolder = resourceHolder;
         _resourceTypeAmountDictionary = new Dictionary<ResourceType, int>();
 
         StartingResources();
     }
-   private void StartingResources()
-    {
-        foreach (var resourceAmount in _resourceHolder.ResourceAmounts)
-            _resourceTypeAmountDictionary[resourceAmount.ResourceData.Type] = 0;
 
-        foreach (var holder in _resourceHolder.ResourceAmounts)
-        {
-            AddResource(_resourceHolder.ResourceAmounts, holder.Amount);
-        }
+    public void AddResource(ResourceType resourceType, int amount)
+    {
+        _resourceTypeAmountDictionary[resourceType] += amount;
+
+        int value = _resourceTypeAmountDictionary[resourceType];
+        
+        _progressDataService.AddResources(resourceType,value);
+        ResourcesChanged?.Invoke();
     }
- 
 
-    public bool CanAfford(ResourceAmount[] resourceAmountArray)
+    public void SpendResources(ResourceAmountData[] resourceAmountArray)
     {
-        foreach (ResourceAmount resourceAmount in resourceAmountArray)
+        foreach (ResourceAmountData resourceAmount in resourceAmountArray)
+            _resourceTypeAmountDictionary[resourceAmount.ResourceData.Type] -= resourceAmount.Amount;
+        
+        ResourcesChanged?.Invoke();
+    }
+
+    public bool CanAfford(ResourceAmountData[] resourceAmountArray)
+    {
+        foreach (ResourceAmountData resourceAmount in resourceAmountArray)
         {
             if (GetResourceAmount(resourceAmount.ResourceData) >= resourceAmount.Amount)
             {
@@ -50,32 +60,12 @@ namespace Code.Management
         return true;
     }
 
-    public void AddResource(ResourceAmount[] resourceAmounts, int amount)
+    private void StartingResources()
     {
-        foreach (var resourceAmount in resourceAmounts)
-        {
-            if (resourceAmount.ResourceData.Type == ResourceType.Seed)
-            {
-                _resourceTypeAmountDictionary[resourceAmount.ResourceData.Type] += amount;
-            }
-            else if (resourceAmount.ResourceData.Type == ResourceType.Coin)
-            {
-                _resourceTypeAmountDictionary[resourceAmount.ResourceData.Type] += amount;
-            }
-        }
-        
-        foreach (var resourceDictionary in _resourceTypeAmountDictionary)
-            ResourcesChanged?.Invoke(resourceDictionary.Key, resourceDictionary.Value);
+        foreach (var resourceAmountData in _resourceHolder.ResourceAmounts)
+            _resourceTypeAmountDictionary.Add(resourceAmountData.ResourceData.Type, resourceAmountData.Amount);
     }
 
-    public void SpendResources(ResourceAmount[] resourceAmountArray)
-    {
-        foreach (ResourceAmount resourceAmount in resourceAmountArray)
-            _resourceTypeAmountDictionary[resourceAmount.ResourceData.Type] -= resourceAmount.Amount;
-        
-        foreach (var resourceDictionary in _resourceTypeAmountDictionary)
-            ResourcesChanged?.Invoke(resourceDictionary.Key, resourceDictionary.Value);
-    }
 
     private int GetResourceAmount(ResourceData resource) =>
         _resourceTypeAmountDictionary[resource.Type];

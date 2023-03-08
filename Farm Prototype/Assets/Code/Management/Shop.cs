@@ -8,11 +8,8 @@ namespace Code.Management
 {
     public class Shop : MonoBehaviour
     {
-        [SerializeField] 
         private ShopUI _shopUI;
-        [FormerlySerializedAs("_resourceManager")] [SerializeField]
         private ResourceRepository resourceRepository;
-        [SerializeField] 
         private GardenTypeHolder gardenTypeHolder;
 
         private GardenData _gardenData;
@@ -20,7 +17,7 @@ namespace Code.Management
         public event Action<SeedType> SoldGardenBed;
         public event Action SoldCells;
         
-        private void Start()
+        public void Init()
         {
             _shopUI.BuyWheat += ShopUIOnBuyWheat;
         }
@@ -30,7 +27,7 @@ namespace Code.Management
             BuyGardenBed(type);
         }
 
-        private void BuyCells(int money)
+        private void BuyCells(int coins)
         {
             
         }

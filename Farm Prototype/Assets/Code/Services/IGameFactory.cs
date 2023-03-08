@@ -1,11 +1,11 @@
-﻿using Code.Gardens;
+﻿using Code.GameLogic.Gardens;
 using UnityEngine;
 
 namespace Code.Services
 {
     public interface IGameFactory
     {
-        CellForPlanting CreateCellForPlanting(CellForPlanting template,Vector3 position,Transform container);
+        CellPlanting CreateCellForPlanting(CellPlanting template,Vector3 position,Transform container);
         Garden CreateGardenBed(Garden template, Vector3 spawnPos);
     }
 }

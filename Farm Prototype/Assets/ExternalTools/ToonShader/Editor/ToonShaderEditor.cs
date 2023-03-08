@@ -8,7 +8,7 @@ using UnityBlendMode = UnityEngine.Rendering.BlendMode;
 
 // ReSharper disable Unity.PreferAddressByIdToGraphicsParams
 
-namespace DELTation.ToonShader.Editor
+namespace ExternalTools.ToonShader.Editor
 {
 	// ReSharper disable once UnusedType.Global
 	public class ToonShaderEditor : ToonShaderEditorBase

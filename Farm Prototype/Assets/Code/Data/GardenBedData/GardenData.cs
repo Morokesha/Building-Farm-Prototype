@@ -7,7 +7,7 @@ namespace Code.Data.GardenBedData
     public class GardenData : ScriptableObject
     {
         public SeedType SeedType;
-        public ResourceAmount[] GardenCostArray;
+        public ResourceAmountData[] GardenCostArray;
         public ResourceGeneratorData GeneratorData;
     }
 }

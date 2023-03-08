@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Code.Data.GardenBedData;
-using Code.Management;
 using Code.Services;
 using UnityEngine;
 
-namespace Code.Gardens
+namespace Code.GameLogic.Gardens
 {
     public enum BuildingMode
     {
@@ -32,36 +31,7 @@ namespace Code.Gardens
         {
             _gardenData = gardenData;
         }
-        
-        private void Awake()
-        {
-            _boxCollider = GetComponent<BoxCollider>();
-            _boxCollider.enabled = false;
 
-            SetBuilt(BuildingMode.WaitBuilt);
-        }
-
-        private void Update()
-        {
-            if (_buildingMode == BuildingMode.WaitBuilt)
-            {
-                SetPositionToWorldSpace();
-            }
-        }
-
-        private void SetPositionToWorldSpace()
-        { 
-            Ray ray = Camera.main.ScreenPointToRay(UtilClass.GetMousePosition());
-            if (Physics.Raycast(ray,out RaycastHit hit))
-            {
-                transform.position = hit.point;
-            }
-            
-        }
-
-        private void SetBuilt(BuildingMode mode) => 
-            _buildingMode = mode;
-        
         public void ActivateProducts(SeedType type,Vector3 position)
         {
             SetBuilt(BuildingMode.Built);
@@ -80,9 +50,33 @@ namespace Code.Gardens
             _boxCollider.enabled = true;
         }
 
-        private void StartProduction()
+        private void Awake()
         {
+            _boxCollider = GetComponent<BoxCollider>();
+            _boxCollider.enabled = false;
+
+            SetBuilt(BuildingMode.WaitBuilt);
+        }
+
+        private void Update()
+        {
+            if (_buildingMode == BuildingMode.WaitBuilt)
+            {
+                BacklightPosition();
+            }
+        }
+
+        private void BacklightPosition()
+        { 
+            Ray ray = Camera.main.ScreenPointToRay(UtilClass.GetMousePosition());
+            if (Physics.Raycast(ray,out RaycastHit hit))
+            {
+                transform.position = hit.point;
+            }
             
         }
+
+        private void SetBuilt(BuildingMode mode) => 
+            _buildingMode = mode;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace DELTation.ToonShader.Editor
+namespace ExternalTools.ToonShader.Editor
 {
 	public abstract class ToonShaderEditorBase : ShaderGUI
 	{

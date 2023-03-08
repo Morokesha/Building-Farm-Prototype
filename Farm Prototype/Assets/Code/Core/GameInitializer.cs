@@ -8,13 +8,12 @@ namespace Code.Core
     public class GameInitializer
     {
         private IGameFactory _gameFactory;
+        private IProgressDataService _progressDataService;
 
         public void Init()
         {
+            _progressDataService = new ProgressDataService();
             _gameFactory = new GameFactory();
-
-            Shop shop = Object.FindObjectOfType<Shop>();
-   
         }
     }
 }

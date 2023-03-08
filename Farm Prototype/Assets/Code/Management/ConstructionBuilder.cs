@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using Code.Data.GardenBedData;
-using Code.Gardens;
+using Code.GameLogic.Gardens;
 using Code.Services;
 using UnityEngine;
 
 namespace Code.Management
 {
-    public class Builder : MonoBehaviour
+    public class ConstructionBuilder : MonoBehaviour
     {
         [SerializeField] 
         private Shop _shop;
         [SerializeField]
-        private CellForPlanting _cellTemplate;
+        private CellPlanting _cellTemplate;
         [SerializeField] 
         private Garden gardenTemplate;
 
@@ -32,34 +32,31 @@ namespace Code.Management
         private Vector3 _gardenPosition;
 
         private Camera _camera;
-        private  List<CellForPlanting> _listCells;
-        private CellForPlanting _createdCells;
-        private CellForPlanting _raycastCell;
+        private  List<CellPlanting> _listCells;
+        private CellPlanting _createdCells;
+        private CellPlanting _raycastCell;
         private Garden _activeGardenType;
         
         private void Awake()
         {
             _gameFactory = new GameFactory();
-        }
-
-        private void Start()
-        {
             _camera = Camera.main;
-            _listCells = new List<CellForPlanting>();
+            _listCells = new List<CellPlanting>();
             
             _startPosition = new Vector3(_offsetX,0f,_offsetZ);
             _createPos = _startPosition;
             
             CreateCellForPlanting();
-            
+        }
+
+        private void Start()
+        {
             _shop.SoldCells += ShopOnSoldCells;
             _shop.SoldGardenBed += ShopOnSoldGardenBed;
         }
         
         private void Update()
         {
-            RaycastCells();
-
             if (RaycastCells())
             {
                 if (UtilClass.MouseClick())
@@ -83,16 +80,17 @@ namespace Code.Management
 
         private bool RaycastCells()
         {
-            bool cellOnRay = false;
+            bool rayHitOnCell = false;
+            
             Ray ray = _camera.ScreenPointToRay(UtilClass.GetMousePosition());
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.GetComponent<CellForPlanting>())
+                if (hit.collider.TryGetComponent(out CellPlanting cellPlanting))
                 {
-                    _raycastCell = hit.collider.GetComponent<CellForPlanting>();
+                    _raycastCell = cellPlanting;
                     _raycastCell.ActivatedFrame(true);
-                    cellOnRay = true;
+                    rayHitOnCell = true;
                 }
                 else
                 {
@@ -104,7 +102,7 @@ namespace Code.Management
                 }
             }
 
-            return cellOnRay;
+            return rayHitOnCell;
         }
 
         private void ActivatedCellConstructionMode(BuildingState state)

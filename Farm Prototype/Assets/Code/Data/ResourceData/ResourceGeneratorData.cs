@@ -1,8 +1,10 @@
-﻿namespace Code.Data.ResourceData
+﻿using UnityEngine.Serialization;
+
+namespace Code.Data.ResourceData
 {
     [System.Serializable]
     public class ResourceGeneratorData
     {
-        public ResourceAmount[] ResourceAmounts;
+        public ResourceGeneratorAmount[] ResourceGeneratorAmounts;
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using Code.Management;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
-namespace Code.Gardens
+namespace Code.GameLogic.Gardens
 {
     public enum CellState
     {
@@ -18,7 +15,7 @@ namespace Code.Gardens
         Built
     }
     
-    public class CellForPlanting : MonoBehaviour
+    public class CellPlanting : MonoBehaviour
     {
         [SerializeField] 
         private GameObject _frame;
