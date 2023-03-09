@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using Code.Data.ResourceData;
 using Code.Services;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Code.Management
 {
-    public class ResourceRepository
+    public class ResourceRepository : IResourceService
     {
         public event Action ResourcesChanged;
 

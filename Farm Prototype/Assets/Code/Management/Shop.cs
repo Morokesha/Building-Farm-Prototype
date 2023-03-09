@@ -9,7 +9,7 @@ namespace Code.Management
     public class Shop : MonoBehaviour
     {
         private ShopUI _shopUI;
-        private ResourceRepository resourceRepository;
+        private ResourceRepository _resourceRepository;
         private GardenTypeHolder gardenTypeHolder;
 
         private GardenData _gardenData;
@@ -42,7 +42,7 @@ namespace Code.Management
                 }
             }
             
-            if (resourceRepository.CanAfford(_gardenData.GardenCostArray))
+            if (_resourceRepository.CanAfford(_gardenData.GardenCostArray))
             {
                 print("sold");
                 SoldGardenBed?.Invoke(type);
