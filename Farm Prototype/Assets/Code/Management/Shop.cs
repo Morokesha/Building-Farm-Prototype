@@ -1,25 +1,32 @@
 ﻿using System;
 using Code.Data.GardenBedData;
 using Code.UI;
+using Code.Services;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.Management
 {
-    public class Shop : MonoBehaviour
+    public class Shop : IShopService
     {
-        private ShopUI _shopUI;
-        private ResourceRepository _resourceRepository;
-        private GardenTypeHolder gardenTypeHolder;
+        private readonly IResourceService _resourceRepository;
+        private readonly GardenTypeHolder _gardenTypeHolder;
+        
+        private readonly ShopUI _shopUI;
 
         private GardenData _gardenData;
         
         public event Action<SeedType> SoldGardenBed;
         public event Action SoldCells;
         
-        public void Init()
+        public Shop(IResourceService resourceRepository,GardenTypeHolder gardenTypeHolder,ShopUI shopUI)
         {
+            _resourceRepository = resourceRepository;
+            _gardenTypeHolder = gardenTypeHolder;
+
+            _shopUI = shopUI;
             _shopUI.BuyWheat += ShopUIOnBuyWheat;
+            
+            Debug.Log(_gardenTypeHolder);
         }
 
         private void ShopUIOnBuyWheat(SeedType type)
@@ -34,7 +41,7 @@ namespace Code.Management
         
         private void BuyGardenBed(SeedType type)
         {
-            foreach (var gardenBedData in gardenTypeHolder.List)
+            foreach (var gardenBedData in _gardenTypeHolder.List)
             {
                 if (gardenBedData.SeedType == type)
                 {
@@ -42,14 +49,11 @@ namespace Code.Management
                 }
             }
             
-            if (_resourceRepository.CanAfford(_gardenData.GardenCostArray))
-            {
-                print("sold");
+            if (_resourceRepository.CanAfford(_gardenData.GardenCostArray)) 
                 SoldGardenBed?.Invoke(type);
-            }
         }
 
-        private void OnDisable()
+        public void Clear()
         {
             _shopUI.BuyWheat -= ShopUIOnBuyWheat;
         }

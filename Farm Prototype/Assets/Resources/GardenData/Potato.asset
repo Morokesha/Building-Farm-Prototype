@@ -13,6 +13,16 @@ MonoBehaviour:
   m_Name: Potato
   m_EditorClassIdentifier: 
   SeedType: 0
-  GardenCostArray: []
+  GardenCostArray:
+  - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
+    Amount: 0
+  - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
+    Amount: 0
   GeneratorData:
-    ResourceAmounts: []
+    ResourceGeneratorAmounts:
+    - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
+      MinAmount: 0
+      MaxAmount: 0
+    - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
+      MinAmount: 0
+      MaxAmount: 0

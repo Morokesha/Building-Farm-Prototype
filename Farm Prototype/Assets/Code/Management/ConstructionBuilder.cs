@@ -8,38 +8,38 @@ namespace Code.Management
 {
     public class ConstructionBuilder : MonoBehaviour
     {
-        [SerializeField] 
-        private Shop _shop;
-        [SerializeField]
-        private CellPlanting _cellTemplate;
-        [SerializeField] 
-        private Garden gardenTemplate;
-
         [SerializeField]
         private Transform _containerForPlanting;
 
         [SerializeField] private float _offsetX;
         [SerializeField] private float _offsetZ;
-        
-        private readonly int _countCellPlanting = 3;
 
-        private IGameFactory _gameFactory;
+        private readonly int _countCellPlanting = 3;
+        
         private SeedType _activeSeedType;
+        
+        private IGameFactory _gameFactory;
+        private IShopService _shop;
+        
+        private Camera _camera;
+        private  List<CellPlanting> _listCells;
+        private CellPlanting _createdCells;
+        private CellPlanting _raycastCell;
+        private Garden _activeGardenType;
 
         private Vector3 _startPosition;
         private Vector3 _createPos;
         private Vector3 _rowOffset;
         private Vector3 _gardenPosition;
 
-        private Camera _camera;
-        private  List<CellPlanting> _listCells;
-        private CellPlanting _createdCells;
-        private CellPlanting _raycastCell;
-        private Garden _activeGardenType;
+        public void Init(IGameFactory gameFactory,IShopService shop)
+        {
+            _gameFactory = gameFactory;
+            _shop = shop;
+        }
         
         private void Awake()
         {
-            _gameFactory = new GameFactory();
             _camera = Camera.main;
             _listCells = new List<CellPlanting>();
             
@@ -115,7 +115,7 @@ namespace Code.Management
         {
             for (int i = 0; i < _countCellPlanting; i++)
             {
-                    _createdCells = _gameFactory.CreateCellForPlanting(_cellTemplate, _createPos,_containerForPlanting);
+                    _createdCells = _gameFactory.CreateCellForPlanting(_createPos,_containerForPlanting);
                     _createPos += new Vector3(-_offsetX,0f,0f);
                     _listCells.Add(_createdCells);
             }
@@ -123,15 +123,15 @@ namespace Code.Management
             _createPos = new Vector3(_startPosition.x, 0f, _createPos.z + _offsetZ);
         }
 
-        private void GardenCreate(SeedType type,Garden garden,Vector3 position)
+        private void GardenCreate(SeedType type,Vector3 position)
         {
-            _activeGardenType = _gameFactory.CreateGardenBed(garden, position);
+            _activeGardenType = _gameFactory.CreateGardenBed(position);
             _activeSeedType = type;
         }
 
         private void ShopOnSoldGardenBed(SeedType seedType)
         {
-            GardenCreate(seedType,gardenTemplate,transform.position);
+            GardenCreate(seedType,transform.position);
             ActivatedCellConstructionMode(BuildingState.Wait);
         }
 

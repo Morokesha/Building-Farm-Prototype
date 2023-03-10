@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 4949630929273782780}
   - component: {fileID: 4949630929273782783}
   m_Layer: 0
-  m_Name: CellForPlanting
+  m_Name: CellPlanting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

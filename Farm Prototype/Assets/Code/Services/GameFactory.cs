@@ -4,17 +4,22 @@ using UnityEngine;
 namespace Code.Services
 {
     public class GameFactory : IGameFactory
-    { 
-        public CellPlanting CreateCellForPlanting(CellPlanting template,Vector3 position,Transform container)
+    {
+        private readonly IAssetProvider _assetProvider;
+        
+        public GameFactory(IAssetProvider assetProvider) => 
+            _assetProvider = assetProvider;
+
+        public CellPlanting CreateCellForPlanting(Vector3 position,Transform container)
         {
-            CellPlanting cell = Object.Instantiate(template, position, Quaternion.identity);
+            CellPlanting cell = Object.Instantiate(_assetProvider.CellPlanting,position, Quaternion.identity);
             cell.transform.SetParent(container);
             return cell;
         }
 
-        public Garden CreateGardenBed(Garden template,Vector3 spawnPos)
+        public Garden CreateGardenBed(Vector3 spawnPos)
         {
-            Garden garden = Object.Instantiate(template, spawnPos, Quaternion.identity);
+            Garden garden = Object.Instantiate(_assetProvider.Garden, spawnPos, Quaternion.identity);
 
             return garden;
         }

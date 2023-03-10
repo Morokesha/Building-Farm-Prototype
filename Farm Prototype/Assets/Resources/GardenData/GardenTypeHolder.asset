@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c742c0fb60403f8cb1da807f8676af, type: 3}
-  m_Name: GarbenTypeHolder
+  m_Name: GardenTypeHolder
   m_EditorClassIdentifier: 
   List:
   - {fileID: 11400000, guid: 0b959e04e94f99e4185d629a9241ec17, type: 2}
