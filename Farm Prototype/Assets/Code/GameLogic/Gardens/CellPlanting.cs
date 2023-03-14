@@ -11,8 +11,7 @@ namespace Code.GameLogic.Gardens
     public enum BuildingState
     {
         None,
-        Wait,
-        Built
+        WaitBuilt,
     }
     
     public class CellPlanting : MonoBehaviour
@@ -26,7 +25,7 @@ namespace Code.GameLogic.Gardens
         private BuildingState _buildingState;
         private CellState _cellState;
 
-        private void Start()
+        private void Awake()
         {
             SetCellState(CellState.Free);
             SetBuildingState(BuildingState.None);
@@ -45,7 +44,7 @@ namespace Code.GameLogic.Gardens
 
         private void ActivatedConstructionMode()
         {
-            if (_cellState == CellState.Free && _buildingState == BuildingState.Wait)
+            if (_cellState == CellState.Free && _buildingState == BuildingState.WaitBuilt)
                 _transparentSurface.SetActive(true);
             else
                 _transparentSurface.SetActive(false);

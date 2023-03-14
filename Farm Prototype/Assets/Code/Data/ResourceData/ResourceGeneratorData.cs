@@ -6,5 +6,6 @@ namespace Code.Data.ResourceData
     public class ResourceGeneratorData
     {
         public ResourceGeneratorAmount[] ResourceGeneratorAmounts;
+        public float TimeGrowingCrops;
     }
 }

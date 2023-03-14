@@ -5,12 +5,6 @@ using UnityEngine;
 
 namespace Code.GameLogic.Gardens
 {
-    public enum BuildingMode
-    {
-        WaitBuilt,
-        Built
-    }
-    
     public class Garden : MonoBehaviour
     {
         [SerializeField] 
@@ -23,60 +17,38 @@ namespace Code.GameLogic.Gardens
         private GameObject _ground;
       
         private BoxCollider _boxCollider;
-        
-        private BuildingMode _buildingMode;
+
+        private GardenProduction _gardenProduction;
         private GardenData _gardenData;
+        private IResourceService _resourceService;
 
         public void Init(GardenData gardenData)
         {
             _gardenData = gardenData;
         }
-
-        public void ActivateProducts(SeedType type,Vector3 position)
+        
+        private void Awake()
         {
-            SetBuilt(BuildingMode.Built);
-            
-            foreach (RowsProducts product in _rowsProducts)
-            {
-                if (product.seedType == type)
-                {
-                    product.gameObject.SetActive(true);
-                }
-            }
+            _boxCollider = GetComponent<BoxCollider>();
+            _boxCollider.enabled = false;
+        }
+
+        public void ActivateProducts(IResourceService resourceService,
+            SeedType type,Vector3 position)
+        {
+            _resourceService = resourceService;
+            _gardenProduction = new GardenProduction(_resourceService);
 
             transform.position = position;
             _ground.SetActive(true);
             _visualCell.SetActive(false);
             _boxCollider.enabled = true;
-        }
-
-        private void Awake()
-        {
-            _boxCollider = GetComponent<BoxCollider>();
-            _boxCollider.enabled = false;
-
-            SetBuilt(BuildingMode.WaitBuilt);
-        }
-
-        private void Update()
-        {
-            if (_buildingMode == BuildingMode.WaitBuilt)
-            {
-                BacklightPosition();
-            }
-        }
-
-        private void BacklightPosition()
-        { 
-            Ray ray = Camera.main.ScreenPointToRay(UtilClass.GetMousePosition());
-            if (Physics.Raycast(ray,out RaycastHit hit))
-            {
-                transform.position = hit.point;
-            }
             
+            foreach (RowsProducts product in _rowsProducts)
+            {
+                if (product.seedType == type) 
+                    product.gameObject.SetActive(true);
+            }
         }
-
-        private void SetBuilt(BuildingMode mode) => 
-            _buildingMode = mode;
     }
 }

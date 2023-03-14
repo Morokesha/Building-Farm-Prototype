@@ -6,5 +6,6 @@
         public const string CellPlantingPath = "GardenData/Template/CellPlanting";
         public const string GardenTypeHolderPath = "GardenData/GardenTypeHolder";
         public const string ResourceHolderPath = "ResourceData/ResourceHolder";
+        public const string GardenInfoUIPath = "UI/GardenInfoUI";
     }
 }

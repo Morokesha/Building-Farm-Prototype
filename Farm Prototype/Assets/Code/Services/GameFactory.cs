@@ -1,4 +1,5 @@
 ﻿using Code.GameLogic.Gardens;
+using Code.UI.GardenUI;
 using UnityEngine;
 
 namespace Code.Services
@@ -22,6 +23,11 @@ namespace Code.Services
             Garden garden = Object.Instantiate(_assetProvider.Garden, spawnPos, Quaternion.identity);
 
             return garden;
+        }
+
+        public GardenInfoUI CreateGardenInfo()
+        {
+            return Object.Instantiate(_assetProvider.GardenInfoUI);
         }
     }
 }

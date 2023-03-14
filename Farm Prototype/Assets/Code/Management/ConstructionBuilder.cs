@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
 using Code.Data.GardenBedData;
+using Code.GameLogic;
 using Code.GameLogic.Gardens;
 using Code.Services;
 using UnityEngine;
 
 namespace Code.Management
 {
+    public enum BuildingMode
+    {
+        WaitBuilt,
+        Complete
+    }
     public class ConstructionBuilder : MonoBehaviour
     {
         [SerializeField]
@@ -17,30 +23,34 @@ namespace Code.Management
         private readonly int _countCellPlanting = 3;
         
         private SeedType _activeSeedType;
-        
+        private BuildingMode _buildingMode;
+
         private IGameFactory _gameFactory;
         private IShopService _shop;
+        private IResourceService _resourceService;
         
-        private Camera _camera;
         private  List<CellPlanting> _listCells;
         private CellPlanting _createdCells;
         private CellPlanting _raycastCell;
+        private Garden _raycastGarden;
         private Garden _activeGardenType;
 
         private Vector3 _startPosition;
         private Vector3 _createPos;
         private Vector3 _rowOffset;
         private Vector3 _gardenPosition;
+        private Controls _controls;
 
-        public void Init(IGameFactory gameFactory,IShopService shop)
+        public void Init(IGameFactory gameFactory,IResourceService resourceService,
+            Controls controls,IShopService shop)
         {
             _gameFactory = gameFactory;
+            _controls = controls;
             _shop = shop;
         }
         
         private void Awake()
         {
-            _camera = Camera.main;
             _listCells = new List<CellPlanting>();
             
             _startPosition = new Vector3(_offsetX,0f,_offsetZ);
@@ -57,13 +67,30 @@ namespace Code.Management
         
         private void Update()
         {
-            if (RaycastCells())
+            RaycastConstructions();
+            BuiltGarden();
+        }
+
+        private void RaycastConstructions()
+        {
+            if (_buildingMode == BuildingMode.WaitBuilt)
+                _raycastCell = _controls.RaycastCells();
+            else
+                _raycastGarden = _controls.RaycastGarden();
+        }
+
+        private void BuiltGarden()
+        {
+            if (_controls.GetMouseClick())
+                if (_raycastCell != null && _raycastCell.GetCellState() == CellState.Free)
+                    SetGardenOnCell();
+        }
+
+        private void SettingGardenPosition()
+        {
+            if (_activeGardenType != null)
             {
-                if (UtilClass.MouseClick())
-                {
-                    if (_raycastCell != null && _raycastCell.GetCellState() == CellState.Free) 
-                        SetGardenOnCell();
-                }
+                
             }
         }
 
@@ -72,37 +99,10 @@ namespace Code.Management
             if (_activeGardenType)
             {
                 _gardenPosition = _raycastCell.GetComponent<Transform>().position;
-                _activeGardenType.ActivateProducts(_activeSeedType, _gardenPosition);
+                _activeGardenType.ActivateProducts(_resourceService,_activeSeedType, _gardenPosition);
                 _raycastCell.SetCellState(CellState.Occupied);
                 _activeGardenType = null;
             }
-        }
-
-        private bool RaycastCells()
-        {
-            bool rayHitOnCell = false;
-            
-            Ray ray = _camera.ScreenPointToRay(UtilClass.GetMousePosition());
-
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                if (hit.collider.TryGetComponent(out CellPlanting cellPlanting))
-                {
-                    _raycastCell = cellPlanting;
-                    _raycastCell.ActivatedFrame(true);
-                    rayHitOnCell = true;
-                }
-                else
-                {
-                    if (_raycastCell != null)
-                    {
-                        _raycastCell.ActivatedFrame(false);
-                        _raycastCell = null;
-                    }
-                }
-            }
-
-            return rayHitOnCell;
         }
 
         private void ActivatedCellConstructionMode(BuildingState state)
@@ -132,7 +132,7 @@ namespace Code.Management
         private void ShopOnSoldGardenBed(SeedType seedType)
         {
             GardenCreate(seedType,transform.position);
-            ActivatedCellConstructionMode(BuildingState.Wait);
+            ActivatedCellConstructionMode(BuildingState.WaitBuilt);
         }
 
         private void ShopOnSoldCells()
