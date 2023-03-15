@@ -28,19 +28,20 @@ namespace Code.Management
         private IGameFactory _gameFactory;
         private IShopService _shop;
         private IResourceService _resourceService;
-        
+        private Controls _controls;
+
         private  List<CellPlanting> _listCells;
         private CellPlanting _createdCells;
-        private CellPlanting _raycastCell;
-        private Garden _raycastGarden;
-        private Garden _activeGardenType;
+        private CellPlanting _selectedCell;
+        private Garden _selectedGarden;
+        private Garden _createdGarden;
 
         private Vector3 _startPosition;
         private Vector3 _createPos;
         private Vector3 _rowOffset;
         private Vector3 _gardenPosition;
-        private Controls _controls;
 
+        public Garden SelectedGarden => _selectedGarden;
         public void Init(IGameFactory gameFactory,IResourceService resourceService,
             Controls controls,IShopService shop)
         {
@@ -51,6 +52,8 @@ namespace Code.Management
         
         private void Awake()
         {
+            _buildingMode = BuildingMode.Complete;
+            
             _listCells = new List<CellPlanting>();
             
             _startPosition = new Vector3(_offsetX,0f,_offsetZ);
@@ -64,44 +67,45 @@ namespace Code.Management
             _shop.SoldCells += ShopOnSoldCells;
             _shop.SoldGardenBed += ShopOnSoldGardenBed;
         }
-        
+
         private void Update()
         {
             RaycastConstructions();
+            UpdateGardenGhostPosition();
             BuiltGarden();
         }
 
         private void RaycastConstructions()
         {
             if (_buildingMode == BuildingMode.WaitBuilt)
-                _raycastCell = _controls.RaycastCells();
+                _selectedCell = _controls.RaycastCells();
             else
-                _raycastGarden = _controls.RaycastGarden();
+                _selectedGarden = _controls.RaycastGarden();
         }
 
         private void BuiltGarden()
         {
             if (_controls.GetMouseClick())
-                if (_raycastCell != null && _raycastCell.GetCellState() == CellState.Free)
+                if (_selectedCell != null && _selectedCell.GetCellState() == CellState.Free)
                     SetGardenOnCell();
         }
 
-        private void SettingGardenPosition()
+        private void UpdateGardenGhostPosition()
         {
-            if (_activeGardenType != null)
-            {
-                
-            }
+            if (_createdGarden != null) 
+                _createdGarden.transform.position = _controls.GetMouseToWorldPosition();
         }
 
         private void SetGardenOnCell()
         {
-            if (_activeGardenType)
+            if (_createdGarden)
             {
-                _gardenPosition = _raycastCell.GetComponent<Transform>().position;
-                _activeGardenType.ActivateProducts(_resourceService,_activeSeedType, _gardenPosition);
-                _raycastCell.SetCellState(CellState.Occupied);
-                _activeGardenType = null;
+                _gardenPosition = _selectedCell.GetComponent<Transform>().position;
+                _createdGarden.ActivateProducts(_resourceService,_activeSeedType, _gardenPosition);
+                _selectedCell.SetCellState(CellState.Occupied);
+
+                _buildingMode = BuildingMode.Complete;
+                _createdGarden = null;
             }
         }
 
@@ -125,8 +129,10 @@ namespace Code.Management
 
         private void GardenCreate(SeedType type,Vector3 position)
         {
-            _activeGardenType = _gameFactory.CreateGardenBed(position);
+            _createdGarden = _gameFactory.CreateGardenBed(position);
             _activeSeedType = type;
+
+            _buildingMode = BuildingMode.WaitBuilt;
         }
 
         private void ShopOnSoldGardenBed(SeedType seedType)

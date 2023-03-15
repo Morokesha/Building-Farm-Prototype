@@ -8,17 +8,17 @@ namespace Code.Management
 {
     public class Shop : IShopService
     {
-        private readonly IResourceService _resourceRepository;
-        private readonly GardenTypeHolder _gardenTypeHolder;
+        private IResourceService _resourceRepository;
+        private GardenTypeHolder _gardenTypeHolder;
         
-        private readonly ShopUI _shopUI;
+        private ShopUI _shopUI;
 
         private GardenData _gardenData;
         
         public event Action<SeedType> SoldGardenBed;
         public event Action SoldCells;
         
-        public Shop(IResourceService resourceRepository,GardenTypeHolder gardenTypeHolder,ShopUI shopUI)
+        public void Init(IResourceService resourceRepository,GardenTypeHolder gardenTypeHolder,ShopUI shopUI)
         {
             _resourceRepository = resourceRepository;
             _gardenTypeHolder = gardenTypeHolder;

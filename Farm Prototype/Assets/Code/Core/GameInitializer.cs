@@ -2,6 +2,8 @@
 using Code.Management;
 using Code.Services;
 using Code.UI;
+using Code.UI.GardenUI;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Code.Core
@@ -15,13 +17,20 @@ namespace Code.Core
         private IShopService _shopService;
         
         private ConstructionBuilder _constructionBuilder;
-        private ShopUI _shopUI;
         private Controls _controls;
+        private UIRoot _uiRoot;
+        private HUD _hud;
+        private ShopUI _shopUI;
+        private GardenInfoUI _gardenInfo;
+
+        public GameInitializer() => 
+            RegistrationService();
 
         public void Init()
         {
-            RegistrationService();
-            
+            InitUI();
+
+            _shopService.Init(_resourceService, _assetProvider.GardenTypeHolder, _shopUI);
             _controls.Init();
             _resourceService.Init(_progressDataService,_assetProvider.ResourceHolder);
 
@@ -36,9 +45,16 @@ namespace Code.Core
             _gameFactory = new GameFactory(_assetProvider);
             _resourceService = new ResourceRepository();
             _controls = new Controls();
+            _shopService = new Shop();
+        }
+
+        private void InitUI()
+        {
+            _uiRoot = _gameFactory.CreateUIRoot();
+            _hud = _gameFactory.CreateHud();
+            _shopUI = _gameFactory.CreateShopUI();
             
-            _shopUI = Object.FindObjectOfType<ShopUI>();
-            _shopService = new Shop(_resourceService,_assetProvider.GardenTypeHolder,_shopUI);
+            _hud.Init(_resourceService);
         }
     }
 }

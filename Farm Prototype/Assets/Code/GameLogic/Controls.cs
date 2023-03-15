@@ -1,7 +1,4 @@
-﻿using System;
-using Code.GameLogic.Gardens;
-using Code.Services;
-using TMPro.EditorUtilities;
+﻿using Code.GameLogic.Gardens;
 using UnityEngine;
 
 namespace Code.GameLogic
@@ -18,7 +15,7 @@ namespace Code.GameLogic
 
         public CellPlanting RaycastCells()
         {
-            Ray ray = _camera.ScreenPointToRay(GetMousePosition());
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
@@ -42,7 +39,7 @@ namespace Code.GameLogic
 
         public Garden RaycastGarden()
         {
-            Ray ray = _camera.ScreenPointToRay(GetMousePosition());
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
@@ -59,8 +56,19 @@ namespace Code.GameLogic
             return _raycastGarden;
         }
 
-        public static Vector3 GetMousePosition() => 
-            Input.mousePosition;
+        public Vector3 GetMouseToWorldPosition()
+        {
+            Vector3 position = Vector3.zero;
+
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray,out RaycastHit hit))
+            {
+                position = hit.point;
+            }
+
+            return position;
+        }
 
         public bool GetMouseClick() => 
             Input.GetMouseButton(0);

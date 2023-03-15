@@ -1,4 +1,5 @@
 ﻿using Code.GameLogic.Gardens;
+using Code.UI;
 using Code.UI.GardenUI;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Code.Services
     public class GameFactory : IGameFactory
     {
         private readonly IAssetProvider _assetProvider;
-        
+
         public GameFactory(IAssetProvider assetProvider) => 
             _assetProvider = assetProvider;
 
@@ -24,10 +25,13 @@ namespace Code.Services
 
             return garden;
         }
-
-        public GardenInfoUI CreateGardenInfo()
-        {
-            return Object.Instantiate(_assetProvider.GardenInfoUI);
-        }
+        public GardenInfoUI CreateGardenInfo() =>
+            Object.Instantiate(_assetProvider.GardenInfoUI);
+        public ShopUI CreateShopUI() => 
+            Object.Instantiate(_assetProvider.ShopUI);
+        public HUD CreateHud() => 
+            Object.Instantiate(_assetProvider.HUD);
+        public UIRoot CreateUIRoot()=>
+            Object.Instantiate(_assetProvider.UIRoot);
     }
 }
