@@ -9,12 +9,11 @@ namespace Code.Services
     public interface IAssetProvider
     {
         Garden Garden { get; }
-        CellPlanting CellPlanting { get; }
+        GridSell GridSell { get; }
         GardenTypeHolder GardenTypeHolder { get; }
         ResourceHolder ResourceHolder { get; }
         GardenInfoUI GardenInfoUI { get; }
         ShopUI ShopUI { get; }
         HUD HUD { get; }
-        UIRoot UIRoot { get; }
     }
 }

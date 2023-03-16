@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Code.GameLogic.Gardens
 {
@@ -14,7 +15,7 @@ namespace Code.GameLogic.Gardens
         WaitBuilt,
     }
     
-    public class CellPlanting : MonoBehaviour
+    public class GridSell : MonoBehaviour
     {
         [SerializeField] 
         private GameObject _frame;
@@ -36,7 +37,16 @@ namespace Code.GameLogic.Gardens
             ActivatedConstructionMode();
         }
 
-        public void ActivatedFrame(bool activated)
+        public void SetCellState(CellState state) => 
+            _cellState = state;
+
+        public void SetBuildingState(BuildingState state) => 
+            _buildingState = state;
+
+        public CellState GetGridCellState() => 
+            _cellState;
+
+        private void ActivateFrame(bool activated)
         {
             if (_cellState == CellState.Free) 
                 _frame.SetActive(activated);
@@ -50,13 +60,14 @@ namespace Code.GameLogic.Gardens
                 _transparentSurface.SetActive(false);
         }
 
-        public void SetCellState(CellState state) => 
-            _cellState = state;
+        private void OnMouseEnter()
+        {
+            ActivateFrame(true);
+        }
 
-        public void SetBuildingState(BuildingState state) => 
-            _buildingState = state;
-
-        public CellState GetCellState() => 
-            _cellState;
+        private void OnMouseExit()
+        {
+            ActivateFrame(false);
+        }
     }
 }

@@ -7,50 +7,35 @@ namespace Code.GameLogic
     {
         private Camera _camera;
 
-        private CellPlanting _raycastCell;
+        private GridSell _gridCell;
         private Garden _raycastGarden;
 
         public void Init() =>
             _camera = Camera.main;
 
-        public CellPlanting RaycastCells()
+        public GridSell GetGridCell()
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.TryGetComponent(out CellPlanting cellPlanting))
+                if (hit.collider.TryGetComponent(out GridSell gridCell))
                 {
-                    _raycastCell = cellPlanting;
-                    _raycastCell.ActivatedFrame(true);
-                }
-                else
-                {
-                    if (_raycastCell != null)
-                    {
-                        _raycastCell.ActivatedFrame(false);
-                        _raycastCell = null;
-                    }
+                    _gridCell = gridCell;
                 }
             }
 
-            return _raycastCell;
+            return _gridCell;
         }
 
-        public Garden RaycastGarden()
+        public Garden GetGarden()
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.TryGetComponent(out Garden garden))
-                {
+                if (hit.collider.TryGetComponent(out Garden garden)) 
                     _raycastGarden = garden;
-                }
-                else
-                {
-                    _raycastGarden = null;
-                }
             }
 
             return _raycastGarden;
@@ -62,10 +47,8 @@ namespace Code.GameLogic
 
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray,out RaycastHit hit))
-            {
+            if (Physics.Raycast(ray,out RaycastHit hit)) 
                 position = hit.point;
-            }
 
             return position;
         }

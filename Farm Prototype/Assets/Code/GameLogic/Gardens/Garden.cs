@@ -7,6 +7,8 @@ namespace Code.GameLogic.Gardens
 {
     public class Garden : MonoBehaviour
     {
+        public GardenData GetGardenData => _gardenData;
+        
         [SerializeField] 
         private List<RowsProducts> _rowsProducts;
 
@@ -25,10 +27,13 @@ namespace Code.GameLogic.Gardens
         public void Init(GardenData gardenData)
         {
             _gardenData = gardenData;
+            
         }
         
         private void Awake()
         {
+            _gardenProduction = new GardenProduction(_resourceService);
+            
             _boxCollider = GetComponent<BoxCollider>();
             _boxCollider.enabled = false;
         }

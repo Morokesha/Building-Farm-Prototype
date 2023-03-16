@@ -50,11 +50,11 @@ namespace Code.Core
 
         private void InitUI()
         {
-            _uiRoot = _gameFactory.CreateUIRoot();
-            _hud = _gameFactory.CreateHud();
-            _shopUI = _gameFactory.CreateShopUI();
+            UIRoot uiRoot = Object.FindObjectOfType<UIRoot>();
             
-            _hud.Init(_resourceService);
+            _shopUI = _gameFactory.CreateShopUI(uiRoot);
+            _hud = _gameFactory.CreateHud(_resourceService,_shopUI,uiRoot);
+            _gardenInfo = _gameFactory.CreateGardenInfo(uiRoot);
         }
     }
 }

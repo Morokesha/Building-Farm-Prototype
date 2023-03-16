@@ -7,11 +7,10 @@ namespace Code.Services
 {
     public interface IGameFactory
     {
-        CellPlanting CreateCellForPlanting(Vector3 position,Transform container);
+        GridSell CreateCellForPlanting(Vector3 position,Transform container);
         Garden CreateGardenBed(Vector3 spawnPos);
-        GardenInfoUI CreateGardenInfo();
-        ShopUI CreateShopUI();
-        HUD CreateHud();
-        UIRoot CreateUIRoot();
+        GardenInfoUI CreateGardenInfo(UIRoot parentUI);
+        ShopUI CreateShopUI(UIRoot parentUI);
+        HUD CreateHud(IResourceService resourceService, ShopUI shopUI,UIRoot parentCanvas);
     }
 }

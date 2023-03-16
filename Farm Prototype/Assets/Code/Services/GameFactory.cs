@@ -1,4 +1,5 @@
 ﻿using Code.GameLogic.Gardens;
+using Code.Management;
 using Code.UI;
 using Code.UI.GardenUI;
 using UnityEngine;
@@ -12,9 +13,9 @@ namespace Code.Services
         public GameFactory(IAssetProvider assetProvider) => 
             _assetProvider = assetProvider;
 
-        public CellPlanting CreateCellForPlanting(Vector3 position,Transform container)
+        public GridSell CreateCellForPlanting(Vector3 position,Transform container)
         {
-            CellPlanting cell = Object.Instantiate(_assetProvider.CellPlanting,position, Quaternion.identity);
+            GridSell cell = Object.Instantiate(_assetProvider.GridSell,position, Quaternion.identity);
             cell.transform.SetParent(container);
             return cell;
         }
@@ -25,13 +26,21 @@ namespace Code.Services
 
             return garden;
         }
-        public GardenInfoUI CreateGardenInfo() =>
-            Object.Instantiate(_assetProvider.GardenInfoUI);
-        public ShopUI CreateShopUI() => 
-            Object.Instantiate(_assetProvider.ShopUI);
-        public HUD CreateHud() => 
-            Object.Instantiate(_assetProvider.HUD);
-        public UIRoot CreateUIRoot()=>
-            Object.Instantiate(_assetProvider.UIRoot);
+        public GardenInfoUI CreateGardenInfo(UIRoot parentUI) =>
+            Object.Instantiate(_assetProvider.GardenInfoUI, 
+                parentUI.transform.GetComponent<RectTransform>(), false);
+        
+        public ShopUI CreateShopUI(UIRoot parentUI) => 
+            Object.Instantiate(_assetProvider.ShopUI, 
+                parentUI.transform.GetComponent<RectTransform>(), false);
+        
+        public HUD CreateHud(IResourceService resourceService, ShopUI shopUI,UIRoot parentCanvas)
+        {
+            HUD hud = Object.Instantiate(_assetProvider.HUD,
+                parentCanvas.transform.GetComponent<RectTransform>(), false);
+            hud.Init(resourceService,shopUI);
+
+            return hud;
+        }
     }
 }

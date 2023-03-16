@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Resources;
 using Code.Data.ResourceData;
-using Code.Management;
 using Code.Services;
 using TMPro;
 using UnityEngine;
@@ -30,24 +28,28 @@ namespace Code.UI
 
         private Transform _parentForResourceUI;
 
-        public void Init(IResourceService resourceRepository)
+        public void Init(IResourceService resourceRepository,ShopUI shopUI)
         {
+            _shopUI = shopUI;
             _resourceRepository = resourceRepository;
             _resourceRepository.ResourcesChanged += ResourceUpdated;
         }
 
-        private void Start()
-        {
-            _shopMenuBtn.onClick.AddListener(ShowShopMenu);
-        }
+        private void OnEnable()=>
+        _shopMenuBtn.onClick.AddListener(ShowShopMenu);
 
         private void ShowShopMenu() =>
-            _shopUI.ActiveShop(ActiveShopState.Activated);
+            _shopUI.ActivatedShopMenu();
 
 
         private void ResourceUpdated()
         {
             
+        }
+
+        private void OnDisable()
+        {
+            _shopMenuBtn.onClick.RemoveListener(ShowShopMenu);
         }
     }
 }

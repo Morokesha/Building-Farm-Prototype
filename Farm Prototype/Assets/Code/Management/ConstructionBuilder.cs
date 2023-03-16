@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Code.Data.GardenBedData;
 using Code.GameLogic;
 using Code.GameLogic.Gardens;
@@ -14,6 +15,8 @@ namespace Code.Management
     }
     public class ConstructionBuilder : MonoBehaviour
     {
+        public event Action<GardenData> SelectedGarden;
+        
         [SerializeField]
         private Transform _containerForPlanting;
 
@@ -30,9 +33,9 @@ namespace Code.Management
         private IResourceService _resourceService;
         private Controls _controls;
 
-        private  List<CellPlanting> _listCells;
-        private CellPlanting _createdCells;
-        private CellPlanting _selectedCell;
+        private  List<GridSell> _listCells;
+        private GridSell _createdCells;
+        private GridSell _selectedCell;
         private Garden _selectedGarden;
         private Garden _createdGarden;
 
@@ -40,8 +43,7 @@ namespace Code.Management
         private Vector3 _createPos;
         private Vector3 _rowOffset;
         private Vector3 _gardenPosition;
-
-        public Garden SelectedGarden => _selectedGarden;
+        
         public void Init(IGameFactory gameFactory,IResourceService resourceService,
             Controls controls,IShopService shop)
         {
@@ -54,7 +56,7 @@ namespace Code.Management
         {
             _buildingMode = BuildingMode.Complete;
             
-            _listCells = new List<CellPlanting>();
+            _listCells = new List<GridSell>();
             
             _startPosition = new Vector3(_offsetX,0f,_offsetZ);
             _createPos = _startPosition;
@@ -70,24 +72,12 @@ namespace Code.Management
 
         private void Update()
         {
-            RaycastConstructions();
             UpdateGardenGhostPosition();
-            BuiltGarden();
-        }
-
-        private void RaycastConstructions()
-        {
-            if (_buildingMode == BuildingMode.WaitBuilt)
-                _selectedCell = _controls.RaycastCells();
-            else
-                _selectedGarden = _controls.RaycastGarden();
-        }
-
-        private void BuiltGarden()
-        {
-            if (_controls.GetMouseClick())
-                if (_selectedCell != null && _selectedCell.GetCellState() == CellState.Free)
-                    SetGardenOnCell();
+            
+            if (_controls.GetMouseClick() && _buildingMode == BuildingMode.WaitBuilt) 
+                BuiltGarden();
+            if (_controls.GetMouseClick() && _buildingMode == BuildingMode.Complete) 
+                SelectGarden();
         }
 
         private void UpdateGardenGhostPosition()
@@ -96,8 +86,25 @@ namespace Code.Management
                 _createdGarden.transform.position = _controls.GetMouseToWorldPosition();
         }
 
+        private void BuiltGarden()
+        {
+            _selectedCell = _controls.GetGridCell();
+            if (_selectedCell != null && _selectedCell.GetGridCellState() == CellState.Free)
+                SetGardenOnCell();
+        }
+
+        private void SelectGarden()
+        {
+            _selectedGarden = _controls.GetGarden();
+            if (_selectedGarden != null)
+            {
+                SelectedGarden?.Invoke(_selectedGarden.GetGardenData);
+            }
+        }
+
         private void SetGardenOnCell()
         {
+            print("arrive");
             if (_createdGarden)
             {
                 _gardenPosition = _selectedCell.GetComponent<Transform>().position;
@@ -109,12 +116,6 @@ namespace Code.Management
             }
         }
 
-        private void ActivatedCellConstructionMode(BuildingState state)
-        {
-            foreach (var cell in _listCells) 
-                cell.SetBuildingState(state);
-        }
-        
         private void CreateCellForPlanting()
         {
             for (int i = 0; i < _countCellPlanting; i++)
@@ -123,7 +124,6 @@ namespace Code.Management
                     _createPos += new Vector3(-_offsetX,0f,0f);
                     _listCells.Add(_createdCells);
             }
-
             _createPos = new Vector3(_startPosition.x, 0f, _createPos.z + _offsetZ);
         }
 
@@ -139,6 +139,12 @@ namespace Code.Management
         {
             GardenCreate(seedType,transform.position);
             ActivatedCellConstructionMode(BuildingState.WaitBuilt);
+        }
+        
+        private void ActivatedCellConstructionMode(BuildingState state)
+        {
+            foreach (var cell in _listCells) 
+                cell.SetBuildingState(state);
         }
 
         private void ShopOnSoldCells()

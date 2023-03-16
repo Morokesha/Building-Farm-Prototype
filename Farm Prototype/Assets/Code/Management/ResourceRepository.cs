@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Code.Data.ResourceData;
 using Code.Services;
+using UnityEngine;
 
 namespace Code.Management
 {
@@ -48,6 +49,7 @@ namespace Code.Management
             if (GetResourceAmount(resourceAmount.ResourceData) >= resourceAmount.Amount)
             {
                 //могу купить
+                Debug.Log("купил");
             }
             else
             {
