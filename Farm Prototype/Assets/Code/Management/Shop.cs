@@ -15,8 +15,8 @@ namespace Code.Management
 
         private GardenData _gardenData;
         
-        public event Action<SeedType> SoldGardenBed;
-        public event Action SoldCells;
+        public event Action<GardenData> SoldGarden;
+        public event Action SoldGridCells;
         
         public void Init(IResourceService resourceRepository,GardenTypeHolder gardenTypeHolder,ShopUI shopUI)
         {
@@ -29,28 +29,24 @@ namespace Code.Management
             Debug.Log(_gardenTypeHolder);
         }
 
-        private void ShopUIOnBuyWheat(SeedType type)
-        {
-            BuyGardenBed(type);
-        }
+        private void ShopUIOnBuyWheat(SeedType type) => 
+            BuyGarden(type);
 
         private void BuyCells(int coins)
         {
             
         }
         
-        private void BuyGardenBed(SeedType type)
+        private void BuyGarden(SeedType type)
         {
             foreach (var gardenBedData in _gardenTypeHolder.List)
             {
-                if (gardenBedData.SeedType == type)
-                {
+                if (gardenBedData.SeedType == type) 
                     _gardenData = gardenBedData;
-                }
             }
             
             if (_resourceRepository.CanAfford(_gardenData.GardenCostArray)) 
-                SoldGardenBed?.Invoke(type);
+                SoldGarden?.Invoke(_gardenData);
         }
 
         public void Clear()

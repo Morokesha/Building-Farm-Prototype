@@ -6,8 +6,8 @@ namespace Code.Services
 {
     public interface IShopService
     {
-        event Action<SeedType> SoldGardenBed;
-        event Action SoldCells;
+        event Action<GardenData> SoldGarden;
+        event Action SoldGridCells;
         void Init(IResourceService resourceRepository, GardenTypeHolder gardenTypeHolder, ShopUI shopUI);
         void Clear();
     }

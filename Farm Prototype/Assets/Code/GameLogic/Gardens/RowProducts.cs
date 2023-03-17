@@ -4,8 +4,8 @@ using UnityEngine.Serialization;
 
 namespace Code.GameLogic.Gardens
 {
-    public class RowsProducts : MonoBehaviour
+    public class RowProducts : MonoBehaviour
     {
-        [FormerlySerializedAs("SemenType")] public SeedType seedType;
+        public SeedType seedType;
     }
 }

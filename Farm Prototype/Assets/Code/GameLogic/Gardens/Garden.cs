@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Code.Data.GardenBedData;
 using Code.Services;
@@ -10,50 +11,64 @@ namespace Code.GameLogic.Gardens
         public GardenData GetGardenData => _gardenData;
         
         [SerializeField] 
-        private List<RowsProducts> _rowsProducts;
+        private List<RowProducts> _rowsProducts;
 
         [SerializeField] 
         private GameObject _visualCell;
 
         [SerializeField] 
         private GameObject _ground;
-      
-        private BoxCollider _boxCollider;
 
+        private IResourceService _resourceService;
+        
         private GardenProduction _gardenProduction;
         private GardenData _gardenData;
-        private IResourceService _resourceService;
+        private RowProducts _activeProducts;
 
-        public void Init(GardenData gardenData)
-        {
-            _gardenData = gardenData;
-            
-        }
+        private bool _isGrowing;
         
-        private void Awake()
-        {
-            _gardenProduction = new GardenProduction(_resourceService);
-            
-            _boxCollider = GetComponent<BoxCollider>();
-            _boxCollider.enabled = false;
-        }
-
-        public void ActivateProducts(IResourceService resourceService,
-            SeedType type,Vector3 position)
+        public void Init(IResourceService resourceService,
+            GardenData gardenData)
         {
             _resourceService = resourceService;
-            _gardenProduction = new GardenProduction(_resourceService);
-
-            transform.position = position;
-            _ground.SetActive(true);
-            _visualCell.SetActive(false);
-            _boxCollider.enabled = true;
+            _gardenData = gardenData;
             
-            foreach (RowsProducts product in _rowsProducts)
+            _gardenProduction = new GardenProduction(_resourceService,_gardenData);
+            _gardenProduction.GrowingComleted += DeactivatedGrowing;
+        }
+
+        private void Update()
+        {
+            if (_isGrowing)
             {
-                if (product.seedType == type) 
-                    product.gameObject.SetActive(true);
+                _gardenProduction.Growing(_activeProducts);
             }
         }
+
+        public void ActiveProduct(Vector3 position)
+        {
+            transform.position = position;
+            
+            _ground.SetActive(true);
+            _visualCell.SetActive(false);
+
+            foreach (RowProducts product in _rowsProducts)
+            {
+                if (product.seedType == _gardenData.SeedType)
+                {
+                    _activeProducts = product;
+                    product.gameObject.SetActive(true); 
+                } 
+            }
+        }
+
+        public GardenProduction GetGardenProduction() => 
+            _gardenProduction;
+        
+        private void DeactivatedGrowing() => 
+            _isGrowing = false;
+
+        public void ActiveGrowing() => 
+            _isGrowing = true;
     }
 }

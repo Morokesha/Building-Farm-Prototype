@@ -15,7 +15,7 @@ namespace Code.Management
     }
     public class ConstructionBuilder : MonoBehaviour
     {
-        public event Action<GardenData> SelectedGarden;
+        public event Action<Garden> SelectedGarden;
         
         [SerializeField]
         private Transform _containerForPlanting;
@@ -25,9 +25,10 @@ namespace Code.Management
 
         private readonly int _countCellPlanting = 3;
         
-        private SeedType _activeSeedType;
         private BuildingMode _buildingMode;
 
+        private GardenData _activeGardenData;
+        
         private IGameFactory _gameFactory;
         private IShopService _shop;
         private IResourceService _resourceService;
@@ -43,11 +44,12 @@ namespace Code.Management
         private Vector3 _createPos;
         private Vector3 _rowOffset;
         private Vector3 _gardenPosition;
-        
+
         public void Init(IGameFactory gameFactory,IResourceService resourceService,
             Controls controls,IShopService shop)
         {
             _gameFactory = gameFactory;
+            _resourceService = resourceService;
             _controls = controls;
             _shop = shop;
         }
@@ -66,8 +68,8 @@ namespace Code.Management
 
         private void Start()
         {
-            _shop.SoldCells += ShopOnSoldCells;
-            _shop.SoldGardenBed += ShopOnSoldGardenBed;
+            _shop.SoldGridCells += ShopOnSoldGridCells;
+            _shop.SoldGarden += ShopOnSoldGardenBed;
         }
 
         private void Update()
@@ -96,19 +98,17 @@ namespace Code.Management
         private void SelectGarden()
         {
             _selectedGarden = _controls.GetGarden();
-            if (_selectedGarden != null)
-            {
-                SelectedGarden?.Invoke(_selectedGarden.GetGardenData);
-            }
+            if (_selectedGarden != null) 
+                SelectedGarden?.Invoke(_selectedGarden);
         }
 
         private void SetGardenOnCell()
         {
-            print("arrive");
             if (_createdGarden)
             {
                 _gardenPosition = _selectedCell.GetComponent<Transform>().position;
-                _createdGarden.ActivateProducts(_resourceService,_activeSeedType, _gardenPosition);
+                _createdGarden.ActiveProduct(_gardenPosition);
+                
                 _selectedCell.SetCellState(CellState.Occupied);
 
                 _buildingMode = BuildingMode.Complete;
@@ -127,17 +127,18 @@ namespace Code.Management
             _createPos = new Vector3(_startPosition.x, 0f, _createPos.z + _offsetZ);
         }
 
-        private void GardenCreate(SeedType type,Vector3 position)
+        private void GardenCreate(Vector3 position)
         {
             _createdGarden = _gameFactory.CreateGardenBed(position);
-            _activeSeedType = type;
-
+            _createdGarden.Init(_resourceService,_activeGardenData);
+            
             _buildingMode = BuildingMode.WaitBuilt;
         }
 
-        private void ShopOnSoldGardenBed(SeedType seedType)
+        private void ShopOnSoldGardenBed(GardenData gardenData)
         {
-            GardenCreate(seedType,transform.position);
+            _activeGardenData = gardenData;
+            GardenCreate(transform.position);
             ActivatedCellConstructionMode(BuildingState.WaitBuilt);
         }
         
@@ -147,7 +148,7 @@ namespace Code.Management
                 cell.SetBuildingState(state);
         }
 
-        private void ShopOnSoldCells()
+        private void ShopOnSoldGridCells()
         {
             CreateCellForPlanting();
         }

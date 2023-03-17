@@ -1,4 +1,5 @@
-﻿using Code.Data.ResourceData;
+﻿using System.Net.Mime;
+using Code.Data.ResourceData;
 using UnityEngine;
 
 namespace Code.Data.GardenBedData
@@ -7,7 +8,8 @@ namespace Code.Data.GardenBedData
     public class GardenData : ScriptableObject
     {
         public SeedType SeedType;
-        public ResourceAmountData[] GardenCostArray;
+        public string GardenName;
         public ResourceGeneratorData GeneratorData;
+        public ResourceAmountData[] GardenCostArray;
     }
 }

@@ -1,63 +1,64 @@
-﻿using Code.Data.GardenBedData;
+﻿using System;
+using Code.Data.GardenBedData;
 using Code.Data.ResourceData;
-using Code.Management;
 using Code.Services;
-using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Code.GameLogic.Gardens
 {
     public class GardenProduction
     {
+        public event Action<ResourceType> ActivatedHarvesting;
+        public event Action GrowingComleted; 
+
         private readonly IResourceService _resourceRepository;
+        private readonly GardenData _gardenData;
 
         private int _currentChanceDrop;
         private readonly int _percentDropSeed = 20;
         private readonly int _startProductScale = 0;
         private readonly int _finishProductScale = 1;
 
-        private bool _growingCompleted;
-        public GardenProduction(IResourceService resourceRepository) => 
+        private float _growing;
+
+        public GardenProduction(IResourceService resourceRepository,GardenData gardenData)
+        {
             _resourceRepository = resourceRepository;
-
-        public void Growing(GardenData gardenData,RowsProducts rowsProducts)
-        {
-            Vector3 rowProductsLocalScale = rowsProducts.transform.localScale;
-            float localScaleY = Mathf.Lerp
-                (_startProductScale, _finishProductScale, gardenData.GeneratorData.TimeGrowingCrops);
-            rowProductsLocalScale.y = localScaleY;
-            rowsProducts.transform.localScale = rowProductsLocalScale;
-
-            if (localScaleY >= _finishProductScale)
-            {
-                _growingCompleted = true;
-            }
+            _gardenData = gardenData;
         }
-        
-        public void Harvesting(ResourceGeneratorData resourceGeneratorData)
+
+        public void Growing(RowProducts rowProducts)
         {
-            foreach (var resourceAmountData in resourceGeneratorData.ResourceGeneratorAmounts)
+            Vector3 rowProductsLocalScale = rowProducts.transform.localScale;
+            _growing = Mathf.Lerp
+                (_startProductScale, _finishProductScale, _gardenData.GeneratorData.TimeGrowingCrops);
+            rowProductsLocalScale.y = _growing;
+            rowProducts.transform.localScale = rowProductsLocalScale;
+
+            FinishGrowing();
+        }
+
+        private void FinishGrowing()
+        {
+            if (_growing >= _finishProductScale)
             {
-                if (resourceAmountData.ResourceData.Type == ResourceType.Coin)
-                    AddRandomResources(resourceAmountData);
+                _currentChanceDrop = Random.Range(0, 100);
+
+                if (_currentChanceDrop >= _percentDropSeed)
+                    ActivatedHarvesting?.Invoke(ResourceType.Coin);
+
+                ActivatedHarvesting?.Invoke(ResourceType.Seed);
                 
-                else if(resourceAmountData.ResourceData.Type == ResourceType.Seed)
-                {
-                    _currentChanceDrop = Random.Range(0, 100);
-
-                    if (_currentChanceDrop >= _percentDropSeed) 
-                        AddRandomResources(resourceAmountData);
-                }
+                GrowingComleted?.Invoke();
             }
         }
 
-        private void AddRandomResources(ResourceGeneratorAmount resourceAmountData)
+        public void Harvesting(ResourceType type)
         {
-            int resource = Random.Range(resourceAmountData.MinAmount,
-                resourceAmountData.MaxAmount);
-            _resourceRepository.AddResource(resourceAmountData.ResourceData.Type, resource);
+            _resourceRepository.AddResource(type,
+                type == ResourceType.Coin ? _gardenData.GeneratorData.CoinAmout : 
+                    _gardenData.GeneratorData.SeedAmount);
         }
-
-        public bool GetGrowingCompleted() => _growingCompleted;
     }
 }
