@@ -2,8 +2,6 @@
 using Code.Management;
 using Code.Services;
 using Code.UI;
-using Code.UI.GardenUI;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Code.Core
@@ -28,13 +26,13 @@ namespace Code.Core
 
         public void Init()
         {
+            _constructionBuilder = Object.FindObjectOfType<ConstructionBuilder>();
+            
             InitUI();
 
             _shopService.Init(_resourceService, _assetProvider.GardenTypeHolder, _shopUI);
             _controls.Init();
             _resourceService.Init(_progressDataService,_assetProvider.ResourceHolder);
-
-            _constructionBuilder = Object.FindObjectOfType<ConstructionBuilder>();
             _constructionBuilder.Init(_gameFactory,_resourceService,_controls,_shopService);
         }
 
@@ -55,6 +53,7 @@ namespace Code.Core
             _shopUI = _gameFactory.CreateShopUI(uiRoot);
             _hud = _gameFactory.CreateHud(_resourceService,_shopUI,uiRoot);
             _gardenInfo = _gameFactory.CreateGardenInfo(uiRoot);
+            _gardenInfo.Init(_constructionBuilder);
         }
     }
 }

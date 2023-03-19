@@ -2,7 +2,6 @@
 using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using Code.UI;
-using Code.UI.GardenUI;
 
 namespace Code.Services
 {

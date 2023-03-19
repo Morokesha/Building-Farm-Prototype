@@ -212,8 +212,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1882414538534019651}
-  - component: {fileID: 1882414538534019650}
   - component: {fileID: 8895307631357278360}
+  - component: {fileID: 4105783291280274869}
   m_Layer: 0
   m_Name: Garden
   m_TagString: Untagged
@@ -240,27 +240,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1882414538534019650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1882414538534019649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c21c7da0b1087894eb5062b7973ba50c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rowsProducts:
-  - {fileID: 309857950958031147}
-  - {fileID: 7884818586887055997}
-  - {fileID: 9095631618121964219}
-  - {fileID: 2561023249136509843}
-  - {fileID: 1699831047494228899}
-  - {fileID: 6156348493707446815}
-  _visualCell: {fileID: 5213874335185862070}
-  _ground: {fileID: 1882414539723356150}
 --- !u!65 &8895307631357278360
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -274,6 +253,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 0.5, z: 6}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4105783291280274869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882414538534019649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c21c7da0b1087894eb5062b7973ba50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rowsProducts: []
+  _visualCell: {fileID: 5213874335185862070}
+  _gardenVisual: {fileID: 1882414539723356150}
 --- !u!1 &1882414539723356150
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +446,6 @@ GameObject:
   - component: {fileID: 4936475306561999255}
   - component: {fileID: 9141507510328381325}
   - component: {fileID: 6010957785776559249}
-  - component: {fileID: 4793061475692114206}
   m_Layer: 5
   m_Name: HarvestingUI
   m_TagString: Untagged
@@ -543,20 +536,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4793061475692114206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2641261215863966085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d5beb3b9524ed59df8bacd6a4f5e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _harvestingBtn: {fileID: 5767898752987866051}
-  _wateringBtn: {fileID: 2098986551437382978}
 --- !u!1 &2740616984694328873
 GameObject:
   m_ObjectHideFlags: 0

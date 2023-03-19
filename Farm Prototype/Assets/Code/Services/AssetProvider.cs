@@ -2,8 +2,6 @@
 using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using Code.UI;
-using Code.UI.GardenUI;
-using Mono.Cecil;
 using UnityEngine;
 
 namespace Code.Services

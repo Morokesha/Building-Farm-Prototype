@@ -1,7 +1,5 @@
 ﻿using Code.GameLogic.Gardens;
-using Code.Management;
 using Code.UI;
-using Code.UI.GardenUI;
 using UnityEngine;
 
 namespace Code.Services

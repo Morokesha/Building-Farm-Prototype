@@ -14,7 +14,7 @@ namespace Code.Services
         {
             _resourceAmountDictionary.Add(type,amount);
 
-            _coin = _resourceAmountDictionary[ResourceType.Coin];
+            _coin = _resourceAmountDictionary[ResourceType.Gold];
             _seed = _resourceAmountDictionary[ResourceType.Seed];
         }
 

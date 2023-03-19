@@ -207,7 +207,7 @@ MonoBehaviour:
   _harvestingGoldBtn: {fileID: 7548956466749845761}
   _harvestingSeedBtn: {fileID: 5117766492437693210}
   _removeBtn: {fileID: 7548956467886048242}
-  BackBtn: {fileID: 4797351072607464171}
+  _backBtn: {fileID: 4797351072607464171}
   _processingField: {fileID: 7548956468014415720}
   _nameCell: {fileID: 7548956466619214617}
   _canvasGroup: {fileID: 1471261253469235113}
@@ -2155,7 +2155,7 @@ MonoBehaviour:
   _harvestingGoldBtn: {fileID: 0}
   _harvestingSeedBtn: {fileID: 0}
   _removeBtn: {fileID: 7548956467886048242}
-  BackBtn: {fileID: 4797351072607464171}
+  _backBtn: {fileID: 0}
   _processingField: {fileID: 7548956468014415720}
   _nameCell: {fileID: 0}
   _canvasGroup: {fileID: 0}
