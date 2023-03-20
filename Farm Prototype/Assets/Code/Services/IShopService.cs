@@ -1,6 +1,8 @@
 ﻿using System;
 using Code.Data.GardenBedData;
 using Code.UI;
+using Code.UI.Windows;
+using Code.UI.Windows.ShopTab;
 
 namespace Code.Services
 {

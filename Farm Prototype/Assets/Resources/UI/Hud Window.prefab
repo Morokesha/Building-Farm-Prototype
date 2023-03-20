@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 1368372831284949595}
   - component: {fileID: 1368372831284949594}
   m_Layer: 5
-  m_Name: Seed Count
+  m_Name: Seed Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 1368372831775581257}
   - component: {fileID: 1368372831775581256}
   m_Layer: 5
-  m_Name: Coin Count
+  m_Name: Gold Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -917,6 +917,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57960f0d1321457c8dfd8e6ff6e9a4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coinTxt: {fileID: 1368372831775581256}
+  _goldTxt: {fileID: 1368372831775581256}
   _seedTxt: {fileID: 1368372831284949594}
   _shopMenuBtn: {fileID: 1368372832301895183}

@@ -1,10 +1,9 @@
 ﻿using System;
 using Code.Data.GardenBedData;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Code.UI
+namespace Code.UI.Windows.ShopTab
 {
     public class ShopUI : MonoBehaviour
     {

@@ -210,7 +210,7 @@ MonoBehaviour:
   _backBtn: {fileID: 4797351072607464171}
   _processingField: {fileID: 7548956468014415720}
   _nameCell: {fileID: 7548956466619214617}
-  _canvasGroup: {fileID: 1471261253469235113}
+  _thisCanvasGroup: {fileID: 1471261253469235113}
 --- !u!1 &4508703382357674788
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,13 +223,14 @@ GameObject:
   - component: {fileID: 3727050131231954976}
   - component: {fileID: 8140123597980343698}
   - component: {fileID: 5117766492437693210}
+  - component: {fileID: 9076918918482680191}
   m_Layer: 5
   m_Name: HarvestingSeedBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8412473898939595406
 RectTransform:
   m_ObjectHideFlags: 0
@@ -333,6 +334,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &9076918918482680191
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4508703382357674788}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5558666460386416010
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,13 +902,14 @@ GameObject:
   - component: {fileID: 7548956466749845775}
   - component: {fileID: 7548956466749845760}
   - component: {fileID: 7548956466749845761}
+  - component: {fileID: 3154489283651478147}
   m_Layer: 5
   m_Name: HarvestingGoldBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7548956466749845762
 RectTransform:
   m_ObjectHideFlags: 0
@@ -999,6 +1013,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &3154489283651478147
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548956466749845763}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7548956466800110230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,13 +1596,14 @@ GameObject:
   - component: {fileID: 7548956467408711760}
   - component: {fileID: 7548956467408711761}
   - component: {fileID: 7548956467408711762}
+  - component: {fileID: 3678965356397999399}
   m_Layer: 5
   m_Name: WateringBrn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7548956467408711763
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1680,6 +1707,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &3678965356397999399
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548956467408711764}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7548956467886048244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,13 +1731,14 @@ GameObject:
   - component: {fileID: 7548956467886048240}
   - component: {fileID: 7548956467886048241}
   - component: {fileID: 7548956467886048242}
+  - component: {fileID: 2965817506248548917}
   m_Layer: 5
   m_Name: Remove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7548956467886048243
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1802,6 +1842,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &2965817506248548917
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548956467886048244}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7548956468014415722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1873,7 +1925,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -2158,7 +2210,7 @@ MonoBehaviour:
   _backBtn: {fileID: 0}
   _processingField: {fileID: 7548956468014415720}
   _nameCell: {fileID: 0}
-  _canvasGroup: {fileID: 0}
+  _thisCanvasGroup: {fileID: 0}
 --- !u!1 &7719530879823421844
 GameObject:
   m_ObjectHideFlags: 0

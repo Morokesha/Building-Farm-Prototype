@@ -1,26 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Code.Data.ResourceData;
 
 namespace Code.Services
 {
     public class ProgressDataService : IProgressDataService
     {
-        private int _coin;
+        public event Action<ResourceType, int> ResourceChanded;
+        
+        private int _gold;
         private int _seed;
 
-        private Dictionary<ResourceType, int> _resourceAmountDictionary = new Dictionary<ResourceType, int>();
+        private Dictionary<ResourceType, int> _resourceAmountDictionary;
+        
+        public ProgressDataService()
+        {
+            _resourceAmountDictionary = new Dictionary<ResourceType, int>();
+            
+            _resourceAmountDictionary.Add(ResourceType.Gold,_gold);
+            _resourceAmountDictionary.Add(ResourceType.Seed,_seed);
+        }
 
         public void AddResources(ResourceType type, int amount)
         {
-            _resourceAmountDictionary.Add(type,amount);
-
-            _coin = _resourceAmountDictionary[ResourceType.Gold];
-            _seed = _resourceAmountDictionary[ResourceType.Seed];
+            _resourceAmountDictionary[type] += amount;
+            
+            ResourceChanded?.Invoke(type, amount);
         }
-
-        public int GetCoinCount() => 
-            _coin;
-        public int GetSeedCount() =>
-            _seed;
     }
 }

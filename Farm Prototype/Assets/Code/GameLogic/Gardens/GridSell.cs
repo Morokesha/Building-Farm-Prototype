@@ -48,7 +48,7 @@ namespace Code.GameLogic.Gardens
 
         private void ActivateFrame(bool activated)
         {
-            if (_cellState == CellState.Free) 
+            if (_cellState == CellState.Free && _buildingState == BuildingState.WaitBuilt) 
                 _frame.SetActive(activated);
         }
 

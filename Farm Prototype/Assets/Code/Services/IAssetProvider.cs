@@ -2,6 +2,9 @@
 using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using Code.UI;
+using Code.UI.Windows;
+using Code.UI.Windows.GardenIfoTab;
+using Code.UI.Windows.ShopTab;
 
 namespace Code.Services
 {
@@ -11,7 +14,7 @@ namespace Code.Services
         GridSell GridSell { get; }
         GardenTypeHolder GardenTypeHolder { get; }
         ResourceHolder ResourceHolder { get; }
-        GardenInfoUI GardenInfoUI { get; }
+        SelectedGardenWindow SelectedGardenWindow { get; }
         ShopUI ShopUI { get; }
         HUD HUD { get; }
     }

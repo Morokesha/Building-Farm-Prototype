@@ -265,7 +265,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21c7da0b1087894eb5062b7973ba50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rowsProducts: []
+  _rowsProducts:
+  - {fileID: 309857950958031147}
+  - {fileID: 7884818586887055997}
+  - {fileID: 9095631618121964219}
+  - {fileID: 2561023249136509843}
+  - {fileID: 1699831047494228899}
+  - {fileID: 6156348493707446815}
   _visualCell: {fileID: 5213874335185862070}
   _gardenVisual: {fileID: 1882414539723356150}
 --- !u!1 &1882414539723356150
@@ -295,7 +301,7 @@ Transform:
   m_GameObject: {fileID: 1882414539723356150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.03, z: 0}
-  m_LocalScale: {x: 5.8, y: 0.06, z: 5.8}
+  m_LocalScale: {x: 5.8, y: 0.02, z: 5.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1882414538534019651}

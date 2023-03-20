@@ -14,9 +14,10 @@ namespace Code.GameLogic.Gardens
 
         private readonly IResourceService _resourceRepository;
         private readonly GardenData _gardenData;
+        private RowProducts _rowProducts;
 
         private int _currentChanceDrop;
-        
+
         private readonly int _percentDropSeed = 20;
         private readonly int _startProductScale = 0;
         private readonly int _finishProductScale = 1;
@@ -31,19 +32,22 @@ namespace Code.GameLogic.Gardens
             _gardenData = gardenData;
         }
 
-        public void Growing(RowProducts rowProducts)
+        public void SetRowProducts(RowProducts rowProducts) => 
+            _rowProducts = rowProducts;
+
+        public void Growing()
         {
-            Vector3 rowProductsLocalScale = rowProducts.transform.localScale;
+            Vector3 rowProductsLocalScale = _rowProducts.transform.localScale;
 
             rowProductsLocalScale.y = _startProductScale;
             
             _growing = Mathf.Lerp
-                (rowProductsLocalScale.y, _finishProductScale, _gardenData.GeneratorData.TimeGrowingCrops);
+                (_startProductScale, _finishProductScale, _gardenData.GeneratorData.TimeGrowingCrops);
             
             GrowingChanged?.Invoke(_growing);
             
             rowProductsLocalScale.y = _growing;
-            rowProducts.transform.localScale = rowProductsLocalScale;
+            _rowProducts.transform.localScale = rowProductsLocalScale;
 
             FinishGrowing();
         }
@@ -58,10 +62,12 @@ namespace Code.GameLogic.Gardens
                 {
                     _harvestingResourceType = ResourceType.Seed;
                     ActivatedHarvesting?.Invoke(_harvestingResourceType);
+                    Debug.Log("HarvestSeed");
                 }
 
                 _harvestingResourceType = ResourceType.Gold;
                 ActivatedHarvesting?.Invoke(_harvestingResourceType);
+                Debug.Log("HarvestGold");
             }
         }
 

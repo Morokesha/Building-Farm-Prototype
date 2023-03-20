@@ -8,8 +8,6 @@ namespace Code.Management
 {
     public class ResourceRepository : IResourceService
     {
-        public event Action ResourcesChanged;
-
         private IProgressDataService _progressDataService;
         private ResourceHolder _resourceHolder;
 
@@ -31,7 +29,6 @@ namespace Code.Management
         int value = _resourceTypeAmountDictionary[resourceType];
         
         _progressDataService.AddResources(resourceType,value);
-        ResourcesChanged?.Invoke();
     }
 
     public void SpendResources(ResourceAmountData[] resourceAmountArray)
@@ -39,7 +36,6 @@ namespace Code.Management
         foreach (ResourceAmountData resourceAmount in resourceAmountArray)
             _resourceTypeAmountDictionary[resourceAmount.ResourceData.Type] -= resourceAmount.Amount;
         
-        ResourcesChanged?.Invoke();
     }
 
     public bool CanAfford(ResourceAmountData[] resourceAmountArray)
@@ -63,7 +59,10 @@ namespace Code.Management
     private void StartingResources()
     {
         foreach (var resourceAmountData in _resourceHolder.ResourceAmounts)
+        {
             _resourceTypeAmountDictionary.Add(resourceAmountData.ResourceData.Type, resourceAmountData.Amount);
+            _progressDataService.AddResources(resourceAmountData.ResourceData.Type, resourceAmountData.Amount);
+        }
     }
 
 

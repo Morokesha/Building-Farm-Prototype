@@ -1,5 +1,8 @@
 ﻿using Code.GameLogic.Gardens;
 using Code.UI;
+using Code.UI.Windows;
+using Code.UI.Windows.GardenIfoTab;
+using Code.UI.Windows.ShopTab;
 using UnityEngine;
 
 namespace Code.Services
@@ -24,19 +27,19 @@ namespace Code.Services
 
             return garden;
         }
-        public GardenInfoUI CreateGardenInfo(UIRoot parentUI) =>
-            Object.Instantiate(_assetProvider.GardenInfoUI, 
+        public SelectedGardenWindow CreateGardenInfo(UIRoot parentUI) =>
+            Object.Instantiate(_assetProvider.SelectedGardenWindow, 
                 parentUI.transform.GetComponent<RectTransform>(), false);
         
         public ShopUI CreateShopUI(UIRoot parentUI) => 
             Object.Instantiate(_assetProvider.ShopUI, 
                 parentUI.transform.GetComponent<RectTransform>(), false);
         
-        public HUD CreateHud(IResourceService resourceService, ShopUI shopUI,UIRoot parentCanvas)
+        public HUD CreateHud(IProgressDataService progressDataService, ShopUI shopUI,UIRoot parentCanvas)
         {
             HUD hud = Object.Instantiate(_assetProvider.HUD,
                 parentCanvas.transform.GetComponent<RectTransform>(), false);
-            hud.Init(resourceService,shopUI);
+            hud.Init(progressDataService,shopUI);
 
             return hud;
         }

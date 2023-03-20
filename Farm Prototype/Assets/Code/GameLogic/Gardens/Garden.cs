@@ -16,9 +16,6 @@ namespace Code.GameLogic.Gardens
     
     public class Garden : MonoBehaviour
     {
-        public event Action ActivatedWateringBtn;
-        public event Action ActivatedHarvestingBtn;
-
         public GardenData GetGardenData => _gardenData;
         
         [SerializeField] 
@@ -34,7 +31,6 @@ namespace Code.GameLogic.Gardens
         
         private GardenProduction _gardenProduction;
         private GardenData _gardenData;
-        private RowProducts _activeProducts;
 
         private GardenState _gardenState;
 
@@ -46,12 +42,7 @@ namespace Code.GameLogic.Gardens
             
             _gardenProduction = new GardenProduction(_resourceService,_gardenData);
 
-            _gardenState = GardenState.WaitWatering;
-        }
-
-        private void Update()
-        {
-            GardenStatement();
+            SetGardenState(GardenState.WaitWatering);
         }
 
         public void ActiveProduct(Vector3 position)
@@ -66,36 +57,19 @@ namespace Code.GameLogic.Gardens
                 if (product.seedType == _gardenData.SeedType)
                 {
                     product.gameObject.SetActive(true);
-                    _activeProducts = product;
+                    _gardenProduction.SetRowProducts(product);
                 }
             }
-            
-            print(_activeProducts);
         }
 
         public GardenProduction GetGardenProduction() => 
             _gardenProduction;
 
-        public void GardenStatement()
-        {
-            switch (_gardenState)
-            {
-                case GardenState.WaitWatering:
-                    ActivatedWateringBtn?.Invoke();
-                    break;
-                case GardenState.Growing:
-                    _gardenProduction.Growing(_activeProducts);
-                    break;
-                default:
-                    ActivatedHarvestingBtn?.Invoke();
-                    break;
-            }
-        }
+        public void SetGardenState(GardenState state) => 
+            _gardenState = state;
 
         public GardenState GetGardenState() => 
             _gardenState;
         
-        public void SetGardenState(GardenState state) => 
-            _gardenState = state;
     }
 }

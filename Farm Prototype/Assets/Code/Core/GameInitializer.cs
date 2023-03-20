@@ -2,6 +2,9 @@
 using Code.Management;
 using Code.Services;
 using Code.UI;
+using Code.UI.Windows;
+using Code.UI.Windows.GardenIfoTab;
+using Code.UI.Windows.ShopTab;
 using UnityEngine;
 
 namespace Code.Core
@@ -19,7 +22,7 @@ namespace Code.Core
         private UIRoot _uiRoot;
         private HUD _hud;
         private ShopUI _shopUI;
-        private GardenInfoUI _gardenInfo;
+        private SelectedGardenWindow _selectedGardenInfo;
 
         public GameInitializer() => 
             RegistrationService();
@@ -51,9 +54,9 @@ namespace Code.Core
             UIRoot uiRoot = Object.FindObjectOfType<UIRoot>();
             
             _shopUI = _gameFactory.CreateShopUI(uiRoot);
-            _hud = _gameFactory.CreateHud(_resourceService,_shopUI,uiRoot);
-            _gardenInfo = _gameFactory.CreateGardenInfo(uiRoot);
-            _gardenInfo.Init(_constructionBuilder);
+            _hud = _gameFactory.CreateHud(_progressDataService,_shopUI,uiRoot);
+            _selectedGardenInfo = _gameFactory.CreateGardenInfo(uiRoot);
+            _selectedGardenInfo.Init(_constructionBuilder);
         }
     }
 }
