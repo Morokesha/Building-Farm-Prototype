@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Code.Data.GardenBedData;
 using Code.Data.ResourceData;
 using Code.Services;
@@ -7,10 +9,19 @@ using Random = UnityEngine.Random;
 
 namespace Code.GameLogic.Gardens
 {
+    public enum ProductionState
+    {
+        WaitWatering,
+        Growing,
+        CompleteGrowth
+    }
+    
     public class GardenProduction
     {
         public event Action<ResourceType> ActivatedHarvesting;
         public event Action<float> GrowingChanged;
+        
+        public event Action<ProductionState> ProductionStateChanged;
 
         private readonly IResourceService _resourceRepository;
         private readonly GardenData _gardenData;
@@ -25,6 +36,7 @@ namespace Code.GameLogic.Gardens
         private float _growing;
 
         private ResourceType _harvestingResourceType;
+        private ProductionState _productionState;
 
         public GardenProduction(IResourceService resourceRepository,GardenData gardenData)
         {
@@ -32,24 +44,36 @@ namespace Code.GameLogic.Gardens
             _gardenData = gardenData;
         }
 
-        public void SetRowProducts(RowProducts rowProducts) => 
+        public void SetRowProducts(RowProducts rowProducts)
+        {
             _rowProducts = rowProducts;
+            SetProductionState(ProductionState.WaitWatering);
+        }
 
         public void Growing()
         {
-            Vector3 rowProductsLocalScale = _rowProducts.transform.localScale;
+            SetProductionState(ProductionState.Growing);
+            var growingCoroutine = GrowingCoroutine();
+        }
 
-            rowProductsLocalScale.y = _startProductScale;
-            
-            _growing = Mathf.Lerp
-                (_startProductScale, _finishProductScale, _gardenData.GeneratorData.TimeGrowingCrops);
-            
-            GrowingChanged?.Invoke(_growing);
-            
-            rowProductsLocalScale.y = _growing;
-            _rowProducts.transform.localScale = rowProductsLocalScale;
+        private IEnumerator GrowingCoroutine()
+        {
+            while (_growing <= _finishProductScale)
+            {
+                Vector3 rowProductsLocalScale = _rowProducts.transform.localScale;
 
-            FinishGrowing();
+                rowProductsLocalScale.y = _startProductScale;
+
+                _growing = Mathf.Lerp
+                    (_startProductScale, _finishProductScale, _gardenData.GeneratorData.TimeGrowingCrops);
+
+                GrowingChanged?.Invoke(_growing);
+
+                rowProductsLocalScale.y = _growing;
+                _rowProducts.transform.localScale = rowProductsLocalScale;
+            }
+           
+            yield return null;
         }
 
         private void FinishGrowing()
@@ -62,13 +86,21 @@ namespace Code.GameLogic.Gardens
                 {
                     _harvestingResourceType = ResourceType.Seed;
                     ActivatedHarvesting?.Invoke(_harvestingResourceType);
-                    Debug.Log("HarvestSeed");
+                    
+                    SetProductionState(ProductionState.CompleteGrowth);
                 }
 
                 _harvestingResourceType = ResourceType.Gold;
                 ActivatedHarvesting?.Invoke(_harvestingResourceType);
-                Debug.Log("HarvestGold");
+                
+                SetProductionState(ProductionState.CompleteGrowth);
             }
+        }
+
+        private void SetProductionState(ProductionState state)
+        {
+            _productionState = state;
+            ProductionStateChanged?.Invoke(_productionState);
         }
 
         public void Harvesting(ResourceType type)
@@ -76,6 +108,11 @@ namespace Code.GameLogic.Gardens
             _resourceRepository.AddResource(type,
                 type == ResourceType.Gold ? _gardenData.GeneratorData.CoinAmout : 
                     _gardenData.GeneratorData.SeedAmount);
+
+            SetProductionState(ProductionState.WaitWatering);
         }
+        
+        public GardenData GetGardenData() =>
+            _gardenData;
     }
 }

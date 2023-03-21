@@ -152,5 +152,10 @@ namespace Code.Management
         {
             CreateCellForPlanting();
         }
+
+        public void ClearSelectedGarden()
+        {
+            _selectedGarden = null;
+        }
     }
 }

@@ -90,6 +90,8 @@ GameObject:
   - component: {fileID: 1471261253469235114}
   - component: {fileID: 1471261253469235113}
   - component: {fileID: 6952755149073324397}
+  - component: {fileID: 1389725798095377011}
+  - component: {fileID: 5438188796937198767}
   m_Layer: 5
   m_Name: Garden Info Window
   m_TagString: Untagged
@@ -203,14 +205,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e6fad96b9f4e66b72d4a2c8d75c492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interactiveButtons: {fileID: 1389725798095377011}
+  _processBar: {fileID: 5438188796937198767}
+  _backBtn: {fileID: 4797351072607464171}
+  _nameCell: {fileID: 7548956466619214617}
+  _canvasGroup: {fileID: 1471261253469235113}
+--- !u!114 &1389725798095377011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471261253469235116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff98bb7b32444605b0376a710196bc99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _wateringBtn: {fileID: 7548956467408711762}
   _harvestingGoldBtn: {fileID: 7548956466749845761}
   _harvestingSeedBtn: {fileID: 5117766492437693210}
   _removeBtn: {fileID: 7548956467886048242}
-  _backBtn: {fileID: 4797351072607464171}
+  _goldText: {fileID: 7548956466737797693}
+  _seedText: {fileID: 1941094402428981227}
+  _growingText: {fileID: 7548956467360619167}
+--- !u!114 &5438188796937198767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471261253469235116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5666d155ab4449b8056cd8ca1244e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _processingField: {fileID: 7548956468014415720}
-  _nameCell: {fileID: 7548956466619214617}
-  _thisCanvasGroup: {fileID: 1471261253469235113}
 --- !u!1 &4508703382357674788
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +389,7 @@ GameObject:
   - component: {fileID: 8711088610067551203}
   - component: {fileID: 1941094402428981227}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Seed Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -765,7 +796,7 @@ GameObject:
   - component: {fileID: 7548956466737797692}
   - component: {fileID: 7548956466737797693}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Gold Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2152,9 +2183,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7548956468531392123}
-  - component: {fileID: 1689290858947261686}
   m_Layer: 5
-  m_Name: GardenInfoUI
+  m_Name: Garden Info Tab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2191,26 +2221,6 @@ RectTransform:
   m_AnchoredPosition: {x: 580, y: 0}
   m_SizeDelta: {x: 500, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1689290858947261686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7548956468531392124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e6fad96b9f4e66b72d4a2c8d75c492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _wateringBtn: {fileID: 7548956467408711762}
-  _harvestingGoldBtn: {fileID: 0}
-  _harvestingSeedBtn: {fileID: 0}
-  _removeBtn: {fileID: 7548956467886048242}
-  _backBtn: {fileID: 0}
-  _processingField: {fileID: 7548956468014415720}
-  _nameCell: {fileID: 0}
-  _thisCanvasGroup: {fileID: 0}
 --- !u!1 &7719530879823421844
 GameObject:
   m_ObjectHideFlags: 0

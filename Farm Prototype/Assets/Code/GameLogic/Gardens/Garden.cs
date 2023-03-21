@@ -7,13 +7,6 @@ using UnityEngine.Serialization;
 
 namespace Code.GameLogic.Gardens
 {
-    public enum GardenState
-    {
-        WaitWatering,
-        Growing,
-        CompleteGrowth
-    }
-    
     public class Garden : MonoBehaviour
     {
         public GardenData GetGardenData => _gardenData;
@@ -32,8 +25,6 @@ namespace Code.GameLogic.Gardens
         private GardenProduction _gardenProduction;
         private GardenData _gardenData;
 
-        private GardenState _gardenState;
-
         public void Init(IResourceService resourceService,
             GardenData gardenData)
         {
@@ -41,8 +32,6 @@ namespace Code.GameLogic.Gardens
             _gardenData = gardenData;
             
             _gardenProduction = new GardenProduction(_resourceService,_gardenData);
-
-            SetGardenState(GardenState.WaitWatering);
         }
 
         public void ActiveProduct(Vector3 position)
@@ -65,11 +54,5 @@ namespace Code.GameLogic.Gardens
         public GardenProduction GetGardenProduction() => 
             _gardenProduction;
 
-        public void SetGardenState(GardenState state) => 
-            _gardenState = state;
-
-        public GardenState GetGardenState() => 
-            _gardenState;
-        
     }
 }

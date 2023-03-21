@@ -11,13 +11,13 @@ namespace Code.UI.Windows.GardenIfoTab
 
         private GardenProduction _gardenProduction;
 
-        private void Init(GardenProduction gardenProduction)
+        public void Init(GardenProduction gardenProduction)
         {
             _gardenProduction = gardenProduction;
             _gardenProduction.GrowingChanged += OnGrowingChanged;
         }
         
         private void OnGrowingChanged(float growing) => 
-            _processingField.fillAmount += growing;
+            _processingField.fillAmount = growing;
     }
 }
