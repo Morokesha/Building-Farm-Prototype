@@ -46,10 +46,14 @@ namespace Code.GameLogic.Gardens
         public CellState GetGridCellState() => 
             _cellState;
 
-        private void ActivateFrame(bool activated)
+        private void ActivateFrame()
         {
             if (_cellState == CellState.Free && _buildingState == BuildingState.WaitBuilt) 
-                _frame.SetActive(activated);
+                _frame.SetActive(true);
+            else
+            {
+                _frame.SetActive(false);
+            }
         }
 
         private void ActivatedConstructionMode()
@@ -62,12 +66,12 @@ namespace Code.GameLogic.Gardens
 
         private void OnMouseEnter()
         {
-            ActivateFrame(true);
+            ActivateFrame();
         }
 
         private void OnMouseExit()
         {
-            ActivateFrame(false);
+            ActivateFrame();
         }
     }
 }

@@ -16,13 +16,8 @@ MonoBehaviour:
   GardenName: Corn
   GeneratorData:
     TimeGrowingCrops: 7
-    ResourceGeneratorAmounts:
-    - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
-      MinAmount: 1
-      MaxAmount: 7
-    - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
-      MinAmount: 0
-      MaxAmount: 4
+    CoinAmout: 9
+    SeedAmount: 2
   GardenCostArray:
   - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
     Amount: 5

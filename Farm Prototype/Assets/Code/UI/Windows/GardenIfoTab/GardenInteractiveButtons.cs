@@ -36,21 +36,22 @@ namespace Code.UI.Windows.GardenIfoTab
 
         public void SetGardenProduction(GardenProduction gardenProduction)
         {
-            if (Equals(_gardenProduction,gardenProduction))
+            if (_gardenProduction != null)
             {
-                return;
+                if (Equals(_gardenProduction,gardenProduction))
+                    return;
+                
+                _gardenProduction.ProductionStateChanged -= OnGardenProductionChangedState;
             }
+            
             _gardenProduction = gardenProduction;
-            print("srabotal");
-            _gardenProduction.ProductionStateChanged -= OnGardenProductionChangedState;
+            
             _gardenProduction.ProductionStateChanged += OnGardenProductionChangedState;
         }
 
         private void OnClickWatering()
         {
             _gardenProduction.Growing();
-
-            _wateringBtn.onClick.RemoveListener(OnClickWatering);
             Hide(_wateringBtn);
         }
 
@@ -69,25 +70,25 @@ namespace Code.UI.Windows.GardenIfoTab
         private void OnGardenProductionChangedState(ProductionState state)
         {
             HideAllInteraction();
-            
+            print("changes");
             switch (state)
             {
                 case ProductionState.WaitWatering:
                     Show(_wateringBtn);
-                   
+                    print("changes water");
                     break;
                 case ProductionState.Growing:
                     _growingText.gameObject.SetActive(true);
+                    print("changes grow");
                     break;
                 case ProductionState.CompleteGrowth:
-                    _gardenProduction.ActivatedHarvesting += OnActivatedHarvestingBtn;
+                    ResourceType resourceType = _gardenProduction.GetHarvestingResourceType();
+                    ActivatedHarvestingBtn(resourceType);
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void OnActivatedHarvestingBtn(ResourceType type)
+        private void ActivatedHarvestingBtn(ResourceType type)
         {
             if (type == ResourceType.Gold)
             {
@@ -118,6 +119,13 @@ namespace Code.UI.Windows.GardenIfoTab
             Hide(_harvestingGoldBtn);
             Hide(_harvestingSeedBtn);
             _growingText.gameObject.SetActive(false);
+        }
+
+        private void OnDestroy()
+        {
+            _wateringBtn.onClick.RemoveListener(OnClickWatering);
+            _harvestingGoldBtn.onClick.RemoveListener(OnClickGold);
+            _harvestingSeedBtn.onClick.RemoveListener(OnClickSeed);
         }
     }
 }

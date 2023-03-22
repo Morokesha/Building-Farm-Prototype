@@ -110,8 +110,9 @@ namespace Code.Management
                 _createdGarden.ActiveProduct(_gardenPosition);
                 
                 _selectedCell.SetCellState(CellState.Occupied);
-
                 _buildingMode = BuildingMode.Complete;
+                
+                DeactivatedCellConstructionMode(BuildingState.None);
                 _createdGarden = null;
             }
         }
@@ -144,8 +145,17 @@ namespace Code.Management
         
         private void ActivatedCellConstructionMode(BuildingState state)
         {
-            foreach (var cell in _listCells) 
-                cell.SetBuildingState(state);
+            foreach (var cell in _listCells)
+            {
+                if (cell.GetGridCellState() == CellState.Free) 
+                    cell.SetBuildingState(state);
+            }
+        }
+        private void DeactivatedCellConstructionMode(BuildingState state)
+        {
+            foreach (var cell in _listCells)
+                if (state == BuildingState.None)
+                    cell.SetBuildingState(state);
         }
 
         private void ShopOnSoldGridCells()

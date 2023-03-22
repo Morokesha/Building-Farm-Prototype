@@ -13,6 +13,8 @@ namespace Code.GameLogic.Gardens
         
         [SerializeField] 
         private List<RowProducts> _rowsProducts;
+        [SerializeField]
+        private GardenProduction _gardenProduction;
 
         [SerializeField] 
         private GameObject _visualCell;
@@ -22,7 +24,6 @@ namespace Code.GameLogic.Gardens
 
         private IResourceService _resourceService;
         
-        private GardenProduction _gardenProduction;
         private GardenData _gardenData;
 
         public void Init(IResourceService resourceService,
@@ -31,7 +32,7 @@ namespace Code.GameLogic.Gardens
             _resourceService = resourceService;
             _gardenData = gardenData;
             
-            _gardenProduction = new GardenProduction(_resourceService,_gardenData);
+            _gardenProduction.Init(_resourceService,_gardenData);
         }
 
         public void ActiveProduct(Vector3 position)

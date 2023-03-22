@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 1882414538534019651}
   - component: {fileID: 8895307631357278360}
   - component: {fileID: 4105783291280274869}
+  - component: {fileID: 2887184902601566215}
   m_Layer: 0
   m_Name: Garden
   m_TagString: Untagged
@@ -251,8 +252,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6, y: 0.5, z: 6}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 6, y: 1.4, z: 6}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!114 &4105783291280274869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +273,21 @@ MonoBehaviour:
   - {fileID: 2561023249136509843}
   - {fileID: 1699831047494228899}
   - {fileID: 6156348493707446815}
+  _gardenProduction: {fileID: 2887184902601566215}
   _visualCell: {fileID: 5213874335185862070}
   _gardenVisual: {fileID: 1882414539723356150}
+--- !u!114 &2887184902601566215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882414538534019649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6e58a42a184aea9d3063488c0860aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1882414539723356150
 GameObject:
   m_ObjectHideFlags: 0
