@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Code.Data.GardenBedData;
 using Code.Data.ResourceData;
 using Code.Services;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
-using Vector3 = UnityEngine.Vector3;
 
 namespace Code.GameLogic.Gardens
 {
@@ -19,11 +20,13 @@ namespace Code.GameLogic.Gardens
     { 
         public event Action<float> GrowingChanged;
         public event Action<ProductionState> ProductionStateChanged;
+
+        [SerializeField]
+        private GameObject _cropsVisual;
         
         private IResourceService _resourceRepository;
         private GardenData _gardenData;
-        private RowProducts _rowProducts;
-        
+
         private int _currentChanceDrop;
 
     private readonly int _percentDropSeed = 20;
@@ -33,8 +36,7 @@ namespace Code.GameLogic.Gardens
     private float _growingTime;
     private readonly float _defaultScale = 0f;
     private readonly float _finishProductScale = 1f;
-
-    private Vector3 _rowProductsLocalScale;
+    
     private Vector3 _growingScaleVector;
 
     private ResourceType _harvestingResourceType;
@@ -46,19 +48,41 @@ namespace Code.GameLogic.Gardens
         _gardenData = gardenData;
 
         _growingTime = _gardenData.GeneratorData.TimeGrowingCrops;
+        
+        SetCrops(_gardenData.colorCrops);
     }
 
     private void Update()
     {
         if (_productionState == ProductionState.Growing && _growingTimer <= _growingTime)
-            GrowingCycle(_rowProductsLocalScale);
+            GrowingCycle();
     }
 
-    public void SetRowProducts(RowProducts rowProducts)
+    public void Harvesting(ResourceType type)
     {
-        _rowProducts = rowProducts;
-        _rowProductsLocalScale = _rowProducts.transform.localScale;
+        _resourceRepository.AddResource(type,
+            type == ResourceType.Gold ? _gardenData.GeneratorData.CoinAmout : _gardenData.GeneratorData.SeedAmount);
+        
+        SetLocalScaleHeight(_cropsVisual.transform, _defaultScale);
         SetProductionState(ProductionState.WaitWatering);
+    }
+
+    public GardenData GetGardenData() =>
+        _gardenData;
+
+    public ResourceType GetHarvestingResourceType() => 
+        _harvestingResourceType;
+
+    public ProductionState GetProductionState() => _productionState;
+
+    private void SetCrops(Color color)
+    {
+        _cropsVisual.SetActive(true);
+        SetProductionState(ProductionState.WaitWatering);
+        
+        MeshRenderer[] meshCrops = _cropsVisual.GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer meshCrop in meshCrops)
+            meshCrop.material.color = color;
     }
 
     public void Growing()
@@ -68,13 +92,13 @@ namespace Code.GameLogic.Gardens
         _growingTimer = 0f;
     }
 
-    private void GrowingCycle(Vector3 localScale)
+    private void GrowingCycle()
     {
         _growingTimer += Time.deltaTime;
 
         _growing = Mathf.Lerp(_defaultScale,_finishProductScale, _growingTimer/_growingTime);
 
-        SetLocalScaleHeight(_rowProducts.transform, _growing);
+        SetLocalScaleHeight(_cropsVisual.transform, _growing);
         GrowingChanged?.Invoke(_growing);
         
         if (_growing >= _finishProductScale)
@@ -108,20 +132,5 @@ namespace Code.GameLogic.Gardens
         _productionState = state;
         ProductionStateChanged?.Invoke(_productionState);
     }
-
-    public void Harvesting(ResourceType type)
-    {
-        _resourceRepository.AddResource(type,
-            type == ResourceType.Gold ? _gardenData.GeneratorData.CoinAmout : _gardenData.GeneratorData.SeedAmount);
-        
-        SetLocalScaleHeight(_rowProducts.transform, _defaultScale);
-        SetProductionState(ProductionState.WaitWatering);
-    }
-
-    public GardenData GetGardenData() =>
-        _gardenData;
-
-    public ResourceType GetHarvestingResourceType() => 
-        _harvestingResourceType;
     }
 }

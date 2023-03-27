@@ -14,15 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedType: 0
   GardenName: Potato
+  colorCrops: {r: 0.07604219, g: 0.6627451, b: 0.043137252, a: 1}
   GeneratorData:
     TimeGrowingCrops: 10
-    ResourceGeneratorAmounts:
-    - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
-      MinAmount: 0
-      MaxAmount: 0
-    - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
-      MinAmount: 0
-      MaxAmount: 0
+    CoinAmout: 0
+    SeedAmount: 0
   GardenCostArray:
   - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
     Amount: 0

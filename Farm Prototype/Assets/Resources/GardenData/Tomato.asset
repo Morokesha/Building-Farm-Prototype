@@ -14,15 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedType: 1
   GardenName: Tomato
+  colorCrops: {r: 0.8584906, g: 0.08503916, b: 0.08503916, a: 1}
   GeneratorData:
     TimeGrowingCrops: 15
-    ResourceGeneratorAmounts:
-    - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
-      MinAmount: 1
-      MaxAmount: 11
-    - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
-      MinAmount: 1
-      MaxAmount: 7
+    CoinAmout: 0
+    SeedAmount: 0
   GardenCostArray:
   - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
     Amount: 5

@@ -1,16 +1,11 @@
-﻿using System;
-using Code.Common;
-using Code.Data.ResourceData;
+﻿using Code.Common;
 using Code.GameLogic.Gardens;
 using Code.Management;
 using TMPro;
-using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Code.UI.Windows.GardenIfoTab
+namespace Code.UI.Windows.SelectedAreaTab
 {
     public class SelectedGardenWindow : MonoBehaviour
     {
@@ -48,7 +43,7 @@ namespace Code.UI.Windows.GardenIfoTab
             _garden = garden;
             _nameCell.text = _garden.GetGardenData.GardenName;
             _interactiveButtons.SetGardenProduction(garden.GetGardenProduction());
-            _processBar.Init(_garden.GetGardenProduction());
+            _processBar.UpdateProgressBar(_garden.GetGardenProduction());
         }
 
         private void Show()

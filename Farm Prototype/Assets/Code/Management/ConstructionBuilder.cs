@@ -38,7 +38,7 @@ namespace Code.Management
         private GridSell _createdCells;
         private GridSell _selectedCell;
         private Garden _selectedGarden;
-        private Garden _createdGarden;
+        private GardenAreaVisual _gardenAreaVisual;
 
         private Vector3 _startPosition;
         private Vector3 _createPos;
@@ -74,7 +74,7 @@ namespace Code.Management
 
         private void Update()
         {
-            UpdateGardenGhostPosition();
+            UpdateGardenVisualPosition();
             
             if (_controls.GetMouseClick() && _buildingMode == BuildingMode.WaitBuilt) 
                 BuiltGarden();
@@ -82,17 +82,20 @@ namespace Code.Management
                 SelectGarden();
         }
 
-        private void UpdateGardenGhostPosition()
+        public void ClearSelectedGarden() => 
+            _selectedGarden = null;
+
+        private void UpdateGardenVisualPosition()
         {
-            if (_createdGarden != null) 
-                _createdGarden.transform.position = _controls.GetMouseToWorldPosition();
+            if (_gardenAreaVisual != null) 
+                _gardenAreaVisual.transform.position = _controls.GetMouseToWorldPosition();
         }
 
         private void BuiltGarden()
         {
             _selectedCell = _controls.GetGridCell();
             if (_selectedCell != null && _selectedCell.GetGridCellState() == CellState.Free)
-                SetGardenOnCell();
+                CreateGardenOnCell();
         }
 
         private void SelectGarden()
@@ -102,19 +105,18 @@ namespace Code.Management
                 SelectedGarden?.Invoke(_selectedGarden);
         }
 
-        private void SetGardenOnCell()
+        private void CreateGardenOnCell()
         {
-            if (_createdGarden)
-            {
-                _gardenPosition = _selectedCell.GetComponent<Transform>().position;
-                _createdGarden.ActiveProduct(_gardenPosition);
-                
-                _selectedCell.SetCellState(CellState.Occupied);
-                _buildingMode = BuildingMode.Complete;
-                
-                DeactivatedCellConstructionMode(BuildingState.None);
-                _createdGarden = null;
-            }
+            Garden createdGarden = _gameFactory.CreateGarden(_selectedCell.transform.position);
+            createdGarden.Init(_resourceService,_activeGardenData);
+            
+            Destroy(_gardenAreaVisual.gameObject);
+
+            _resourceService.SpendResources(_activeGardenData.GardenCostArray);
+            
+            _selectedCell.SetCellState(CellState.Occupied);
+            _buildingMode = BuildingMode.Complete;
+            DeactivatedCellConstructionMode(BuildingState.None);
         }
 
         private void CreateCellForPlanting()
@@ -128,21 +130,18 @@ namespace Code.Management
             _createPos = new Vector3(_startPosition.x, 0f, _createPos.z + _offsetZ);
         }
 
-        private void GardenCreate(Vector3 position)
-        {
-            _createdGarden = _gameFactory.CreateGardenBed(position);
-            _createdGarden.Init(_resourceService,_activeGardenData);
-            
-            _buildingMode = BuildingMode.WaitBuilt;
-        }
+        private void ShopOnSoldGridCells() => 
+            CreateCellForPlanting();
 
         private void ShopOnSoldGardenBed(GardenData gardenData)
         {
             _activeGardenData = gardenData;
-            GardenCreate(transform.position);
+            _gardenAreaVisual = _gameFactory.CreateGardenAreaVisual
+                (_controls.GetMouseToWorldPosition());
+            _buildingMode = BuildingMode.WaitBuilt;
             ActivatedCellConstructionMode(BuildingState.WaitBuilt);
         }
-        
+
         private void ActivatedCellConstructionMode(BuildingState state)
         {
             foreach (var cell in _listCells)
@@ -151,21 +150,12 @@ namespace Code.Management
                     cell.SetBuildingState(state);
             }
         }
+
         private void DeactivatedCellConstructionMode(BuildingState state)
         {
             foreach (var cell in _listCells)
                 if (state == BuildingState.None)
                     cell.SetBuildingState(state);
-        }
-
-        private void ShopOnSoldGridCells()
-        {
-            CreateCellForPlanting();
-        }
-
-        public void ClearSelectedGarden()
-        {
-            _selectedGarden = null;
         }
     }
 }

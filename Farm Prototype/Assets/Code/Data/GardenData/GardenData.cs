@@ -9,6 +9,7 @@ namespace Code.Data.GardenBedData
     {
         public SeedType SeedType;
         public string GardenName;
+        public Color colorCrops;
         public ResourceGeneratorData GeneratorData;
         public ResourceAmountData[] GardenCostArray;
     }

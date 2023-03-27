@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedType: 4
   GardenName: Wheat
+  colorCrops: {r: 0.8679245, g: 0.8651291, b: 0.08597365, a: 1}
   GeneratorData:
     TimeGrowingCrops: 7
     CoinAmout: 5

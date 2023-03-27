@@ -1,7 +1,7 @@
 ﻿using Code.GameLogic.Gardens;
 using Code.UI;
 using Code.UI.Windows;
-using Code.UI.Windows.GardenIfoTab;
+using Code.UI.Windows.SelectedAreaTab;
 using Code.UI.Windows.ShopTab;
 using UnityEngine;
 
@@ -21,7 +21,10 @@ namespace Code.Services
             return cell;
         }
 
-        public Garden CreateGardenBed(Vector3 spawnPos)
+        public GardenAreaVisual CreateGardenAreaVisual(Vector3 spawnPos) => 
+            Object.Instantiate(_assetProvider.GardenAreaVisual, spawnPos, Quaternion.identity);
+
+        public Garden CreateGarden(Vector3 spawnPos)
         {
             Garden garden = Object.Instantiate(_assetProvider.Garden, spawnPos, Quaternion.identity);
 

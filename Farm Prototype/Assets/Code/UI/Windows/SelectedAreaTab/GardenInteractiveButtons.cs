@@ -1,11 +1,10 @@
-﻿using System;
-using Code.Data.ResourceData;
+﻿using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Code.UI.Windows.GardenIfoTab
+namespace Code.UI.Windows.SelectedAreaTab
 {
     public class GardenInteractiveButtons : MonoBehaviour
     {
@@ -38,15 +37,15 @@ namespace Code.UI.Windows.GardenIfoTab
         {
             if (_gardenProduction != null)
             {
-                if (Equals(_gardenProduction,gardenProduction))
+                if (_gardenProduction == gardenProduction)
                     return;
-                
                 _gardenProduction.ProductionStateChanged -= OnGardenProductionChangedState;
             }
             
             _gardenProduction = gardenProduction;
-            
             _gardenProduction.ProductionStateChanged += OnGardenProductionChangedState;
+            
+            OnGardenProductionChangedState(_gardenProduction.GetProductionState());
         }
 
         private void OnClickWatering()
@@ -70,16 +69,14 @@ namespace Code.UI.Windows.GardenIfoTab
         private void OnGardenProductionChangedState(ProductionState state)
         {
             HideAllInteraction();
-            print("changes");
+
             switch (state)
             {
                 case ProductionState.WaitWatering:
                     Show(_wateringBtn);
-                    print("changes water");
                     break;
                 case ProductionState.Growing:
                     _growingText.gameObject.SetActive(true);
-                    print("changes grow");
                     break;
                 case ProductionState.CompleteGrowth:
                     ResourceType resourceType = _gardenProduction.GetHarvestingResourceType();

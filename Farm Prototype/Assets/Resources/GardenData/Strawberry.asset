@@ -14,15 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SeedType: 2
   GardenName: Strawberry
+  colorCrops: {r: 1, g: 0, b: 0.009225845, a: 1}
   GeneratorData:
     TimeGrowingCrops: 15
-    ResourceGeneratorAmounts:
-    - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
-      MinAmount: 3
-      MaxAmount: 15
-    - ResourceData: {fileID: 11400000, guid: 91cce495794a8f0438fd3ff87b04bc3c, type: 2}
-      MinAmount: 0
-      MaxAmount: 11
+    CoinAmout: 0
+    SeedAmount: 0
   GardenCostArray:
   - ResourceData: {fileID: 11400000, guid: 8d3130c00b0b4fb45a08022f1e82abdd, type: 2}
     Amount: 20

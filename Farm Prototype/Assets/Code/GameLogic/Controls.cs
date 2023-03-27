@@ -34,8 +34,7 @@ namespace Code.GameLogic
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.TryGetComponent(out Garden garden)) 
-                    _raycastGarden = garden;
+                _raycastGarden = hit.collider.TryGetComponent(out Garden garden) ? garden : null;
             }
 
             return _raycastGarden;

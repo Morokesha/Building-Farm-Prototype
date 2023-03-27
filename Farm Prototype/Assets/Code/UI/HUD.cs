@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Code.Data.ResourceData;
 using Code.Services;
-using Code.UI.Windows;
 using Code.UI.Windows.ShopTab;
 using TMPro;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.UI

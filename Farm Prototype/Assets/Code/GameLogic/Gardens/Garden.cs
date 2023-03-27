@@ -11,8 +11,6 @@ namespace Code.GameLogic.Gardens
     {
         public GardenData GetGardenData => _gardenData;
         
-        [SerializeField] 
-        private List<RowProducts> _rowsProducts;
         [SerializeField]
         private GardenProduction _gardenProduction;
 
@@ -41,15 +39,6 @@ namespace Code.GameLogic.Gardens
 
             _gardenVisual.SetActive(true);
             _visualCell.SetActive(false);
-
-            foreach (RowProducts product in _rowsProducts)
-            {
-                if (product.seedType == _gardenData.SeedType)
-                {
-                    product.gameObject.SetActive(true);
-                    _gardenProduction.SetRowProducts(product);
-                }
-            }
         }
 
         public GardenProduction GetGardenProduction() => 

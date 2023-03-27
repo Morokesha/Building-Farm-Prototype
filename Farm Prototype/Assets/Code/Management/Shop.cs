@@ -27,8 +27,14 @@ namespace Code.Management
 
             _shopUI = shopUI;
             _shopUI.BuyWheat += ShopUIOnBuyWheat;
+            _shopUI.BuyRice += ShopUIOnBuyRice;
             
             Debug.Log(_gardenTypeHolder);
+        }
+
+        private void ShopUIOnBuyRice(SeedType type)
+        {
+            BuyGarden(type);
         }
 
         private void ShopUIOnBuyWheat(SeedType type) => 
