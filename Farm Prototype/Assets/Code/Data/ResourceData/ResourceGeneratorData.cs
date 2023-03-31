@@ -7,8 +7,11 @@ namespace Code.Data.ResourceData
     public class ResourceGeneratorData
     {
         public float TimeGrowingCrops;
+
+        public int SeedDropChanse;
+        
         [Range(1,30)]
-        public int CoinAmout;
+        public int GoldAmout;
         [Range(1,5)]
         public int SeedAmount;
     }

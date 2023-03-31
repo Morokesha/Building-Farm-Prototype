@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Code.Data.GardenBedData
+namespace Code.Data.GardenData
 {
-    [CreateAssetMenu(menuName = "Data/GardenBedData/GardenBedHolder", order = 0)]
+    [CreateAssetMenu(menuName = "Data/GardenData/GardenHolder", order = 0)]
     public class GardenTypeHolder : ScriptableObject
     {
         public List<GardenData> List;

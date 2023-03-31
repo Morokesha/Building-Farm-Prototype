@@ -30,21 +30,5 @@ namespace Code.Services
 
             return garden;
         }
-        public SelectedGardenWindow CreateGardenInfo(UIRoot parentUI) =>
-            Object.Instantiate(_assetProvider.SelectedGardenWindow, 
-                parentUI.transform.GetComponent<RectTransform>(), false);
-        
-        public ShopUI CreateShopUI(UIRoot parentUI) => 
-            Object.Instantiate(_assetProvider.ShopUI, 
-                parentUI.transform.GetComponent<RectTransform>(), false);
-        
-        public HUD CreateHud(IProgressDataService progressDataService, ShopUI shopUI,UIRoot parentCanvas)
-        {
-            HUD hud = Object.Instantiate(_assetProvider.HUD,
-                parentCanvas.transform.GetComponent<RectTransform>(), false);
-            hud.Init(progressDataService,shopUI);
-
-            return hud;
-        }
     }
 }

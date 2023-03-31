@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Code.Data.GardenBedData;
+using Code.Data.GardenData;
 using Code.Services;
 using UnityEngine;
 using UnityEngine.Serialization;

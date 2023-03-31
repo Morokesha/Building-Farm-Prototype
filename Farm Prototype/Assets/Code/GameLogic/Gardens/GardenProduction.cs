@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Code.Data.GardenBedData;
+using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.Services;
 using UnityEngine;
@@ -29,28 +29,27 @@ namespace Code.GameLogic.Gardens
 
         private int _currentChanceDrop;
 
-    private readonly int _percentDropSeed = 20;
-
-    private float _growing;
-    private float _growingTimer;
-    private float _growingTime;
-    private readonly float _defaultScale = 0f;
-    private readonly float _finishProductScale = 1f;
-    
-    private Vector3 _growingScaleVector;
-
-    private ResourceType _harvestingResourceType;
-    private ProductionState _productionState;
-
-    public void Init(IResourceService resourceRepository, GardenData gardenData)
-    {
-        _resourceRepository = resourceRepository;
-        _gardenData = gardenData;
-
-        _growingTime = _gardenData.GeneratorData.TimeGrowingCrops;
+        private  int _percentDropSeed;
+        private float _growing; 
+        private float _growingTimer; 
+        private float _growingTime; 
+        private readonly float _defaultScale = 0f;
+        private readonly float _finishProductScale = 1f;
         
-        SetCrops(_gardenData.colorCrops);
-    }
+        private Vector3 _growingScaleVector;
+        
+        private ResourceType _harvestingResourceType; 
+        private ProductionState _productionState;
+        public void Init(IResourceService resourceRepository, GardenData gardenData) 
+        { 
+            _resourceRepository = resourceRepository; 
+            _gardenData = gardenData;
+            
+            _growingTime = _gardenData.DropData.SeedDropChanse; 
+            _percentDropSeed = _gardenData.DropData.SeedDropChanse;
+            
+            SetCrops(_gardenData.colorCrops); 
+        }
 
     private void Update()
     {
@@ -61,7 +60,7 @@ namespace Code.GameLogic.Gardens
     public void Harvesting(ResourceType type)
     {
         _resourceRepository.AddResource(type,
-            type == ResourceType.Gold ? _gardenData.GeneratorData.CoinAmout : _gardenData.GeneratorData.SeedAmount);
+            type == ResourceType.Gold ? _gardenData.DropData.GoldAmout : _gardenData.DropData.SeedAmount);
         
         SetLocalScaleHeight(_cropsVisual.transform, _defaultScale);
         SetProductionState(ProductionState.WaitWatering);

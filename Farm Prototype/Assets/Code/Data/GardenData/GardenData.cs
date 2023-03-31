@@ -1,16 +1,19 @@
-﻿using System.Net.Mime;
-using Code.Data.ResourceData;
+﻿using Code.Data.ResourceData;
+using Code.Data.ShopData;
 using UnityEngine;
 
-namespace Code.Data.GardenBedData
+namespace Code.Data.GardenData
 {
-    [CreateAssetMenu(menuName = "Data/SeedData/SeedTypeData", order = 0)]
+    [CreateAssetMenu(menuName = "Data/GardenData/GardenData", order = 0)]
     public class GardenData : ScriptableObject
     {
-        public SeedType SeedType;
-        public string GardenName;
+        public ProductType productType;
         public Color colorCrops;
-        public ResourceGeneratorData GeneratorData;
-        public ResourceAmountData[] GardenCostArray;
+
+        [Header("DropData")] 
+        public ResourceGeneratorData DropData;
+
+        [Header("Crops Shop Data")] 
+        public CropsShopData CropsShopData;
     }
 }

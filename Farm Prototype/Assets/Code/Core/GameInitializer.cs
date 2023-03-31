@@ -13,16 +13,17 @@ namespace Code.Core
     {
         private IProgressDataService _progressDataService;
         private IAssetProvider _assetProvider;
+        private IUIFactory _uiFactory;
         private IGameFactory _gameFactory;
         private IResourceService _resourceService;
         private IShopService _shopService;
-        
+
         private ConstructionBuilder _constructionBuilder;
         private Controls _controls;
         private UIRoot _uiRoot;
         private HUD _hud;
         private ShopUI _shopUI;
-        private SelectedGardenWindow _selectedGardenInfo;
+        private SelectedGardenWindow _selectedGardenWindow;
 
         public GameInitializer() => 
             RegistrationService();
@@ -33,7 +34,7 @@ namespace Code.Core
             
             InitUI();
 
-            _shopService.Init(_resourceService, _assetProvider.GardenTypeHolder, _shopUI);
+            _shopService.Init(_resourceService, _assetProvider.GardenTypeHolder);
             _controls.Init();
             _resourceService.Init(_progressDataService,_assetProvider.ResourceHolder);
             _constructionBuilder.Init(_gameFactory,_resourceService,_controls,_shopService);
@@ -43,6 +44,7 @@ namespace Code.Core
         {
             _progressDataService = new ProgressDataService();
             _assetProvider = new AssetProvider();
+            _uiFactory = new UIFactory(_assetProvider);
             _gameFactory = new GameFactory(_assetProvider);
             _resourceService = new ResourceRepository();
             _controls = new Controls();
@@ -53,10 +55,11 @@ namespace Code.Core
         {
             UIRoot uiRoot = Object.FindObjectOfType<UIRoot>();
             
-            _shopUI = _gameFactory.CreateShopUI(uiRoot);
-            _hud = _gameFactory.CreateHud(_progressDataService,_shopUI,uiRoot);
-            _selectedGardenInfo = _gameFactory.CreateGardenInfo(uiRoot);
-            _selectedGardenInfo.Init(_constructionBuilder);
+            _shopUI = _uiFactory.CreateShopUI(uiRoot);
+            _selectedGardenWindow = _uiFactory.CreateGardenWindow(uiRoot); 
+            _uiFactory.CreateHud(_progressDataService,_shopUI,_selectedGardenWindow,uiRoot);
+            _selectedGardenWindow.Init(_constructionBuilder);
+            _shopUI.Init(_shopService,_uiFactory,_assetProvider.GardenTypeHolder,_constructionBuilder);
         }
     }
 }

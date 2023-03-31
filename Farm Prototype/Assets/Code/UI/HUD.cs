@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Code.Data.ResourceData;
 using Code.Services;
+using Code.UI.Windows.SelectedAreaTab;
 using Code.UI.Windows.ShopTab;
 using TMPro;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Code.UI
         private Button _shopMenuBtn;
 
         private ShopUI _shopUI;
+        private SelectedGardenWindow _selectedGardenWindow;
 
         private IProgressDataService _progressDataService;
 
@@ -28,19 +30,23 @@ namespace Code.UI
 
         private Transform _parentForResourceUI;
 
-        public void Init(IProgressDataService progressDataService,ShopUI shopUI)
+        public void Init(IProgressDataService progressDataService,ShopUI shopUI,
+        SelectedGardenWindow selectedGardenWindow)
         {
             _shopUI = shopUI;
+            _selectedGardenWindow = selectedGardenWindow;
             _progressDataService = progressDataService;
             _progressDataService.ResourceChanded += ResourceUpdater;
         }
 
-        private void Start()
-        {
+        private void Start() => 
             _shopMenuBtn.onClick.AddListener(ShowShopMenu);
-        }
-        private void ShowShopMenu() =>
+
+        private void ShowShopMenu()
+        {
             _shopUI.ActivatedShopMenu();
+            _selectedGardenWindow.HideWindow();
+        }
 
 
         private void ResourceUpdater(ResourceType type, int amount)

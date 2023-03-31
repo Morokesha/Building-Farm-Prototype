@@ -6,9 +6,5 @@ namespace Code.Data.ResourceData
     public class ResourceData : ScriptableObject
     {
         public ResourceType Type;
-        
-        public string resourceName;
-        public Sprite sprite;
-        public string colorHex;
     }
 }

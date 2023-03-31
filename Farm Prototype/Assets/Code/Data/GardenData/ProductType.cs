@@ -1,6 +1,6 @@
-﻿namespace Code.Data.GardenBedData
+﻿namespace Code.Data.GardenData
 {
-    public enum SeedType
+    public enum ProductType
     {
         Potato,
         Tomato,

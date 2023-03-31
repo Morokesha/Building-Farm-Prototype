@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Code.Data.GardenBedData;
+using Code.Data.GardenData;
 using Code.GameLogic;
 using Code.GameLogic.Gardens;
 using Code.Services;
@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace Code.Management
 {
-    public enum BuildingMode
+    public enum ConstructionState
     {
         WaitBuilt,
-        Complete
+        Select
     }
     public class ConstructionBuilder : MonoBehaviour
     {
@@ -25,7 +25,7 @@ namespace Code.Management
 
         private readonly int _countCellPlanting = 3;
         
-        private BuildingMode _buildingMode;
+        private ConstructionState _constructionState;
 
         private GardenData _activeGardenData;
         
@@ -56,7 +56,7 @@ namespace Code.Management
         
         private void Awake()
         {
-            _buildingMode = BuildingMode.Complete;
+            _constructionState = ConstructionState.Select;
             
             _listCells = new List<GridSell>();
             
@@ -76,14 +76,23 @@ namespace Code.Management
         {
             UpdateGardenVisualPosition();
             
-            if (_controls.GetMouseClick() && _buildingMode == BuildingMode.WaitBuilt) 
+            if (_controls.GetMouseClick() && _constructionState == ConstructionState.WaitBuilt) 
                 BuiltGarden();
-            if (_controls.GetMouseClick() && _buildingMode == BuildingMode.Complete) 
+            if (_controls.GetMouseClick() && _constructionState == ConstructionState.Select) 
                 SelectGarden();
         }
 
         public void ClearSelectedGarden() => 
             _selectedGarden = null;
+
+        public void SetConstructionState(ConstructionState state) => 
+            _constructionState = state;
+
+        public void ClearGardenAreaVisual()
+        {
+            SetConstructionState(ConstructionState.Select);
+            Destroy(_gardenAreaVisual);
+        }
 
         private void UpdateGardenVisualPosition()
         {
@@ -94,8 +103,9 @@ namespace Code.Management
         private void BuiltGarden()
         {
             _selectedCell = _controls.GetGridCell();
-            if (_selectedCell != null && _selectedCell.GetGridCellState() == CellState.Free)
-                CreateGardenOnCell();
+            if (_gardenAreaVisual != null)
+                if (_selectedCell != null && _selectedCell.GetGridCellState() == CellState.Free)
+                    CreateGardenOnCell();
         }
 
         private void SelectGarden()
@@ -112,10 +122,11 @@ namespace Code.Management
             
             Destroy(_gardenAreaVisual.gameObject);
 
-            _resourceService.SpendResources(_activeGardenData.GardenCostArray);
+            //_resourceService.SpendResources();
             
             _selectedCell.SetCellState(CellState.Occupied);
-            _buildingMode = BuildingMode.Complete;
+            
+            SetConstructionState(ConstructionState.Select);
             DeactivatedCellConstructionMode(BuildingState.None);
         }
 
@@ -123,9 +134,9 @@ namespace Code.Management
         {
             for (int i = 0; i < _countCellPlanting; i++)
             {
-                    _createdCells = _gameFactory.CreateCellForPlanting(_createPos,_containerForPlanting);
-                    _createPos += new Vector3(-_offsetX,0f,0f);
-                    _listCells.Add(_createdCells);
+                _createdCells = _gameFactory.CreateCellForPlanting(_createPos,_containerForPlanting);
+                _createPos += new Vector3(-_offsetX,0f,0f);
+                _listCells.Add(_createdCells);
             }
             _createPos = new Vector3(_startPosition.x, 0f, _createPos.z + _offsetZ);
         }
@@ -138,7 +149,8 @@ namespace Code.Management
             _activeGardenData = gardenData;
             _gardenAreaVisual = _gameFactory.CreateGardenAreaVisual
                 (_controls.GetMouseToWorldPosition());
-            _buildingMode = BuildingMode.WaitBuilt;
+            
+            SetConstructionState(ConstructionState.WaitBuilt);
             ActivatedCellConstructionMode(BuildingState.WaitBuilt);
         }
 

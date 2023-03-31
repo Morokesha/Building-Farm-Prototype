@@ -27,13 +27,19 @@ namespace Code.UI.Windows.SelectedAreaTab
         
         public void Init(ConstructionBuilder constructionBuilder)
         {
-            Hide();
-            
             _constructionBuilder = constructionBuilder;
             _constructionBuilder.SelectedGarden += OnSelectedGarden;
             _interactiveButtons.Init();
             
             _backBtn.onClick.AddListener(HideWindow);
+            
+            HideWindow();
+        }
+
+        public void HideWindow()
+        {
+            _canvasGroup.SetActive(false);
+            _constructionBuilder.ClearSelectedGarden();
         }
 
         private void OnSelectedGarden(Garden garden)
@@ -41,26 +47,13 @@ namespace Code.UI.Windows.SelectedAreaTab
             Show();
             
             _garden = garden;
-            _nameCell.text = _garden.GetGardenData.GardenName;
+            _nameCell.text = _garden.GetGardenData.CropsShopData.NameItem;
             _interactiveButtons.SetGardenProduction(garden.GetGardenProduction());
             _processBar.UpdateProgressBar(_garden.GetGardenProduction());
         }
 
-        private void Show()
-        {
+        private void Show() => 
             _canvasGroup.SetActive(true);
-        }
-        
-        private void HideWindow()
-        {
-            _constructionBuilder.ClearSelectedGarden();
-            Hide();
-        }
-
-        private void Hide()
-        {
-            _canvasGroup.SetActive(false);
-        }
 
         private void OnDestroy()
         {

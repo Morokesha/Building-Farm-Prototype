@@ -89,13 +89,13 @@ namespace Code.UI.Windows.SelectedAreaTab
         {
             if (type == ResourceType.Gold)
             {
-                _goldText.SetText(_gardenProduction.GetGardenData().GeneratorData.CoinAmout +
-                                  " COINS READY Click to Harvest!");
+                _goldText.SetText(_gardenProduction.GetGardenData().DropData.GoldAmout +
+                                  " GOLD READY Click to Harvest!");
                 _harvestingGoldBtn.gameObject.SetActive(true);
             }
             if(type == ResourceType.Seed)
             {
-                _seedText.SetText(_gardenProduction.GetGardenData().GeneratorData.SeedAmount +
+                _seedText.SetText(_gardenProduction.GetGardenData().DropData.GoldAmout +
                                   " SEEDS READY Click to Harvest!");
                 _harvestingSeedBtn.gameObject.SetActive(true);
             }

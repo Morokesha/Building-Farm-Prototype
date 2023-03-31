@@ -1,4 +1,4 @@
-﻿using Code.Data.GardenBedData;
+﻿using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using Code.UI;
