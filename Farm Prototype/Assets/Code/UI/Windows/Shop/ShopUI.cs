@@ -2,6 +2,7 @@
 using Code.Data.GardenData;
 using Code.Management;
 using Code.Services;
+using Code.UI.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,20 +21,18 @@ namespace Code.UI.Windows.ShopTab
         [SerializeField] 
         private ShopCropsContent _shopCropsContent;
 
+        private IStaticDataService _staticData;
         private IShopService _shopService;
         private IUIFactory _uiFactory;
         private ConstructionBuilder _constructionBuilder;
-        private GardenTypeHolder _gardenTypeHolder;
 
-        public void Init(IShopService shopService,IUIFactory uiFactory,GardenTypeHolder gardenTypeHolder,
+        public void Init(IStaticDataService staticData,IShopService shopService,IUIFactory uiFactory,
             ConstructionBuilder constructionBuilder)
         {
+            _staticData = staticData;
             _shopService = shopService;
             _uiFactory = uiFactory;
-            _gardenTypeHolder = gardenTypeHolder;
             _constructionBuilder = constructionBuilder;
-
-            _shopCropsContent.Init(_shopService,_gardenTypeHolder);
             
             HideShopMenu();
             

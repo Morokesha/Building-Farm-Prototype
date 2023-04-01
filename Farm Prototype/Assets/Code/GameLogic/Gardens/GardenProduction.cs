@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.Services;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Code.GameLogic.Gardens
@@ -45,8 +43,8 @@ namespace Code.GameLogic.Gardens
             _resourceRepository = resourceRepository; 
             _gardenData = gardenData;
             
-            _growingTime = _gardenData.DropData.SeedDropChanse; 
-            _percentDropSeed = _gardenData.DropData.SeedDropChanse;
+            _growingTime = _gardenData.TimeGrowing; 
+            _percentDropSeed = _gardenData.DropData.SeedDropChance;
             
             SetCrops(_gardenData.colorCrops); 
         }
@@ -59,9 +57,16 @@ namespace Code.GameLogic.Gardens
 
     public void Harvesting(ResourceType type)
     {
-        _resourceRepository.AddResource(type,
-            type == ResourceType.Gold ? _gardenData.DropData.GoldAmout : _gardenData.DropData.SeedAmount);
-        
+        switch (type)
+        {
+            case ResourceType.Gold:
+                _resourceRepository.AddGold(_gardenData.DropData);
+                break;
+            case ResourceType.Seed:
+                _resourceRepository.AddSeed(_gardenData.DropData);
+                break;
+        }
+
         SetLocalScaleHeight(_cropsVisual.transform, _defaultScale);
         SetProductionState(ProductionState.WaitWatering);
     }

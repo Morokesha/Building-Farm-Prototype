@@ -14,17 +14,12 @@ namespace Code.Services
         public GardenAreaVisual GardenAreaVisual => _gardenAreaVisual;
         public Garden Garden => _garden;
         public GridSell GridSell => _cellPanting;
-        public GardenTypeHolder GardenTypeHolder => _gardenTypeHolder;
-        public ResourceHolder ResourceHolder => _resourceHolder;
-
         public SelectedGardenWindow SelectedGardenWindow => _selectedAreaWindow;
         public ShopUI ShopUI => _shopUI;
         public HUD HUD => _hud;
 
         private Garden _garden;
         private GridSell _cellPanting;
-        private GardenTypeHolder _gardenTypeHolder;
-        private ResourceHolder _resourceHolder;
         private SelectedGardenWindow _selectedAreaWindow;
         private ShopUI _shopUI;
         private HUD _hud;
@@ -40,8 +35,6 @@ namespace Code.Services
             _gardenAreaVisual = Resources.Load<GardenAreaVisual>(AssetPath.GardenAreaVisual);
             _garden = Resources.Load<Garden>(AssetPath.GardenPath);
             _cellPanting = Resources.Load<GridSell>(AssetPath.CellPlantingPath);
-            _gardenTypeHolder = Resources.Load<GardenTypeHolder>(AssetPath.GardenTypeHolderPath);
-            _resourceHolder = Resources.Load<ResourceHolder>(AssetPath.ResourceHolderPath);
             _selectedAreaWindow = Resources.Load<SelectedGardenWindow>(AssetPath.SelectedAreaWindowPath);
             _shopUI = Resources.Load<ShopUI>(AssetPath.ShopUIPath);
             _hud = Resources.Load<HUD>(AssetPath.HudPath);

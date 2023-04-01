@@ -2,7 +2,7 @@
 using Code.Management;
 using Code.Services;
 using Code.UI;
-using Code.UI.Windows;
+using Code.UI.Services;
 using Code.UI.Windows.SelectedAreaTab;
 using Code.UI.Windows.ShopTab;
 using UnityEngine;
@@ -12,6 +12,7 @@ namespace Code.Core
     public class GameInitializer
     {
         private IProgressDataService _progressDataService;
+        private IStaticDataService _staticDataService;
         private IAssetProvider _assetProvider;
         private IUIFactory _uiFactory;
         private IGameFactory _gameFactory;
@@ -34,15 +35,17 @@ namespace Code.Core
             
             InitUI();
 
-            _shopService.Init(_resourceService, _assetProvider.GardenTypeHolder);
+            _shopService.Init(_resourceService, _staticDataService.GardenDataHolder, 
+                _staticDataService.CropsDataHolder);
             _controls.Init();
-            _resourceService.Init(_progressDataService,_assetProvider.ResourceHolder);
+            _resourceService.Init(_progressDataService, _staticDataService.ResourceHolder);
             _constructionBuilder.Init(_gameFactory,_resourceService,_controls,_shopService);
         }
 
         private void RegistrationService()
         {
             _progressDataService = new ProgressDataService();
+            _staticDataService = new StaticDataService();
             _assetProvider = new AssetProvider();
             _uiFactory = new UIFactory(_assetProvider);
             _gameFactory = new GameFactory(_assetProvider);
@@ -59,7 +62,7 @@ namespace Code.Core
             _selectedGardenWindow = _uiFactory.CreateGardenWindow(uiRoot); 
             _uiFactory.CreateHud(_progressDataService,_shopUI,_selectedGardenWindow,uiRoot);
             _selectedGardenWindow.Init(_constructionBuilder);
-            _shopUI.Init(_shopService,_uiFactory,_assetProvider.GardenTypeHolder,_constructionBuilder);
+            _shopUI.Init(_staticDataService,_shopService,_uiFactory,_constructionBuilder);
         }
     }
 }

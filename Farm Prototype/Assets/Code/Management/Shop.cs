@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Code.Data.GardenData;
+using Code.Data.ShopData;
 using Code.UI;
 using Code.Services;
 using Code.UI.Windows;
@@ -11,31 +13,37 @@ namespace Code.Management
     public class Shop : IShopService
     {
         private IResourceService _resourceRepository;
-        private GardenTypeHolder _gardenTypeHolder;
+        private GardenDataHolder _gardenDataHolder;
+        private CropsDataHolder _cropsDataHolder;
+        private CropsShopData _cropsShopData;
         private GardenData _gardenData;
-        
+
         public event Action<GardenData> SoldGarden;
         public event Action SoldGridCells;
         
-        public void Init(IResourceService resourceRepository,GardenTypeHolder gardenTypeHolder)
+        public void Init(IResourceService resourceRepository,GardenDataHolder gardenDataHolder, 
+            CropsDataHolder cropsDataHolder)
         {
             _resourceRepository = resourceRepository;
-            _gardenTypeHolder = gardenTypeHolder;
+            _gardenDataHolder = gardenDataHolder;
+            _cropsDataHolder = cropsDataHolder;
         }
 
         public void BuyGarden(ProductType type)
         {
-            foreach (var gardenBedData in _gardenTypeHolder.List)
-            {
-                if (gardenBedData.productType == type) 
-                    _gardenData = gardenBedData;
-            }
-            
-            if (_resourceRepository.CanAfford(_gardenData.CropsShopData.PriceItem)) 
+            foreach (CropsShopData cropsData in _cropsDataHolder.CropsDataList.
+                         Where(cropsData => cropsData.ProductType == type))
+                _cropsShopData = cropsData;
+
+            foreach (GardenData gardenData in _gardenDataHolder.List.
+                         Where(gardenData => gardenData.ProductType == type))
+                _gardenData = gardenData;
+
+            if (_resourceRepository.CanAfford(_cropsShopData.PriceData)) 
                 SoldGarden?.Invoke(_gardenData);
         }
 
-        private void BuyCells(int coins)
+        private void BuyCells(int gold)
         {
             
         }

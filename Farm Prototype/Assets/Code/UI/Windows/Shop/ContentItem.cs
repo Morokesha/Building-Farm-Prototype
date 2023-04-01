@@ -33,7 +33,7 @@ namespace Code.UI.Windows.ShopTab
         }
 
         private void BuyGarden() => 
-            _shopService.BuyGarden(_gardenData.productType);
+            _shopService.BuyGarden(_gardenData.ProductType);
 
         private void OnDestroy() => 
             _itemBtn.onClick.RemoveListener(BuyGarden);

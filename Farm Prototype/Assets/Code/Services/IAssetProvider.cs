@@ -13,8 +13,6 @@ namespace Code.Services
         GardenAreaVisual GardenAreaVisual { get; }
         Garden Garden { get; }
         GridSell GridSell { get; }
-        GardenTypeHolder GardenTypeHolder { get; }
-        ResourceHolder ResourceHolder { get; }
         SelectedGardenWindow SelectedGardenWindow { get; }
         ShopUI ShopUI { get; }
         HUD HUD { get; }

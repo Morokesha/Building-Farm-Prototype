@@ -36,8 +36,16 @@ namespace Code.UI
             _shopUI = shopUI;
             _selectedGardenWindow = selectedGardenWindow;
             _progressDataService = progressDataService;
-            _progressDataService.ResourceChanded += ResourceUpdater;
+            
+            _progressDataService.GoldChanged += OnGoldChanged;
+            _progressDataService.SeedChanged += OnSeedChanged;
         }
+
+        private void OnGoldChanged(int amount) => 
+            _goldTxt.SetText(amount.ToString());
+
+        private void OnSeedChanged(int amount) => 
+            _seedTxt.SetText(amount.ToString());
 
         private void Start() => 
             _shopMenuBtn.onClick.AddListener(ShowShopMenu);
@@ -47,17 +55,14 @@ namespace Code.UI
             _shopUI.ActivatedShopMenu();
             _selectedGardenWindow.HideWindow();
         }
+        
 
-
-        private void ResourceUpdater(ResourceType type, int amount)
+        private void OnDestroy()
         {
-            if (type == ResourceType.Gold) 
-                _goldTxt.SetText(amount.ToString());
-            else
-                _seedTxt.SetText(amount.ToString());
-        }
-
-        private void OnDestroy() => 
             _shopMenuBtn.onClick.RemoveListener(ShowShopMenu);
+            
+            _progressDataService.GoldChanged -= OnGoldChanged;
+            _progressDataService.SeedChanged -= OnSeedChanged;
+        }
     }
 }

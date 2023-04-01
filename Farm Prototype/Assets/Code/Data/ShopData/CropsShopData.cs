@@ -1,21 +1,21 @@
-﻿using Code.Data.GardenData;
-using Code.Data.ResourceData;
+﻿using System;
+using Code.Data.GardenData;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.Data.ShopData
 {
-    [SerializeField]
-    public class CropsShopData
+    [Serializable]
+    public class CropsShopData : ScriptableObject
+
     {
-        public ProductType ProductType;
-        
-        [Header("DisplayData")] 
-        public Image Logo;
+    public ProductType ProductType;
 
-        public string NameItem;
+    [Header("DisplayData")] 
+    public Image Logo;
 
-        public ResourceAmountData[] PriceItem;
+    public string NameItem;
+
+    public PriceData PriceData;
     }
 }

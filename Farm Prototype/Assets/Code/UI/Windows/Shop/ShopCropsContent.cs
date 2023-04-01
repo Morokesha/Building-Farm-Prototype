@@ -15,17 +15,17 @@ namespace Code.UI.Windows.ShopTab
         private ContentItem _contentItem;
         
         private IShopService _shopService;
-        private GardenTypeHolder _gardenTypeHolder;
+        private GardenDataHolder _gardenDataHolder;
 
         private List<RectTransform> _contentPanelList;
         private List<GardenData> _listGardenData;
 
         private int _amountItemsOnPanel = 6;
 
-        public void Init(IShopService shopService, GardenTypeHolder gardenTypeHolder)
+        public void Init(IShopService shopService, GardenDataHolder gardenDataHolder)
         {
             _shopService = shopService;
-            _gardenTypeHolder = gardenTypeHolder;
+            _gardenDataHolder = gardenDataHolder;
 
             _contentPanelList = new List<RectTransform>();
             _listGardenData = new List<GardenData>();

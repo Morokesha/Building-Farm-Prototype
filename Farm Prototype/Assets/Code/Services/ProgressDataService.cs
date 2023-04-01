@@ -6,26 +6,31 @@ namespace Code.Services
 {
     public class ProgressDataService : IProgressDataService
     {
-        public event Action<ResourceType, int> ResourceChanded;
+        public event Action<int> GoldChanged;
+        public event Action<int> SeedChanged;
         
         private int _gold;
         private int _seed;
 
-        private Dictionary<ResourceType, int> _resourceAmountDictionary;
-        
-        public ProgressDataService()
+        public void AddGold(int amount)
         {
-            _resourceAmountDictionary = new Dictionary<ResourceType, int>();
-            
-            _resourceAmountDictionary.Add(ResourceType.Gold,_gold);
-            _resourceAmountDictionary.Add(ResourceType.Seed,_seed);
+            _gold += amount;
+            GoldChanged?.Invoke(_gold);
         }
 
-        public void AddResources(ResourceType type, int amount)
+        public void AddSeed(int amount)
         {
-            _resourceAmountDictionary[type] += amount;
+            _seed += amount;
+            SeedChanged?.Invoke(_seed);
+        }
+
+        public void SpendResources(int gold, int seed)
+        {
+            _gold -= gold;
+            GoldChanged?.Invoke(_gold);
             
-            ResourceChanded?.Invoke(type, amount);
+            _seed -= seed;
+            SeedChanged?.Invoke(_seed);
         }
     }
 }

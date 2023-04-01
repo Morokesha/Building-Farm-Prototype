@@ -1,13 +1,15 @@
 ﻿using System;
 using Code.Data.ResourceData;
+using Code.Data.ShopData;
 
 namespace Code.Services
 {
     public interface IResourceService
     {
         void Init(IProgressDataService progressDataService,ResourceHolder resourceHolder);
-        void AddResource(ResourceType resourceType, int amount);
-        void SpendResources(ResourceAmountData[] resourceAmountArray);
-        bool CanAfford(ResourceAmountData[] resourceAmountArray);
+        void AddGold(DropData dropData);
+        void AddSeed(DropData dropData);
+        void SpendResources(PriceData priceData);
+        bool CanAfford(PriceData priceData);
     }
 }

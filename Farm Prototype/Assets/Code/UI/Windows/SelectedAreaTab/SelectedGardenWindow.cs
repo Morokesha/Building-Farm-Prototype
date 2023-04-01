@@ -47,7 +47,7 @@ namespace Code.UI.Windows.SelectedAreaTab
             Show();
             
             _garden = garden;
-            _nameCell.text = _garden.GetGardenData.CropsShopData.NameItem;
+            _nameCell.text = _garden.GetGardenData.NameGarden;
             _interactiveButtons.SetGardenProduction(garden.GetGardenProduction());
             _processBar.UpdateProgressBar(_garden.GetGardenProduction());
         }

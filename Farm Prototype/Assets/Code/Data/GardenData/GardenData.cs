@@ -1,19 +1,21 @@
 ﻿using Code.Data.ResourceData;
 using Code.Data.ShopData;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.Data.GardenData
 {
     [CreateAssetMenu(menuName = "Data/GardenData/GardenData", order = 0)]
     public class GardenData : ScriptableObject
     {
-        public ProductType productType;
+        [FormerlySerializedAs("productType")] public ProductType ProductType;
         public Color colorCrops;
 
-        [Header("DropData")] 
-        public ResourceGeneratorData DropData;
+        public string NameGarden;
+        
+        public int TimeGrowing;
 
-        [Header("Crops Shop Data")] 
-        public CropsShopData CropsShopData;
+        [Header("DropData")] 
+        public DropData DropData;
     }
 }
