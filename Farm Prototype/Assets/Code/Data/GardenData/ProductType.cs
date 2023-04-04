@@ -2,11 +2,14 @@
 {
     public enum ProductType
     {
+        None,
         Potato,
         Tomato,
         Strawberry,
         Сorn,
         Wheat,
-        Rice
+        Rice,
+        Carrot,
+        Bean
     }
 }

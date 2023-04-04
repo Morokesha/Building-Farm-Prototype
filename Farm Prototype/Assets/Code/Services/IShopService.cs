@@ -11,8 +11,7 @@ namespace Code.Services
     {
         event Action<GardenData> SoldGarden;
         event Action SoldGridCells;
-        void Init(IResourceService resourceRepository, GardenDataHolder gardenDataHolder,
-            CropsDataHolder cropsDataHolder);
-        void BuyGarden(ProductType productType);
+        void Init(IResourceService resourceRepository,IStaticDataService staticDataService);
+        void BuyGarden(GardenData gardenData);
     }
 }

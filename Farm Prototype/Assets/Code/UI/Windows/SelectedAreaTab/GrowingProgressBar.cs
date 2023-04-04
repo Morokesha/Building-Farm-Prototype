@@ -30,10 +30,5 @@ namespace Code.UI.Windows.SelectedAreaTab
         
         private void OnUpdateProgressBar(float growing) => 
             _processingField.fillAmount = growing;
-
-        private void OnDestroy()
-        {
-            _gardenProduction.GrowingChanged -= OnUpdateProgressBar;
-        }
     }
 }

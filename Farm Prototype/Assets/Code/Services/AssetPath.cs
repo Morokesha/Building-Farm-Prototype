@@ -1,14 +1,22 @@
-﻿namespace Code.Services
+﻿using UnityEngine;
+
+namespace Code.Services
 {
-    public class AssetPath
+    public static class AssetPath
     {
-        public const string GardenAreaVisual = "GardenData/Template/GardenAreaVisual";
-        public const string GardenPath = "GardenData/Template/Garden";
-        public const string CellPlantingPath = "GardenData/Template/CellPlanting";
-        public const string GardenTypeHolderPath = "GardenData/GardenTypeHolder";
-        public const string ResourceHolderPath = "ResourceData/ResourceHolder";
-        public const string SelectedAreaWindowPath = "UI/Selected Area Window";
-        public const string ShopUIPath = "UI/ShopUI";
-        public const string HudPath = "UI/Hud Window";
+        [Header("Templates Cells")]
+        public const string GardenAreaVisual = "Template/GardenTemplate/GardenAreaVisual";
+        public const string GardenPath = "Template/GardenTemplate/Garden";
+        public const string GridCellPath = "Template/GardenTemplate/GridCell";
+        
+        [Header("Static Data")]
+        public const string GardenTypeHolderPath = "Data/GardenData/GardenTypeHolder";
+        public const string ResourceHolderPath = "Data/ResourceData/ResourceHolder";
+        public const string ShopItemDataHolderPath = "Data/ShopData/ShopItemHolder";
+        
+        [Header("UI Templates")]
+        public const string SelectedAreaWindowPath = "Template/UI/Selected Area Window";
+        public const string ShopUIPath = "Template/UI/ShopUI";
+        public const string HudPath = "Template/UI/Hud Window";
     }
 }

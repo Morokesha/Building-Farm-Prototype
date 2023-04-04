@@ -1,13 +1,14 @@
-﻿using Code.Data.GardenData;
+﻿using System.Collections.Generic;
+using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.Data.ShopData;
 
 namespace Code.Services
 {
     public interface IStaticDataService
-    {
-        public GardenDataHolder GardenDataHolder { get; }
+    { 
         public ResourceHolder ResourceHolder { get; }
-        public CropsDataHolder CropsDataHolder { get; }
+        public ShopItemDataHolder ShopItemDataHolder { get; }
+        public GardenData GetGardenData(List<ShopItemData> shopItemList);
     }
 }

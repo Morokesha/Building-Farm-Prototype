@@ -9,7 +9,7 @@ namespace Code.Data.ShopData
         [Range(0,100)]
         public int GoldAmount;
 
-        [Range(0, 5)] 
+        [Range(0, 30)] 
         public int SeedAmount;
     }
 }

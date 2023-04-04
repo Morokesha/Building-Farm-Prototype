@@ -10,10 +10,7 @@ namespace Code.UI.Windows.ShopTab
         private TextMeshProUGUI _nameCrops;
         [SerializeField] 
         private TextMeshProUGUI _informationToProduct;
-
-        public void Init(GardenData gardenData)
-        {
-            
-        } 
+        
+        
     }
 }

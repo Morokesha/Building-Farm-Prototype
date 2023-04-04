@@ -14,33 +14,23 @@ namespace Code.Management
     {
         private IResourceService _resourceRepository;
         private GardenDataHolder _gardenDataHolder;
-        private CropsDataHolder _cropsDataHolder;
-        private CropsShopData _cropsShopData;
-        private GardenData _gardenData;
+        private ShopItemDataHolder _shopItemDataHolder;
+        private ShopItemData _shopItemData;
+        private IStaticDataService _staticDataService;
 
         public event Action<GardenData> SoldGarden;
         public event Action SoldGridCells;
         
-        public void Init(IResourceService resourceRepository,GardenDataHolder gardenDataHolder, 
-            CropsDataHolder cropsDataHolder)
+        public void Init(IResourceService resourceRepository, IStaticDataService staticDataService)
         {
             _resourceRepository = resourceRepository;
-            _gardenDataHolder = gardenDataHolder;
-            _cropsDataHolder = cropsDataHolder;
+            _staticDataService = staticDataService;
         }
 
-        public void BuyGarden(ProductType type)
+        public void BuyGarden(GardenData gardenData)
         {
-            foreach (CropsShopData cropsData in _cropsDataHolder.CropsDataList.
-                         Where(cropsData => cropsData.ProductType == type))
-                _cropsShopData = cropsData;
-
-            foreach (GardenData gardenData in _gardenDataHolder.List.
-                         Where(gardenData => gardenData.ProductType == type))
-                _gardenData = gardenData;
-
-            if (_resourceRepository.CanAfford(_cropsShopData.PriceData)) 
-                SoldGarden?.Invoke(_gardenData);
+            if (_resourceRepository.CanAfford(_shopItemData.PriceData)) 
+                SoldGarden?.Invoke(gardenData);
         }
 
         private void BuyCells(int gold)

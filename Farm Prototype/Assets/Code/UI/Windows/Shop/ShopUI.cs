@@ -1,15 +1,16 @@
-﻿using System;
-using Code.Data.GardenData;
-using Code.Management;
+﻿using Code.Management;
 using Code.Services;
 using Code.UI.Services;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Code.UI.Windows.ShopTab
+namespace Code.UI.Windows.Shop
 {
     public class ShopUI : MonoBehaviour
     {
+        [SerializeField] private TabHandler _tabHandler;
+
         [SerializeField] 
         private Button _hideBtn;
         [SerializeField] 
@@ -17,9 +18,6 @@ namespace Code.UI.Windows.ShopTab
         
         [SerializeField]
         private CanvasGroup _canvasGroup;
-
-        [SerializeField] 
-        private ShopCropsContent _shopCropsContent;
 
         private IStaticDataService _staticData;
         private IShopService _shopService;
@@ -33,6 +31,8 @@ namespace Code.UI.Windows.ShopTab
             _shopService = shopService;
             _uiFactory = uiFactory;
             _constructionBuilder = constructionBuilder;
+            
+            _tabHandler.Init(_staticData,_uiFactory, _shopService);
             
             HideShopMenu();
             

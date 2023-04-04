@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.Data.ShopData;
@@ -11,19 +12,33 @@ namespace Code.Services
     { 
         public GardenDataHolder GardenDataHolder => _gardenDataHolder; 
         public ResourceHolder ResourceHolder => _resourceHolder;
-        public CropsDataHolder CropsDataHolder => _cropsDataHolder;
-    
-        private List<GardenData> _gardeDataHolder;
-        private List<CropsShopData> _cropsShopDataList;
+        public ShopItemDataHolder ShopItemDataHolder => _shopItemDataHolder;
         
         private GardenDataHolder _gardenDataHolder;
         private ResourceHolder _resourceHolder;
-        private CropsDataHolder _cropsDataHolder;
+        private ShopItemDataHolder _shopItemDataHolder;
+        private ShopItemData _shopItemData;
+
+        public StaticDataService() => 
+            LoadData();
+
+        public GardenData GetGardenData(List<ShopItemData> shopItemList)
+        {
+            GardenData gardenData = null;
+
+            foreach (GardenData data in shopItemList.
+                         SelectMany(shopItemData => _gardenDataHolder.List.Where
+                         (data => shopItemData.ProductType == data.ProductType)))
+                gardenData = data;
+
+            return gardenData;
+        }
 
         private void LoadData()
         {
             _gardenDataHolder = Resources.Load<GardenDataHolder>(AssetPath.GardenTypeHolderPath);
             _resourceHolder = Resources.Load<ResourceHolder>(AssetPath.ResourceHolderPath);
+            _shopItemDataHolder = Resources.Load<ShopItemDataHolder>(AssetPath.ShopItemDataHolderPath);
         }
     }
 }

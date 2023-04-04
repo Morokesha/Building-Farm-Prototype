@@ -1,5 +1,6 @@
 ﻿using Code.Services;
 using Code.UI.Windows.SelectedAreaTab;
+using Code.UI.Windows.Shop;
 using Code.UI.Windows.ShopTab;
 using UnityEngine;
 

@@ -23,27 +23,28 @@ namespace Code.Management
         [SerializeField] private float _offsetX;
         [SerializeField] private float _offsetZ;
 
-        private readonly int _countCellPlanting = 3;
-        
-        private ConstructionState _constructionState;
-
-        private GardenData _activeGardenData;
-        
         private IGameFactory _gameFactory;
         private IShopService _shop;
         private IResourceService _resourceService;
-        private Controls _controls;
+        
+        private ConstructionState _constructionState;
 
         private  List<GridSell> _listCells;
-        private GridSell _createdCells;
-        private GridSell _selectedCell;
+        private GardenData _activeGardenData;
         private Garden _selectedGarden;
         private GardenAreaVisual _gardenAreaVisual;
+
+        private Controls _controls;
+
+        private GridSell _createdCells;
+        private GridSell _selectedCell;
 
         private Vector3 _startPosition;
         private Vector3 _createPos;
         private Vector3 _rowOffset;
         private Vector3 _gardenPosition;
+        
+        private readonly int _countCellPlanting = 3;
 
         public void Init(IGameFactory gameFactory,IResourceService resourceService,
             Controls controls,IShopService shop)
@@ -69,7 +70,7 @@ namespace Code.Management
         private void Start()
         {
             _shop.SoldGridCells += ShopOnSoldGridCells;
-            _shop.SoldGarden += ShopOnSoldGardenBed;
+            _shop.SoldGarden += ShopOnSoldGarden;
         }
 
         private void Update()
@@ -121,8 +122,6 @@ namespace Code.Management
             createdGarden.Init(_resourceService,_activeGardenData);
             
             Destroy(_gardenAreaVisual.gameObject);
-
-            //_resourceService.SpendResources();
             
             _selectedCell.SetCellState(CellState.Occupied);
             
@@ -144,7 +143,7 @@ namespace Code.Management
         private void ShopOnSoldGridCells() => 
             CreateCellForPlanting();
 
-        private void ShopOnSoldGardenBed(GardenData gardenData)
+        private void ShopOnSoldGarden(GardenData gardenData)
         {
             _activeGardenData = gardenData;
             _gardenAreaVisual = _gameFactory.CreateGardenAreaVisual
@@ -168,6 +167,12 @@ namespace Code.Management
             foreach (var cell in _listCells)
                 if (state == BuildingState.None)
                     cell.SetBuildingState(state);
+        }
+
+        private void OnDestroy()
+        {
+            _shop.SoldGridCells -= ShopOnSoldGridCells;
+            _shop.SoldGarden -= ShopOnSoldGarden;
         }
     }
 }

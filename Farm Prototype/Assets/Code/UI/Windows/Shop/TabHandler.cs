@@ -1,49 +1,56 @@
 ﻿using System.Collections.Generic;
-using Code.Data.GardenData;
+using Code.Data.ShopData;
+using Code.Services;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using Code.Data.ShopData;
+using Code.UI.Services;
 
-namespace Code.UI.Windows.ShopTab
+namespace Code.UI.Windows.Shop
 {
-    public enum TabType
-    {
-        Crops,
-        Upgrade
-    }
     public class TabHandler : MonoBehaviour
     {
+        [SerializeField] 
+        private TabSection _tabSection;
+        
         [SerializeField] 
         private Button _cropsBtn;
 
         [SerializeField] 
         private Button _upgradeBtn;
         
-        private TabType _tabType;
-        
-        private GardenDataHolder _gardenDataHolder;
-        private ProductType _productType;
+        private ShopItemType _shopItemType;
 
-        private List<CropsShopData> _cropsShopDataList;
-        private List<RectTransform> _cropsContentList;
-        private List<RectTransform> _upgradeContentList;
+        private IStaticDataService _staticDataService;
+        private IUIFactory _uiFactory;
+        private IShopService _shopService;
 
-        public void Init(GardenDataHolder gardenDataHolder)
+
+        public void Init(IStaticDataService staticDataService, IUIFactory uiFactory, IShopService shopService)
         {
-            _gardenDataHolder = gardenDataHolder;
+            _staticDataService = staticDataService;
+            _uiFactory = uiFactory;
+            _shopService = shopService;
 
-            _cropsShopDataList = new List<CropsShopData>();
-            _cropsContentList = new List<RectTransform>();
-            _upgradeContentList = new List<RectTransform>();
+            _tabSection.Init(_staticDataService,_uiFactory,_shopService);
+            
+            _shopItemType = ShopItemType.Crops;
+            
+            _cropsBtn.onClick.AddListener(OnCropClick);
+            _upgradeBtn.onClick.AddListener(OnUpgradeClick);
         }
+        
 
-        private void CreatedCropsContent(ProductType type)
+        private void OnCropClick() => 
+            _shopItemType = ShopItemType.Crops;
+
+        private void OnUpgradeClick() => 
+            _shopItemType = ShopItemType.Upgrade;
+
+        private void OnDestroy()
         {
-            if (_productType == type)
-            {
-                
-            }
+            _cropsBtn.onClick.RemoveListener(OnCropClick);
+            _upgradeBtn.onClick.RemoveListener(OnUpgradeClick);
         }
     }
 }
