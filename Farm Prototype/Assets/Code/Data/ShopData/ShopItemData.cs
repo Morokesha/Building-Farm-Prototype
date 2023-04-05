@@ -14,7 +14,12 @@ namespace Code.Data.ShopData
     public Sprite Logo;
 
     public string NameItem;
+    [Space(4)]
+    [TextArea]
+    public string InformationAboutItem;
 
+    [Header("Price Data")]
+    [Space(4)]
     public PriceData PriceData;
     }
     

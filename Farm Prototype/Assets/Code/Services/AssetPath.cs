@@ -10,7 +10,7 @@ namespace Code.Services
         public const string GridCellPath = "Template/GardenTemplate/GridCell";
         
         [Header("Static Data")]
-        public const string GardenTypeHolderPath = "Data/GardenData/GardenTypeHolder";
+        public const string GardenTypeHolderPath = "Data/GardenData/Holder/GardenTypeHolder";
         public const string ResourceHolderPath = "Data/ResourceData/ResourceHolder";
         public const string ShopItemDataHolderPath = "Data/ShopData/ShopItemHolder";
         
@@ -18,5 +18,7 @@ namespace Code.Services
         public const string SelectedAreaWindowPath = "Template/UI/Selected Area Window";
         public const string ShopUIPath = "Template/UI/ShopUI";
         public const string HudPath = "Template/UI/Hud Window";
+        public const string ContentItemPath = "Template/UI/ContentItem";
+        public const string ContentPanelPath = "Template/UI/ContentPanel";
     }
 }

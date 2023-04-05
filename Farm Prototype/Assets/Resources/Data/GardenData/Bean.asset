@@ -9,10 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57e9f521f10f45e38d608f02ba956a8b, type: 3}
-  m_Name: Seed
+  m_Script: {fileID: 11500000, guid: b403cbce43574afdbc3eed24c1ca8660, type: 3}
+  m_Name: Bean
   m_EditorClassIdentifier: 
-  Type: 1
-  resourceName: Seed
-  sprite: {fileID: 0}
-  colorHex: 
+  ProductType: 8
+  colorCrops: {r: 0.6037736, g: 0.35361293, b: 0.12815951, a: 1}
+  NameGarden: Bean
+  TimeGrowing: 15
+  DropData:
+    SeedDropChance: 40
+    GoldAmount: 5
+    SeedAmount: 2

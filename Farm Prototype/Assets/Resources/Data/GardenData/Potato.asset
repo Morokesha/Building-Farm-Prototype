@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProductType: 1
   colorCrops: {r: 0.07604219, g: 0.6627451, b: 0.043137252, a: 1}
-  NameGarden: 
-  TimeGrowing: 0
+  NameGarden: Potato
+  TimeGrowing: 60
   DropData:
     SeedDropChance: 0
     GoldAmount: 25

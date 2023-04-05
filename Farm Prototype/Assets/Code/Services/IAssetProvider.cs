@@ -1,11 +1,9 @@
-﻿using Code.Data.GardenData;
-using Code.Data.ResourceData;
-using Code.GameLogic.Gardens;
+﻿using Code.GameLogic.Gardens;
 using Code.UI;
-using Code.UI.Windows;
 using Code.UI.Windows.SelectedAreaTab;
 using Code.UI.Windows.Shop;
-using Code.UI.Windows.ShopTab;
+using Code.UI.Windows.Shop.WindowElements;
+using UnityEngine;
 
 namespace Code.Services
 {
@@ -16,7 +14,9 @@ namespace Code.Services
         Garden Garden { get; }
         GridSell GridSell { get; }
         SelectedGardenWindow SelectedGardenWindow { get; }
-        ShopUI ShopUI { get; }
+        ShopWindow ShopWindow { get; }
         HUD HUD { get; }
+        public ContentItem ContentItem { get; }
+        public RectTransform ContentPanel { get; }
     }
 }

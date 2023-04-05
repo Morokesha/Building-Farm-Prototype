@@ -9,6 +9,6 @@ namespace Code.Services
     { 
         public ResourceHolder ResourceHolder { get; }
         public ShopItemDataHolder ShopItemDataHolder { get; }
-        public GardenData GetGardenData(List<ShopItemData> shopItemList);
+        public GardenData GetGardenData(ProductType type);
     }
 }

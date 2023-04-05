@@ -46,17 +46,17 @@ namespace Code.Management
         public bool CanAfford(PriceData dropData)
         {
             if (_goldAmount >= dropData.GoldAmount && _seedAmount >= dropData.SeedAmount)
-                //могу купить
-                Debug.Log("купил");
-            else
-                return false;
-
-            return true;
+                return true;
+            
+            return false;
         }
 
         private void StartingResources()
         {
-
+            _goldAmount = _resourceHolder.StartResource.GoldAmount;
+            _progressDataService.AddGold(_goldAmount);
+            _seedAmount = _resourceHolder.StartResource.SeedAmount;
+            _progressDataService.AddSeed(_seedAmount);
         }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Code.Data.ShopData;
+﻿using Code.Data.ShopData;
 using Code.Services;
+using Code.UI.Services;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
-using Code.UI.Services;
 
-namespace Code.UI.Windows.Shop
+namespace Code.UI.Windows.Shop.WindowElements
 {
     public class TabHandler : MonoBehaviour
     {

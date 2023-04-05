@@ -16,6 +16,9 @@ MonoBehaviour:
   ShopItemType: 0
   Logo: {fileID: 21300000, guid: eea095a8febf0e94a90d26cdc8a4bbfd, type: 3}
   NameItem: Bean
+  InformationAboutItem: Beans are a type of legume that come in a variety of colors
+    and sizes. They are a good source of protein and fiber, and can be cooked and
+    used in a variety of dishes.
   PriceData:
     GoldAmount: 100
     SeedAmount: 5

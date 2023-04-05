@@ -5,7 +5,7 @@ using Code.UI;
 using Code.UI.Windows;
 using Code.UI.Windows.SelectedAreaTab;
 using Code.UI.Windows.Shop;
-using Code.UI.Windows.ShopTab;
+using Code.UI.Windows.Shop.WindowElements;
 using UnityEngine;
 
 namespace Code.Services
@@ -16,16 +16,21 @@ namespace Code.Services
         public Garden Garden => _garden;
         public GridSell GridSell => _gridCell;
         public SelectedGardenWindow SelectedGardenWindow => _selectedAreaWindow;
-        public ShopUI ShopUI => _shopUI;
+        public ShopWindow ShopWindow => _shopWindow;
         public HUD HUD => _hud;
+
+        public ContentItem ContentItem => _contentItem;
+        public RectTransform ContentPanel => _contentPanel;
 
         private Garden _garden;
         private GridSell _gridCell;
         private SelectedGardenWindow _selectedAreaWindow;
-        private ShopUI _shopUI;
+        private ShopWindow _shopWindow;
         private HUD _hud;
         private GardenAreaVisual _gardenAreaVisual;
 
+        private ContentItem _contentItem;
+        private RectTransform _contentPanel;
         public AssetProvider()
         {
             LoadAssets();
@@ -38,8 +43,10 @@ namespace Code.Services
             _gridCell = Resources.Load<GridSell>(AssetPath.GridCellPath);
             
             _selectedAreaWindow = Resources.Load<SelectedGardenWindow>(AssetPath.SelectedAreaWindowPath);
-            _shopUI = Resources.Load<ShopUI>(AssetPath.ShopUIPath);
+            _shopWindow = Resources.Load<ShopWindow>(AssetPath.ShopUIPath);
             _hud = Resources.Load<HUD>(AssetPath.HudPath);
+            _contentItem = Resources.Load<ContentItem>(AssetPath.ContentItemPath);
+            _contentPanel = Resources.Load<RectTransform>(AssetPath.ContentPanelPath);
         }
     }
 }

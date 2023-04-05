@@ -1,13 +1,14 @@
-﻿using Code.Management;
+﻿using System;
+using Code.Management;
 using Code.Services;
 using Code.UI.Services;
+using Code.UI.Windows.Shop.WindowElements;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.UI.Windows.Shop
 {
-    public class ShopUI : MonoBehaviour
+    public class ShopWindow : MonoBehaviour
     {
         [SerializeField] private TabHandler _tabHandler;
 
@@ -31,15 +32,22 @@ namespace Code.UI.Windows.Shop
             _shopService = shopService;
             _uiFactory = uiFactory;
             _constructionBuilder = constructionBuilder;
-            
+
             _tabHandler.Init(_staticData,_uiFactory, _shopService);
             
             HideShopMenu();
-            
-            _hideBtn.onClick.AddListener(ExitShopMenu);
-            _removeGardenBtn.onClick.AddListener(RemoveGarden);
         }
 
+        private void Start()
+        {
+            _hideBtn.onClick.AddListener(ExitShopMenu);
+            _removeGardenBtn.onClick.AddListener(RemoveGarden);
+            
+            _shopService.ProductPurchased += OnProductPurchased;
+        }
+
+        private void OnProductPurchased() => 
+            HideShopMenu();
 
         private void ExitShopMenu()
         {
@@ -75,6 +83,8 @@ namespace Code.UI.Windows.Shop
         {
             _hideBtn.onClick.RemoveListener(ExitShopMenu);
             _removeGardenBtn.onClick.RemoveListener(RemoveGarden);
+
+            _shopService.ProductPurchased -= OnProductPurchased;
         }
     }
 }

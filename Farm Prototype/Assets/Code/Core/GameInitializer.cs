@@ -5,7 +5,6 @@ using Code.UI;
 using Code.UI.Services;
 using Code.UI.Windows.SelectedAreaTab;
 using Code.UI.Windows.Shop;
-using Code.UI.Windows.ShopTab;
 using UnityEngine;
 
 namespace Code.Core
@@ -24,7 +23,7 @@ namespace Code.Core
         private Controls _controls;
         private UIRoot _uiRoot;
         private HUD _hud;
-        private ShopUI _shopUI;
+        private ShopWindow _shopWindow;
         private SelectedGardenWindow _selectedGardenWindow;
 
         public GameInitializer() => 
@@ -36,7 +35,7 @@ namespace Code.Core
             
             InitUI();
 
-            _shopService.Init(_resourceService, _staticDataService);
+            _shopService.Init(_resourceService);
             _controls.Init();
             _resourceService.Init(_progressDataService, _staticDataService.ResourceHolder);
             _constructionBuilder.Init(_gameFactory,_resourceService,_controls,_shopService);
@@ -58,12 +57,12 @@ namespace Code.Core
         {
             UIRoot uiRoot = Object.FindObjectOfType<UIRoot>();
             
-            _shopUI = _uiFactory.CreateShopUI(uiRoot);
+            _shopWindow = _uiFactory.CreateShopUI(uiRoot);
             _selectedGardenWindow = _uiFactory.CreateGardenWindow(uiRoot); 
-            _uiFactory.CreateHud(_progressDataService,_shopUI,_selectedGardenWindow,uiRoot);
+            _uiFactory.CreateHud(_progressDataService,_shopWindow,_selectedGardenWindow,uiRoot);
             
             _selectedGardenWindow.Init(_constructionBuilder);
-            _shopUI.Init(_staticDataService,_shopService,_uiFactory,_constructionBuilder);
+            _shopWindow.Init(_staticDataService,_shopService,_uiFactory,_constructionBuilder);
         }
     }
 }

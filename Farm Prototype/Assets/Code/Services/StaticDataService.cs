@@ -9,8 +9,7 @@ using UnityEngine;
 namespace Code.Services
 {
     public class StaticDataService : IStaticDataService
-    { 
-        public GardenDataHolder GardenDataHolder => _gardenDataHolder; 
+    {
         public ResourceHolder ResourceHolder => _resourceHolder;
         public ShopItemDataHolder ShopItemDataHolder => _shopItemDataHolder;
         
@@ -18,20 +17,17 @@ namespace Code.Services
         private ResourceHolder _resourceHolder;
         private ShopItemDataHolder _shopItemDataHolder;
         private ShopItemData _shopItemData;
+        private GardenData _gardenData;
 
         public StaticDataService() => 
             LoadData();
 
-        public GardenData GetGardenData(List<ShopItemData> shopItemList)
+        public GardenData GetGardenData(ProductType type)
         {
-            GardenData gardenData = null;
+            foreach (var data in _gardenDataHolder.List.Where(data => type == data.ProductType)) 
+                _gardenData = data;
 
-            foreach (GardenData data in shopItemList.
-                         SelectMany(shopItemData => _gardenDataHolder.List.Where
-                         (data => shopItemData.ProductType == data.ProductType)))
-                gardenData = data;
-
-            return gardenData;
+            return _gardenData;
         }
 
         private void LoadData()

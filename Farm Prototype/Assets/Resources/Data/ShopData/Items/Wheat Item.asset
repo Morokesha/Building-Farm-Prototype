@@ -16,6 +16,9 @@ MonoBehaviour:
   ShopItemType: 0
   Logo: {fileID: 21300000, guid: 29712bacba041344eb140067e3920e85, type: 3}
   NameItem: Wheat
+  InformationAboutItem: Wheat is a widely cultivated cereal grain that is a staple
+    food for millions of people around the world. It is rich in nutrients, including
+    fiber, protein, and various vitamins and minerals.
   PriceData:
     GoldAmount: 5
     SeedAmount: 0

@@ -2,7 +2,6 @@
 using Code.UI;
 using Code.UI.Windows;
 using Code.UI.Windows.SelectedAreaTab;
-using Code.UI.Windows.ShopTab;
 using UnityEngine;
 
 namespace Code.Services

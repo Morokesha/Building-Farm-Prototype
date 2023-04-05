@@ -6,7 +6,7 @@ namespace Code.Data.ResourceData
     public class DropData
     {
         public int SeedDropChance;
-        [Range(0,25)]
+        [Range(0,50)]
         public int GoldAmount;
 
         [Range(0, 5)] 

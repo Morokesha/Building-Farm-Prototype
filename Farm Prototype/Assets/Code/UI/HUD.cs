@@ -3,7 +3,6 @@ using Code.Data.ResourceData;
 using Code.Services;
 using Code.UI.Windows.SelectedAreaTab;
 using Code.UI.Windows.Shop;
-using Code.UI.Windows.ShopTab;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +19,7 @@ namespace Code.UI
         [SerializeField] 
         private Button _shopMenuBtn;
 
-        private ShopUI _shopUI;
+        private ShopWindow _shopWindow;
         private SelectedGardenWindow _selectedGardenWindow;
 
         private IProgressDataService _progressDataService;
@@ -31,10 +30,10 @@ namespace Code.UI
 
         private Transform _parentForResourceUI;
 
-        public void Init(IProgressDataService progressDataService,ShopUI shopUI,
+        public void Init(IProgressDataService progressDataService,ShopWindow shopWindow,
         SelectedGardenWindow selectedGardenWindow)
         {
-            _shopUI = shopUI;
+            _shopWindow = shopWindow;
             _selectedGardenWindow = selectedGardenWindow;
             _progressDataService = progressDataService;
             
@@ -53,7 +52,7 @@ namespace Code.UI
 
         private void ShowShopMenu()
         {
-            _shopUI.ActivatedShopMenu();
+            _shopWindow.ActivatedShopMenu();
             _selectedGardenWindow.HideWindow();
         }
         
