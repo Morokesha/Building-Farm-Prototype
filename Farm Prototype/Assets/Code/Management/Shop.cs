@@ -26,9 +26,9 @@ namespace Code.Management
         {
             if (_resourceRepository.CanAfford(shopItemData.PriceData))
             {
+                _resourceRepository.SpendResources(shopItemData.PriceData);
                 SoldGarden?.Invoke(gardenData);
                 ProductPurchased?.Invoke();
-                _resourceRepository.SpendResources(shopItemData.PriceData);
             }
         }
 

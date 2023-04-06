@@ -14,12 +14,6 @@ namespace Code.GameLogic.Gardens
         [SerializeField]
         private GardenProduction _gardenProduction;
 
-        [SerializeField] 
-        private GameObject _visualCell;
-
-        [SerializeField] 
-        private GameObject _gardenVisual;
-
         private IResourceService _resourceService;
         
         private GardenData _gardenData;
@@ -31,14 +25,6 @@ namespace Code.GameLogic.Gardens
             _gardenData = gardenData;
             
             _gardenProduction.Init(_resourceService,_gardenData);
-        }
-
-        public void ActiveProduct(Vector3 position)
-        {
-            transform.position = position;
-
-            _gardenVisual.SetActive(true);
-            _visualCell.SetActive(false);
         }
 
         public GardenProduction GetGardenProduction() => 

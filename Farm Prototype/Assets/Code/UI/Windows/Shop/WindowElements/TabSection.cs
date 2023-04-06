@@ -4,6 +4,7 @@ using Code.Data.ShopData;
 using Code.Services;
 using Code.UI.Services;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Code.UI.Windows.Shop.WindowElements
 {
@@ -58,6 +59,7 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void Start()
         {
+            CheckNavigationButtons();
             _navigationButtons.OnClickNavigation += OnOnClickNavigation;
         }
 
@@ -66,7 +68,7 @@ namespace Code.UI.Windows.Shop.WindowElements
         #region Events Methods
         private void OnOnClickNavigation(NavigationMode navigationMode)
         {
-            
+            PanelSwipeAnimation(navigationMode);
         }
 
         private void ShowInformAboutItem(ShopItemData shopItemData) => 
@@ -100,7 +102,6 @@ namespace Code.UI.Windows.Shop.WindowElements
                     RectTransform panelWithContent = _uiFactory.CreateNewPanel
                         (_containerPanels);
                     _panelContentList.Add(panelWithContent);
-                    _currentIndexOpenPanel = i;
                 }
             }
 
@@ -112,8 +113,6 @@ namespace Code.UI.Windows.Shop.WindowElements
                     _panelContentList[i].gameObject.SetActive(false);
                 }
             }
-            
-            _navigationButtons.ActiveLeftButton(false);
         }
 
         private void CreateContentItem()
@@ -135,9 +134,61 @@ namespace Code.UI.Windows.Shop.WindowElements
             }
         }
 
-        private void PanelSwipeAnimation()
+        private void PanelSwipeAnimation(NavigationMode navigationMode)
         {
+            int nextIndex = _currentIndexOpenPanel + 1;
+            int prevIndex = _currentIndexOpenPanel - 1;
             
+
+            switch (navigationMode)
+            {
+                case NavigationMode.Forward:
+                {
+                    if (_currentIndexOpenPanel < _panelContentList.Count -1)
+                    {
+                        _panelContentList[_currentIndexOpenPanel].DOAnchorPos(_backPanelPosition, 0.4f);
+                        _panelContentList[_currentIndexOpenPanel].gameObject.SetActive(false);
+                        _panelContentList[nextIndex].gameObject.SetActive(true);
+                        _panelContentList[nextIndex].DOAnchorPos(_originalPanelPosition, 0.4f);
+                        _currentIndexOpenPanel = nextIndex;
+                    }
+
+                    break;
+                }
+                case NavigationMode.Back:
+                {
+                    if (_currentIndexOpenPanel > 0 && _currentIndexOpenPanel != 0)
+                    {
+                        _panelContentList[_currentIndexOpenPanel].DOAnchorPos(_nextPanelPosition, 0.3f);
+                        _panelContentList[_currentIndexOpenPanel].gameObject.SetActive(false);
+                        _panelContentList[prevIndex].gameObject.SetActive(true);
+                        _panelContentList[prevIndex].DOAnchorPos(_originalPanelPosition, 0.3f);
+                        _currentIndexOpenPanel = prevIndex;
+                    }
+                    break;
+                }
+            }
+            
+            CheckNavigationButtons();
+        }
+
+        private void CheckNavigationButtons()
+        {
+            if (_currentIndexOpenPanel == 0)
+            {
+                _navigationButtons.ActiveLeftButton(false);
+                _navigationButtons.ActiveRightButton(true);
+            }
+            if (_currentIndexOpenPanel == _panelContentList.Count-1)
+            {
+                _navigationButtons.ActiveRightButton(false);
+                _navigationButtons.ActiveLeftButton(true);
+            }
+            else if(_currentIndexOpenPanel > 0 && _currentIndexOpenPanel < _panelContentList.Count-1)
+            {
+                _navigationButtons.ActiveLeftButton(true);
+                _navigationButtons.ActiveRightButton(true);
+            }
         }
 
         private void OnDestroy()

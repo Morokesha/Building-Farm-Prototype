@@ -42,9 +42,6 @@ namespace Code.UI.Windows.Shop.WindowElements
             ActiveBackgroundOutline(false);
 
             _itemBtn.onClick.AddListener(BuyProduct);
-            
-            print(_gardenData);
-            print(_shopItemData);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

@@ -8,7 +8,7 @@ namespace Code.UI.Windows.Shop.WindowElements
     public enum NavigationMode
     {
         Back,
-        Next
+        Forward
     }
     
     public class NavigationButtons : MonoBehaviour
@@ -26,8 +26,12 @@ namespace Code.UI.Windows.Shop.WindowElements
             _rightButton.onClick.AddListener(ClickNavigationRight);
         }
 
-        public void ActiveLeftButton(bool active) => 
+        public void ActiveLeftButton(bool active)
+        {
             _leftButton.GetComponent<CanvasGroup>().SetActive(active);
+            print("active");
+        }
+
         public void ActiveRightButton(bool active) => 
         _rightButton.GetComponent<CanvasGroup>().SetActive(active);
 
@@ -35,6 +39,6 @@ namespace Code.UI.Windows.Shop.WindowElements
             OnClickNavigation?.Invoke(NavigationMode.Back);
 
         private void ClickNavigationRight() => 
-            OnClickNavigation?.Invoke(NavigationMode.Next);
+            OnClickNavigation?.Invoke(NavigationMode.Forward);
     }
 }
