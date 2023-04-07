@@ -1,9 +1,14 @@
 ﻿using Code.GameLogic;
 using Code.Management;
 using Code.Services;
+using Code.Services.AssetServices;
+using Code.Services.FactoryServices;
+using Code.Services.ProgressServices;
+using Code.Services.ResourceServices;
+using Code.Services.ShopServices;
+using Code.Services.StaticDataServices;
 using Code.UI;
-using Code.UI.Services;
-using Code.UI.Windows.SelectedAreaTab;
+using Code.UI.Windows.SelectedAreaWindow;
 using Code.UI.Windows.Shop;
 using UnityEngine;
 
@@ -24,7 +29,7 @@ namespace Code.Core
         private UIRoot _uiRoot;
         private HUD _hud;
         private ShopWindow _shopWindow;
-        private SelectedGardenWindow _selectedGardenWindow;
+        private SelectedAreaWindow _selectedAreaWindow;
 
         public GameInitializer() => 
             RegistrationService();
@@ -58,10 +63,10 @@ namespace Code.Core
             UIRoot uiRoot = Object.FindObjectOfType<UIRoot>();
             
             _shopWindow = _uiFactory.CreateShopUI(uiRoot);
-            _selectedGardenWindow = _uiFactory.CreateGardenWindow(uiRoot); 
-            _uiFactory.CreateHud(_progressDataService,_shopWindow,_selectedGardenWindow,uiRoot);
+            _selectedAreaWindow = _uiFactory.CreateGardenWindow(uiRoot); 
+            _uiFactory.CreateHud(_progressDataService,_shopWindow,_selectedAreaWindow,uiRoot);
             
-            _selectedGardenWindow.Init(_constructionBuilder);
+            _selectedAreaWindow.Init(_constructionBuilder);
             _shopWindow.Init(_staticDataService,_shopService,_uiFactory,_constructionBuilder);
         }
     }

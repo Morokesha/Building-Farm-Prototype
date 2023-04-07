@@ -4,6 +4,8 @@ using Code.Data.GardenData;
 using Code.Data.ShopData;
 using Code.UI;
 using Code.Services;
+using Code.Services.ResourceServices;
+using Code.Services.ShopServices;
 using Code.UI.Windows;
 using UnityEngine;
 

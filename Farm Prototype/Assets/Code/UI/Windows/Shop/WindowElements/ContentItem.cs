@@ -2,6 +2,7 @@
 using Code.Data.GardenData;
 using Code.Data.ShopData;
 using Code.Services;
+using Code.Services.ShopServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;

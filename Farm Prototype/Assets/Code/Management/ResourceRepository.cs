@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Code.Data.ResourceData;
 using Code.Data.ShopData;
 using Code.Services;
+using Code.Services.ProgressServices;
+using Code.Services.ResourceServices;
 using UnityEngine;
 
 namespace Code.Management

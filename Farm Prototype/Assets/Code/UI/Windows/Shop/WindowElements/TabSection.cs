@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Code.Data.ShopData;
 using Code.Services;
-using Code.UI.Services;
+using Code.Services.FactoryServices;
+using Code.Services.ShopServices;
+using Code.Services.StaticDataServices;
 using UnityEngine;
 using DG.Tweening;
+using Plugins.Demigiant.DOTween.Modules;
+using ShopItemData = Code.Data.ShopData.ShopItemData;
 
 namespace Code.UI.Windows.Shop.WindowElements
 {
@@ -29,6 +34,7 @@ namespace Code.UI.Windows.Shop.WindowElements
         private IStaticDataService _staticDataService;
 
         private List<ShopItemData> _shopItemDataList;
+        private List<ShopItemData> _shopItemUpgradeList;
         private List<ContentItem> _contentItems;
         private List<RectTransform> _panelContentList;
         private List<RectTransform> _upgradeContentList;
@@ -43,17 +49,14 @@ namespace Code.UI.Windows.Shop.WindowElements
             _staticDataService = staticDataService;
             _uiFactory = uiFactory;
             _shopService = shopService;
-
-            _shopItemType = ShopItemType.Crops;
-            
             
             _shopItemDataList = new List<ShopItemData>();
+            _shopItemUpgradeList = new List<ShopItemData>();
             _contentItems = new List<ContentItem>();
             _panelContentList = new List<RectTransform>();
             _upgradeContentList = new List<RectTransform>();
 
             CreateSortListShopData();
-            AddContentPanel();
             CreateContentItem();
         }
 
@@ -63,7 +66,8 @@ namespace Code.UI.Windows.Shop.WindowElements
             _navigationButtons.OnClickNavigation += OnOnClickNavigation;
         }
 
-        
+        public void SetActiveShopItemType(ShopItemType shopItemType) => 
+            _shopItemType = shopItemType;
 
         #region Events Methods
         private void OnOnClickNavigation(NavigationMode navigationMode)
@@ -81,36 +85,45 @@ namespace Code.UI.Windows.Shop.WindowElements
         
         private void CreateSortListShopData()
         {
-            if (_shopItemType == ShopItemType.Crops)
+            switch (_shopItemType)
             {
-                _shopItemDataList = _staticDataService.ShopItemDataHolder.ShopItemDataList.
-                    OrderBy(x => x.PriceData.GoldAmount).ToList();
-            }
-
-            if (_shopItemType == ShopItemType.Upgrade)
-            {
-                
+                case ShopItemType.Crops:
+                    _shopItemDataList = _staticDataService.ShopItemDataHolder.ShopItemDataList.
+                        OrderBy(x => x.PriceData.GoldAmount).ToList();
+                    AddContentPanel(_shopItemDataList, _panelContentList);
+                    break;
+                case ShopItemType.Upgrade:
+                    _shopItemUpgradeList = _staticDataService.ShopItemsUpgradeData.
+                        OrderBy(x => x.PriceData.GoldAmount)
+                        .ToList();
+                    AddContentPanel(_shopItemUpgradeList, _upgradeContentList);
+                    break;
             }
         }
 
-        private void AddContentPanel()
+        private void AddContentPanel(List<ShopItemData> shopItemList, List<RectTransform> panelList)
         {
-            for (int i = 0; i < _shopItemDataList.Count; i++)
+            for (int i = 0; i < shopItemList.Count; i++)
             {
                 if (i % _amountItemsOnPanel == 0)
                 {
                     RectTransform panelWithContent = _uiFactory.CreateNewPanel
                         (_containerPanels);
-                    _panelContentList.Add(panelWithContent);
+                    panelList.Add(panelWithContent);
                 }
             }
+            
+            AddOffsetPanel(panelList);
+        }
 
-            for (int i = 0; i < _panelContentList.Count; i++)
+        private void AddOffsetPanel(List<RectTransform> panelList)
+        {
+            for (int i = 0; i < panelList.Count; i++)
             {
                 if (i > 0)
                 {
-                    _panelContentList[i].anchoredPosition += _nextPanelPosition;
-                    _panelContentList[i].gameObject.SetActive(false);
+                    panelList[i].anchoredPosition += _nextPanelPosition;
+                    panelList[i].gameObject.SetActive(false);
                 }
             }
         }
@@ -139,37 +152,32 @@ namespace Code.UI.Windows.Shop.WindowElements
             int nextIndex = _currentIndexOpenPanel + 1;
             int prevIndex = _currentIndexOpenPanel - 1;
             
-
             switch (navigationMode)
             {
                 case NavigationMode.Forward:
                 {
-                    if (_currentIndexOpenPanel < _panelContentList.Count -1)
-                    {
-                        _panelContentList[_currentIndexOpenPanel].DOAnchorPos(_backPanelPosition, 0.4f);
-                        _panelContentList[_currentIndexOpenPanel].gameObject.SetActive(false);
-                        _panelContentList[nextIndex].gameObject.SetActive(true);
-                        _panelContentList[nextIndex].DOAnchorPos(_originalPanelPosition, 0.4f);
-                        _currentIndexOpenPanel = nextIndex;
-                    }
-
+                    if (_currentIndexOpenPanel < _panelContentList.Count - 1) 
+                        SwipeAnimation(_backPanelPosition,nextIndex);
                     break;
                 }
                 case NavigationMode.Back:
                 {
                     if (_currentIndexOpenPanel > 0 && _currentIndexOpenPanel != 0)
-                    {
-                        _panelContentList[_currentIndexOpenPanel].DOAnchorPos(_nextPanelPosition, 0.3f);
-                        _panelContentList[_currentIndexOpenPanel].gameObject.SetActive(false);
-                        _panelContentList[prevIndex].gameObject.SetActive(true);
-                        _panelContentList[prevIndex].DOAnchorPos(_originalPanelPosition, 0.3f);
-                        _currentIndexOpenPanel = prevIndex;
-                    }
+                        SwipeAnimation(_nextPanelPosition, prevIndex);
                     break;
                 }
             }
             
             CheckNavigationButtons();
+        }
+
+        private void SwipeAnimation(Vector2 newPanelPosition,int index)
+        {
+            _panelContentList[_currentIndexOpenPanel].DOAnchorPos(newPanelPosition, 0.4f);
+            _panelContentList[_currentIndexOpenPanel].gameObject.SetActive(false);
+            _panelContentList[index].gameObject.SetActive(true);
+            _panelContentList[index].DOAnchorPos(_originalPanelPosition, 0.4f);
+            _currentIndexOpenPanel = index;
         }
 
         private void CheckNavigationButtons()

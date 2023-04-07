@@ -1,7 +1,9 @@
 ﻿using System;
 using Code.Management;
 using Code.Services;
-using Code.UI.Services;
+using Code.Services.FactoryServices;
+using Code.Services.ShopServices;
+using Code.Services.StaticDataServices;
 using Code.UI.Windows.Shop.WindowElements;
 using UnityEngine;
 using UnityEngine.UI;

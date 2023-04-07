@@ -1,6 +1,8 @@
 ﻿using Code.Data.ShopData;
 using Code.Services;
-using Code.UI.Services;
+using Code.Services.FactoryServices;
+using Code.Services.ShopServices;
+using Code.Services.StaticDataServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,19 +33,18 @@ namespace Code.UI.Windows.Shop.WindowElements
             _shopService = shopService;
 
             _tabSection.Init(_staticDataService,_uiFactory,_shopService);
-            
-            _shopItemType = ShopItemType.Crops;
+            _tabSection.SetActiveShopItemType(ShopItemType.Crops);
             
             _cropsBtn.onClick.AddListener(OnCropClick);
             _upgradeBtn.onClick.AddListener(OnUpgradeClick);
         }
-        
 
-        private void OnCropClick() => 
-            _shopItemType = ShopItemType.Crops;
 
-        private void OnUpgradeClick() => 
-            _shopItemType = ShopItemType.Upgrade;
+        private void OnCropClick() =>
+            _tabSection.SetActiveShopItemType(ShopItemType.Crops);
+
+        private void OnUpgradeClick() =>
+            _tabSection.SetActiveShopItemType(ShopItemType.Upgrade);
 
         private void OnDestroy()
         {
