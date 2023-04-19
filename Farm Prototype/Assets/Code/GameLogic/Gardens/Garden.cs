@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Code.Data.GardenData;
-using Code.Services;
 using Code.Services.ResourceServices;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.GameLogic.Gardens
 {

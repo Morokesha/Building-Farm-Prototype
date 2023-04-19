@@ -1,14 +1,12 @@
 ﻿using System;
 using Code.Data.GardenData;
 using Code.Data.ShopData;
-using Code.Services;
+using Code.Data.ShopData.UpgradeData;
 using Code.Services.ShopServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
-using Image = UnityEngine.UI.Image;
 
 namespace Code.UI.Windows.Shop.WindowElements
 {
@@ -32,12 +30,15 @@ namespace Code.UI.Windows.Shop.WindowElements
         private IShopService _shopService;
         private ShopItemData _shopItemData;
         private GardenData _gardenData;
+        private UpgradeItemData _upgradeData;
 
-        public void Init(IShopService shopService,ShopItemData shopItemData,GardenData gardenData)
+        public void Init(IShopService shopService,ShopItemData shopItemData,GardenData gardenData, 
+            UpgradeItemData upgradeData)
         {
             _shopService = shopService;
             _shopItemData = shopItemData;
             _gardenData = gardenData;
+            _upgradeData = upgradeData;
 
             FillWithContent();
             ActiveBackgroundOutline(false);
@@ -70,9 +71,11 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void BuyProduct()
         {
-            if (_shopItemData.ShopItemType == ShopItemType.Crops)
-            {
+            if (_shopItemData.ShopItemType == ShopItemType.Crops) 
                 _shopService.BuyGarden(_shopItemData, _gardenData);
+            if (_shopItemData.ShopItemType == ShopItemType.Upgrade)
+            {
+                _shopService.BuyUpgrade(_shopItemData,_upgradeData);
             }
         }
 

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Linq;
 using Code.Data.GardenData;
 using Code.Data.ShopData;
-using Code.UI;
-using Code.Services;
+using Code.Data.ShopData.UpgradeData;
 using Code.Services.ResourceServices;
 using Code.Services.ShopServices;
-using Code.UI.Windows;
-using UnityEngine;
 
 namespace Code.Management
 {
@@ -17,6 +13,7 @@ namespace Code.Management
 
         public event Action ProductPurchased;
         public event Action<GardenData> SoldGarden;
+        public event Action<UpgradeItemData> SoldUpgrade;
         public event Action SoldGridCells;
         
         public void Init(IResourceService resourceRepository)
@@ -34,9 +31,14 @@ namespace Code.Management
             }
         }
 
-        private void BuyCells(int gold)
+        public void BuyUpgrade(ShopItemData shopItemData, UpgradeItemData upgradeData)
         {
-            
+            if (_resourceRepository.CanAfford(shopItemData.PriceData))
+            {
+                _resourceRepository.SpendResources(shopItemData.PriceData);
+                SoldUpgrade?.Invoke(upgradeData);
+                ProductPurchased?.Invoke();
+            }
         }
     }
 }

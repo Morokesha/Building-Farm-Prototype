@@ -1,5 +1,4 @@
-﻿using System;
-using Code.Data.ResourceData;
+﻿using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using UnityEngine;
 using UnityEngine.UI;

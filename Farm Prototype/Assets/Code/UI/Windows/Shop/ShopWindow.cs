@@ -1,6 +1,4 @@
-﻿using System;
-using Code.Management;
-using Code.Services;
+﻿using Code.Management;
 using Code.Services.FactoryServices;
 using Code.Services.ShopServices;
 using Code.Services.StaticDataServices;

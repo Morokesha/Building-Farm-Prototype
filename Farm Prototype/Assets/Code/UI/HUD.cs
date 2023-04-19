@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Code.Data.ResourceData;
-using Code.Services;
 using Code.Services.ProgressServices;
 using Code.UI.Windows.SelectedAreaWindow;
 using Code.UI.Windows.Shop;

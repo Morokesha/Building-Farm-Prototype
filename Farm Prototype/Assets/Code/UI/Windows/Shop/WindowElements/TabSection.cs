@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Code.Data.ShopData;
-using Code.Services;
 using Code.Services.FactoryServices;
 using Code.Services.ShopServices;
 using Code.Services.StaticDataServices;
 using UnityEngine;
 using DG.Tweening;
-using Plugins.Demigiant.DOTween.Modules;
 using ShopItemData = Code.Data.ShopData.ShopItemData;
 
 namespace Code.UI.Windows.Shop.WindowElements
@@ -36,7 +34,7 @@ namespace Code.UI.Windows.Shop.WindowElements
         private List<ShopItemData> _shopItemDataList;
         private List<ShopItemData> _shopItemUpgradeList;
         private List<ContentItem> _contentItems;
-        private List<RectTransform> _panelContentList;
+        private List<RectTransform> _cropsContentList;
         private List<RectTransform> _upgradeContentList;
 
         private ShopItemType _shopItemType;
@@ -53,21 +51,24 @@ namespace Code.UI.Windows.Shop.WindowElements
             _shopItemDataList = new List<ShopItemData>();
             _shopItemUpgradeList = new List<ShopItemData>();
             _contentItems = new List<ContentItem>();
-            _panelContentList = new List<RectTransform>();
+            _cropsContentList = new List<RectTransform>();
             _upgradeContentList = new List<RectTransform>();
 
             CreateSortListShopData();
-            CreateContentItem();
         }
 
         private void Start()
         {
             CheckNavigationButtons();
             _navigationButtons.OnClickNavigation += OnOnClickNavigation;
+            ChangeOpenedTabSection(_shopItemType);
         }
 
-        public void SetActiveShopItemType(ShopItemType shopItemType) => 
+        public void ActiveShopSection(ShopItemType shopItemType)
+        {
             _shopItemType = shopItemType;
+            ChangeOpenedTabSection(_shopItemType);
+        }
 
         #region Events Methods
         private void OnOnClickNavigation(NavigationMode navigationMode)
@@ -85,20 +86,14 @@ namespace Code.UI.Windows.Shop.WindowElements
         
         private void CreateSortListShopData()
         {
-            switch (_shopItemType)
-            {
-                case ShopItemType.Crops:
-                    _shopItemDataList = _staticDataService.ShopItemDataHolder.ShopItemDataList.
-                        OrderBy(x => x.PriceData.GoldAmount).ToList();
-                    AddContentPanel(_shopItemDataList, _panelContentList);
-                    break;
-                case ShopItemType.Upgrade:
-                    _shopItemUpgradeList = _staticDataService.ShopItemsUpgradeData.
-                        OrderBy(x => x.PriceData.GoldAmount)
-                        .ToList();
-                    AddContentPanel(_shopItemUpgradeList, _upgradeContentList);
-                    break;
-            }
+            _shopItemDataList = _staticDataService.LoadShopItemDataForType(ShopItemType.Crops).
+                OrderBy(x => x.PriceData.GoldAmount).ToList();
+            AddContentPanel(_shopItemDataList, _cropsContentList);
+            
+            _shopItemUpgradeList = _staticDataService.LoadShopItemDataForType(ShopItemType.Upgrade).
+                OrderBy(x => x.PriceData.GoldAmount).ToList();
+            AddContentPanel(_shopItemUpgradeList, _upgradeContentList);
+            print(_shopItemUpgradeList.Count);
         }
 
         private void AddContentPanel(List<ShopItemData> shopItemList, List<RectTransform> panelList)
@@ -112,7 +107,8 @@ namespace Code.UI.Windows.Shop.WindowElements
                     panelList.Add(panelWithContent);
                 }
             }
-            
+
+            CreateContentItem(shopItemList);
             AddOffsetPanel(panelList);
         }
 
@@ -128,18 +124,18 @@ namespace Code.UI.Windows.Shop.WindowElements
             }
         }
 
-        private void CreateContentItem()
+        private void CreateContentItem(List<ShopItemData> dataList)
         {
             int lustIndex = 0;
                 
-            for (int i = 0; i < _shopItemDataList.Count; i++)
+            for (int i = 0; i < dataList.Count; i++)
             {
                 if (i > 0 && i % _amountItemsOnPanel == 0) 
                     lustIndex++;
                 
-                ContentItem item = _uiFactory.CreateContentItem(_panelContentList[lustIndex]);
-                item.Init(_shopService, _shopItemDataList[i],_staticDataService.
-                    GetGardenData(_shopItemDataList[i].ProductType));
+                ContentItem item = _uiFactory.CreateContentItem(_cropsContentList[lustIndex]);
+                item.Init(_shopService, dataList[i],_staticDataService.
+                    GetGardenData(dataList[i].ProductType), _staticDataService.GetUpgradeData(dataList[i].UpgradeType));
                 item.SelectedItem += ShowInformAboutItem;
                 item.DeselectedItem += HideInformAboutItem;
 
@@ -151,19 +147,22 @@ namespace Code.UI.Windows.Shop.WindowElements
         {
             int nextIndex = _currentIndexOpenPanel + 1;
             int prevIndex = _currentIndexOpenPanel - 1;
+
+            List<RectTransform> sectionsList = _shopItemType == ShopItemType.Crops ? 
+                _cropsContentList : _upgradeContentList;
             
             switch (navigationMode)
             {
                 case NavigationMode.Forward:
                 {
-                    if (_currentIndexOpenPanel < _panelContentList.Count - 1) 
-                        SwipeAnimation(_backPanelPosition,nextIndex);
+                    if (_currentIndexOpenPanel < _cropsContentList.Count - 1) 
+                        SwipeAnimation(sectionsList,_backPanelPosition,nextIndex);
                     break;
                 }
                 case NavigationMode.Back:
                 {
                     if (_currentIndexOpenPanel > 0 && _currentIndexOpenPanel != 0)
-                        SwipeAnimation(_nextPanelPosition, prevIndex);
+                        SwipeAnimation(sectionsList,_nextPanelPosition, prevIndex);
                     break;
                 }
             }
@@ -171,12 +170,12 @@ namespace Code.UI.Windows.Shop.WindowElements
             CheckNavigationButtons();
         }
 
-        private void SwipeAnimation(Vector2 newPanelPosition,int index)
+        private void SwipeAnimation(List<RectTransform> listPanels,Vector2 newPanelPosition,int index)
         {
-            _panelContentList[_currentIndexOpenPanel].DOAnchorPos(newPanelPosition, 0.4f);
-            _panelContentList[_currentIndexOpenPanel].gameObject.SetActive(false);
-            _panelContentList[index].gameObject.SetActive(true);
-            _panelContentList[index].DOAnchorPos(_originalPanelPosition, 0.4f);
+            listPanels[_currentIndexOpenPanel].DOAnchorPos(newPanelPosition, 0.4f);
+            listPanels[_currentIndexOpenPanel].gameObject.SetActive(false);
+            listPanels[index].gameObject.SetActive(true);
+            listPanels[index].DOAnchorPos(_originalPanelPosition, 0.4f);
             _currentIndexOpenPanel = index;
         }
 
@@ -187,16 +186,37 @@ namespace Code.UI.Windows.Shop.WindowElements
                 _navigationButtons.ActiveLeftButton(false);
                 _navigationButtons.ActiveRightButton(true);
             }
-            if (_currentIndexOpenPanel == _panelContentList.Count-1)
+            if (_currentIndexOpenPanel == _cropsContentList.Count-1)
             {
                 _navigationButtons.ActiveRightButton(false);
                 _navigationButtons.ActiveLeftButton(true);
             }
-            else if(_currentIndexOpenPanel > 0 && _currentIndexOpenPanel < _panelContentList.Count-1)
+            else if(_currentIndexOpenPanel > 0 && _currentIndexOpenPanel < _cropsContentList.Count-1)
             {
                 _navigationButtons.ActiveLeftButton(true);
                 _navigationButtons.ActiveRightButton(true);
             }
+        }
+
+        private void ChangeOpenedTabSection(ShopItemType shopItemType)
+        {
+            switch (shopItemType)
+            {
+                case ShopItemType.Crops:
+                   ActivatedSelectedSection(_cropsContentList, _upgradeContentList);
+                    break;
+                case ShopItemType.Upgrade:
+                    ActivatedSelectedSection(_upgradeContentList, _cropsContentList);
+                    break;
+            }
+        }
+
+        private void ActivatedSelectedSection(List<RectTransform> activeSectionList, 
+            List<RectTransform> deactivatedSectionList)
+        {
+            activeSectionList[0].gameObject.SetActive(true);
+            foreach (RectTransform section in deactivatedSectionList) 
+                section.gameObject.SetActive(false);
         }
 
         private void OnDestroy()

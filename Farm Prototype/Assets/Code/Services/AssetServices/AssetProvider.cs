@@ -1,8 +1,5 @@
-﻿using Code.Data.GardenData;
-using Code.Data.ResourceData;
-using Code.GameLogic.Gardens;
+﻿using Code.GameLogic.Gardens;
 using Code.UI;
-using Code.UI.Windows;
 using Code.UI.Windows.SelectedAreaWindow;
 using Code.UI.Windows.Shop;
 using Code.UI.Windows.Shop.WindowElements;

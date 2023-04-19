@@ -3,6 +3,7 @@ using System.Linq;
 using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.Data.ShopData;
+using Code.Data.ShopData.UpgradeData;
 using Code.Services.AssetServices;
 using UnityEngine;
 
@@ -11,14 +12,11 @@ namespace Code.Services.StaticDataServices
     public class StaticDataService : IStaticDataService
     {
         public ResourceHolder ResourceHolder => _resourceHolder;
-        public ShopItemDataHolder ShopItemDataHolder => _shopItemDataHolder;
-        public List<ShopItemData> ShopItemsUpgradeData => _shopItemsUpgradeData;
-        
+
         private GardenDataHolder _gardenDataHolder;
         private ResourceHolder _resourceHolder;
         private ShopItemDataHolder _shopItemDataHolder;
-        private ShopItemData _shopItemData;
-        private List<ShopItemData> _shopItemsUpgradeData;
+        private List<ShopItemData> _shopItemDataList;
         private GardenData _gardenData;
 
         public StaticDataService() => 
@@ -37,15 +35,23 @@ namespace Code.Services.StaticDataServices
             _gardenDataHolder = Resources.Load<GardenDataHolder>(AssetPath.GardenTypeHolderPath);
             _resourceHolder = Resources.Load<ResourceHolder>(AssetPath.ResourceHolderPath);
             _shopItemDataHolder = Resources.Load<ShopItemDataHolder>(AssetPath.ShopItemDataHolderPath);
-            LoadItemUpgradeData();
+            _shopItemDataList = new List<ShopItemData>();
+            
+            LoadShopItemData();
         }
 
-        private void LoadItemUpgradeData()
+        private void LoadShopItemData()
         {
-            _shopItemsUpgradeData = new List<ShopItemData>();
-            foreach (var item in _shopItemDataHolder.ShopItemDataList.
-                         Where(item => item.ShopItemType == ShopItemType.Upgrade))
-                _shopItemsUpgradeData.Add(item);
+            foreach (var item in _shopItemDataHolder.ShopItemDataList) 
+                _shopItemDataList.Add(item);
+        }
+
+        public List<ShopItemData> LoadShopItemDataForType(ShopItemType type) => 
+            _shopItemDataList.Where(item => item.ShopItemType == type).ToList();
+
+        public UpgradeItemData GetUpgradeData(object upgradeType)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

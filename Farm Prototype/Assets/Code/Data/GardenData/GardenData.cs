@@ -1,5 +1,4 @@
 ﻿using Code.Data.ResourceData;
-using Code.Data.ShopData;
 using UnityEngine;
 using UnityEngine.Serialization;
 

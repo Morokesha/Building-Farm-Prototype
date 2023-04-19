@@ -6,7 +6,7 @@ namespace Code.Data.ShopData
     [Serializable]
     public class PriceData
     {
-        [Range(0,100)]
+        [Range(0,600)]
         public int GoldAmount;
 
         [Range(0, 30)] 

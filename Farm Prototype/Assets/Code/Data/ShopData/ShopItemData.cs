@@ -1,6 +1,6 @@
 ﻿using Code.Data.GardenData;
+using Code.Data.ShopData.UpgradeData;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Code.Data.ShopData
 {
@@ -9,6 +9,7 @@ namespace Code.Data.ShopData
     {
     public ProductType ProductType;
     public ShopItemType ShopItemType;
+    public UpgradeType UpgradeType;
 
     [Header("DisplayData")] 
     public Sprite Logo;
