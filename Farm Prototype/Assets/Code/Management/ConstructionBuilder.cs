@@ -71,7 +71,6 @@ namespace Code.Management
 
         private void Start()
         {
-            _shop.SoldGridCells += ShopOnSoldGridCells;
             _shop.SoldGarden += ShopOnSoldGarden;
         }
 
@@ -173,7 +172,6 @@ namespace Code.Management
 
         private void OnDestroy()
         {
-            _shop.SoldGridCells -= ShopOnSoldGridCells;
             _shop.SoldGarden -= ShopOnSoldGarden;
         }
     }

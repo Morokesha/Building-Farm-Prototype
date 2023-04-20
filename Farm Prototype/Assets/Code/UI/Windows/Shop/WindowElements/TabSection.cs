@@ -59,7 +59,6 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void Start()
         {
-            CheckNavigationButtons();
             _navigationButtons.OnClickNavigation += OnOnClickNavigation;
             ChangeOpenedTabSection(_shopItemType);
         }
@@ -67,10 +66,27 @@ namespace Code.UI.Windows.Shop.WindowElements
         public void ActiveShopSection(ShopItemType shopItemType)
         {
             _shopItemType = shopItemType;
+            _currentIndexOpenPanel = 0;
             ChangeOpenedTabSection(_shopItemType);
         }
 
+        private void ChangeOpenedTabSection(ShopItemType shopItemType)
+        {
+            switch (shopItemType)
+            {
+                case ShopItemType.Crops:
+                    ActivatedSelectedSection(_cropsContentList, _upgradeContentList);
+                    CheckNavigationButtons(_cropsContentList);
+                    break;
+                case ShopItemType.Upgrade:
+                    ActivatedSelectedSection(_upgradeContentList, _cropsContentList);
+                    CheckNavigationButtons(_upgradeContentList);
+                    break;
+            }
+        }
+
         #region Events Methods
+
         private void OnOnClickNavigation(NavigationMode navigationMode)
         {
             PanelSwipeAnimation(navigationMode);
@@ -83,17 +99,18 @@ namespace Code.UI.Windows.Shop.WindowElements
             _informContainer.Hide();
 
         #endregion
-        
+
         private void CreateSortListShopData()
         {
             _shopItemDataList = _staticDataService.LoadShopItemDataForType(ShopItemType.Crops).
                 OrderBy(x => x.PriceData.GoldAmount).ToList();
             AddContentPanel(_shopItemDataList, _cropsContentList);
+            CreateContentItem(_shopItemDataList, _cropsContentList);
             
             _shopItemUpgradeList = _staticDataService.LoadShopItemDataForType(ShopItemType.Upgrade).
                 OrderBy(x => x.PriceData.GoldAmount).ToList();
             AddContentPanel(_shopItemUpgradeList, _upgradeContentList);
-            print(_shopItemUpgradeList.Count);
+            CreateContentItem(_shopItemUpgradeList, _upgradeContentList);
         }
 
         private void AddContentPanel(List<ShopItemData> shopItemList, List<RectTransform> panelList)
@@ -107,8 +124,7 @@ namespace Code.UI.Windows.Shop.WindowElements
                     panelList.Add(panelWithContent);
                 }
             }
-
-            CreateContentItem(shopItemList);
+            
             AddOffsetPanel(panelList);
         }
 
@@ -124,7 +140,7 @@ namespace Code.UI.Windows.Shop.WindowElements
             }
         }
 
-        private void CreateContentItem(List<ShopItemData> dataList)
+        private void CreateContentItem(List<ShopItemData> dataList, List<RectTransform> contentList)
         {
             int lustIndex = 0;
                 
@@ -133,7 +149,7 @@ namespace Code.UI.Windows.Shop.WindowElements
                 if (i > 0 && i % _amountItemsOnPanel == 0) 
                     lustIndex++;
                 
-                ContentItem item = _uiFactory.CreateContentItem(_cropsContentList[lustIndex]);
+                ContentItem item = _uiFactory.CreateContentItem(contentList[lustIndex]);
                 item.Init(_shopService, dataList[i],_staticDataService.
                     GetGardenData(dataList[i].ProductType), _staticDataService.GetUpgradeData(dataList[i].UpgradeType));
                 item.SelectedItem += ShowInformAboutItem;
@@ -155,7 +171,7 @@ namespace Code.UI.Windows.Shop.WindowElements
             {
                 case NavigationMode.Forward:
                 {
-                    if (_currentIndexOpenPanel < _cropsContentList.Count - 1) 
+                    if (_currentIndexOpenPanel < sectionsList.Count - 1) 
                         SwipeAnimation(sectionsList,_backPanelPosition,nextIndex);
                     break;
                 }
@@ -167,7 +183,7 @@ namespace Code.UI.Windows.Shop.WindowElements
                 }
             }
             
-            CheckNavigationButtons();
+            CheckNavigationButtons(sectionsList);
         }
 
         private void SwipeAnimation(List<RectTransform> listPanels,Vector2 newPanelPosition,int index)
@@ -179,44 +195,48 @@ namespace Code.UI.Windows.Shop.WindowElements
             _currentIndexOpenPanel = index;
         }
 
-        private void CheckNavigationButtons()
+        private void CheckNavigationButtons(List<RectTransform> contentList)
         {
             if (_currentIndexOpenPanel == 0)
             {
                 _navigationButtons.ActiveLeftButton(false);
                 _navigationButtons.ActiveRightButton(true);
             }
-            if (_currentIndexOpenPanel == _cropsContentList.Count-1)
+            if (_currentIndexOpenPanel == contentList.Count-1)
             {
                 _navigationButtons.ActiveRightButton(false);
                 _navigationButtons.ActiveLeftButton(true);
             }
-            else if(_currentIndexOpenPanel > 0 && _currentIndexOpenPanel < _cropsContentList.Count-1)
+            if(_currentIndexOpenPanel > 0 && _currentIndexOpenPanel < contentList.Count-1)
             {
                 _navigationButtons.ActiveLeftButton(true);
                 _navigationButtons.ActiveRightButton(true);
             }
-        }
-
-        private void ChangeOpenedTabSection(ShopItemType shopItemType)
-        {
-            switch (shopItemType)
+            if(_currentIndexOpenPanel == 0 && contentList.Count == 1)
             {
-                case ShopItemType.Crops:
-                   ActivatedSelectedSection(_cropsContentList, _upgradeContentList);
-                    break;
-                case ShopItemType.Upgrade:
-                    ActivatedSelectedSection(_upgradeContentList, _cropsContentList);
-                    break;
+                _navigationButtons.ActiveLeftButton(false);
+                _navigationButtons.ActiveRightButton(false);
             }
         }
 
         private void ActivatedSelectedSection(List<RectTransform> activeSectionList, 
             List<RectTransform> deactivatedSectionList)
         {
+            ResetPositionPanel(activeSectionList);
             activeSectionList[0].gameObject.SetActive(true);
             foreach (RectTransform section in deactivatedSectionList) 
                 section.gameObject.SetActive(false);
+        }
+
+        private void ResetPositionPanel(List<RectTransform> activeSection)
+        {
+            for (int i = 0; i < activeSection.Count; i++)
+            {
+                if (i != 0) 
+                    activeSection[i].anchoredPosition = _originalPanelPosition + _nextPanelPosition;
+                else
+                    activeSection[i].anchoredPosition = _originalPanelPosition;
+            }
         }
 
         private void OnDestroy()

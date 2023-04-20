@@ -14,8 +14,7 @@ namespace Code.Management
         public event Action ProductPurchased;
         public event Action<GardenData> SoldGarden;
         public event Action<UpgradeItemData> SoldUpgrade;
-        public event Action SoldGridCells;
-        
+
         public void Init(IResourceService resourceRepository)
         {
             _resourceRepository = resourceRepository;

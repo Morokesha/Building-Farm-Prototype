@@ -17,6 +17,7 @@ namespace Code.Services.StaticDataServices
         private ResourceHolder _resourceHolder;
         private ShopItemDataHolder _shopItemDataHolder;
         private List<ShopItemData> _shopItemDataList;
+        private List<UpgradeItemData> _upgradeItemDataList;
         private GardenData _gardenData;
 
         public StaticDataService() => 
@@ -36,8 +37,9 @@ namespace Code.Services.StaticDataServices
             _resourceHolder = Resources.Load<ResourceHolder>(AssetPath.ResourceHolderPath);
             _shopItemDataHolder = Resources.Load<ShopItemDataHolder>(AssetPath.ShopItemDataHolderPath);
             _shopItemDataList = new List<ShopItemData>();
-            
+
             LoadShopItemData();
+            LoadUpgradeData();
         }
 
         private void LoadShopItemData()
@@ -46,12 +48,16 @@ namespace Code.Services.StaticDataServices
                 _shopItemDataList.Add(item);
         }
 
+        private void LoadUpgradeData() => 
+            _upgradeItemDataList = Resources.LoadAll<UpgradeItemData>(AssetPath.UpgradeDataPath).ToList();
+
         public List<ShopItemData> LoadShopItemDataForType(ShopItemType type) => 
             _shopItemDataList.Where(item => item.ShopItemType == type).ToList();
 
-        public UpgradeItemData GetUpgradeData(object upgradeType)
+        public UpgradeItemData GetUpgradeData(UpgradeType upgradeType)
         {
-            throw new System.NotImplementedException();
+            return _upgradeItemDataList.
+                FirstOrDefault(upgradeItemData => upgradeItemData.UpgradeType == upgradeType);
         }
     }
 }

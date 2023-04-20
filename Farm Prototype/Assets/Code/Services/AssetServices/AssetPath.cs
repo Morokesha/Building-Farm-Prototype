@@ -13,7 +13,9 @@ namespace Code.Services.AssetServices
         public const string GardenTypeHolderPath = "Data/GardenData/Holder/GardenTypeHolder";
         public const string ResourceHolderPath = "Data/ResourceData/ResourceHolder";
         public const string ShopItemDataHolderPath = "Data/ShopData/ShopItemHolder";
-        
+        public const string UpgradeDataPath = "Data/UpgradeData/";
+
+
         [Header("UI Templates")]
         public const string SelectedAreaWindowPath = "Template/UI/Selected Area Window";
         public const string ShopUIPath = "Template/UI/ShopUI";
