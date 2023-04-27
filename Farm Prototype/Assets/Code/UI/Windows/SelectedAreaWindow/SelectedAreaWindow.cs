@@ -1,6 +1,7 @@
 ﻿using Code.Common;
 using Code.GameLogic.Gardens;
 using Code.Management;
+using Code.Services.GardenHandlerService;
 using Code.UI.Windows.SelectedAreaWindow.WindowElements;
 using TMPro;
 using UnityEngine;
@@ -22,25 +23,22 @@ namespace Code.UI.Windows.SelectedAreaWindow
         
         [SerializeField] 
         private CanvasGroup _canvasGroup;
-        
+
+        private IGardenHandlerService _gardenHandlerService;
         private ConstructionBuilder _constructionBuilder;
         private Garden _garden;
-        
-        public void Init(ConstructionBuilder constructionBuilder)
+
+        public void Init(IGardenHandlerService gardenHandlerService,ConstructionBuilder constructionBuilder)
         {
+            _gardenHandlerService = gardenHandlerService;
             _constructionBuilder = constructionBuilder;
             _constructionBuilder.SelectedGarden += OnSelectedGarden;
             _interactiveButtons.Init();
+            _interactiveButtons.DemolitionGardenActivated += RemoveGarden;
             
             _backBtn.onClick.AddListener(HideWindow);
             
             HideWindow();
-        }
-
-        public void HideWindow()
-        {
-            _canvasGroup.SetActive(false);
-            _constructionBuilder.ClearSelectedGarden();
         }
 
         private void OnSelectedGarden(Garden garden)
@@ -53,8 +51,20 @@ namespace Code.UI.Windows.SelectedAreaWindow
             _processBar.UpdateProgressBar(_garden.GetGardenProduction());
         }
 
+        private void RemoveGarden()
+        {
+            _gardenHandlerService.RemoveGarden(_garden);
+            Destroy(_garden.gameObject);
+        }
+
         private void Show() => 
             _canvasGroup.SetActive(true);
+
+        public void HideWindow()
+        {
+            _canvasGroup.SetActive(false);
+            _constructionBuilder.ClearSelectedGarden();
+        }
 
         private void OnDestroy()
         {

@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gardenProduction: {fileID: 2887184902601566215}
+  _displayProductionAction: {fileID: 5969674564936162054}
 --- !u!114 &2887184902601566215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +446,7 @@ GameObject:
   - component: {fileID: 4936475306561999255}
   - component: {fileID: 9141507510328381325}
   - component: {fileID: 6010957785776559249}
+  - component: {fileID: 5969674564936162054}
   m_Layer: 5
   m_Name: DisplayProductionAction
   m_TagString: Untagged
@@ -536,6 +538,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5969674564936162054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2641261215863966085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdfd740eec647498ebecb64a2d9351f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _garden: {fileID: 4105783291280274869}
+  _wateringBtn: {fileID: 2098986551437382978}
+  _harvestingGoldBtn: {fileID: 5767898752987866051}
+  _harvestingSeedBtn: {fileID: 1095133741}
 --- !u!1 &3070060310666536303
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,7 +694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5994527657430640802
 RectTransform:
   m_ObjectHideFlags: 0

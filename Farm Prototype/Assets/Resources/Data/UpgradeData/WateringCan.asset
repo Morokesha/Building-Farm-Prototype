@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90ea196425b4da582572cdf98af419e, type: 3}
+  m_Name: WateringCan
+  m_EditorClassIdentifier: 
+  UpgradeType: 0
+  UpgradeStage: 0
+  SpriteImage: {fileID: 21300000, guid: 7f0de0f3c6723d2479d2fcb42c5de3e6, type: 3}
+  NameUpgrade: Watering can
+  DescriptionUpgrade: A watering can is a container with a spout used for watering
+    plants. It typically has a handle for easy pouring and comes in various sizes
+    and styles.
+  PriceData:
+    GoldAmount: 100
+    SeedAmount: 0

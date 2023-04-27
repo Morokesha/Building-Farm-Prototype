@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &658637479
 RectTransform:
   m_ObjectHideFlags: 0
@@ -412,7 +412,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1835470781
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1438,3 +1438,5 @@ MonoBehaviour:
   _goldTxt: {fileID: 1368372831775581256}
   _seedTxt: {fileID: 1368372831284949594}
   _shopMenuBtn: {fileID: 1368372832301895183}
+  _wateringAllBtn: {fileID: 1835470782}
+  _harvestingAllBtn: {fileID: 658637480}

@@ -1,14 +1,18 @@
 ﻿using Code.GameLogic;
+using Code.GameLogic.Gardens;
 using Code.Management;
 using Code.Services.AssetServices;
 using Code.Services.FactoryServices;
+using Code.Services.GardenHandlerService;
 using Code.Services.ProgressServices;
 using Code.Services.ResourceServices;
 using Code.Services.ShopServices;
 using Code.Services.StaticDataServices;
+using Code.Services.UpgradeServices;
 using Code.UI;
 using Code.UI.Windows.SelectedAreaWindow;
 using Code.UI.Windows.Shop;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Code.Core
@@ -22,6 +26,8 @@ namespace Code.Core
         private IGameFactory _gameFactory;
         private IResourceService _resourceService;
         private IShopService _shopService;
+        private IUpgradeService _upgradeService;
+        private IGardenHandlerService _gardenHandlerService;
 
         private ConstructionBuilder _constructionBuilder;
         private Controls _controls;
@@ -38,11 +44,15 @@ namespace Code.Core
             _constructionBuilder = Object.FindObjectOfType<ConstructionBuilder>();
             
             InitUI();
-
+            
             _shopService.Init(_resourceService);
             _controls.Init();
             _resourceService.Init(_progressDataService, _staticDataService.ResourceHolder);
-            _constructionBuilder.Init(_gameFactory,_resourceService,_controls,_shopService);
+            _upgradeService.Init(_shopService, _constructionBuilder, _hud);
+            _progressDataService.Init(_upgradeService);
+            _gardenHandlerService.Init(_hud);
+            _constructionBuilder.Init(_progressDataService,_gameFactory,_resourceService,_shopService,
+                _gardenHandlerService,_controls);
         }
 
         private void RegistrationService()
@@ -55,6 +65,8 @@ namespace Code.Core
             _resourceService = new ResourceRepository();
             _controls = new Controls();
             _shopService = new Shop();
+            _upgradeService = new UpgradeHandler();
+            _gardenHandlerService = new GardenHandler();
         }
 
         private void InitUI()
@@ -63,9 +75,9 @@ namespace Code.Core
             
             _shopWindow = _uiFactory.CreateShopUI(uiRoot);
             _selectedAreaWindow = _uiFactory.CreateGardenWindow(uiRoot); 
-            _uiFactory.CreateHud(_progressDataService,_shopWindow,_selectedAreaWindow,uiRoot);
+            _hud = _uiFactory.CreateHud(_progressDataService,_shopWindow,_selectedAreaWindow,uiRoot);
             
-            _selectedAreaWindow.Init(_constructionBuilder);
+            _selectedAreaWindow.Init(_gardenHandlerService,_constructionBuilder);
             _shopWindow.Init(_staticDataService,_shopService,_uiFactory,_constructionBuilder);
         }
     }

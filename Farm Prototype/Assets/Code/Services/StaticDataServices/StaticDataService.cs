@@ -3,7 +3,7 @@ using System.Linq;
 using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.Data.ShopData;
-using Code.Data.ShopData.UpgradeData;
+using Code.Data.UpgradeData;
 using Code.Services.AssetServices;
 using UnityEngine;
 
@@ -54,10 +54,10 @@ namespace Code.Services.StaticDataServices
         public List<ShopItemData> LoadShopItemDataForType(ShopItemType type) => 
             _shopItemDataList.Where(item => item.ShopItemType == type).ToList();
 
-        public UpgradeItemData GetUpgradeData(UpgradeType upgradeType)
+        public UpgradeItemData GetUpgradeData(UpgradeType upgradeType, UpgradeStage upgradeStage)
         {
-            return _upgradeItemDataList.
-                FirstOrDefault(upgradeItemData => upgradeItemData.UpgradeType == upgradeType);
+            return _upgradeItemDataList.FirstOrDefault
+                (upgradeData => upgradeData.UpgradeType == upgradeType && upgradeData.UpgradeStage == upgradeStage);
         }
     }
 }

@@ -77,7 +77,8 @@ namespace Code.GameLogic.Gardens
     public ResourceType GetHarvestingResourceType() => 
         _harvestingResourceType;
 
-    public ProductionState GetProductionState() => _productionState;
+    public ProductionState GetProductionState() => 
+        _productionState;
 
     private void SetCrops(Color color)
     {

@@ -618,7 +618,7 @@ MonoBehaviour:
   _wateringBtn: {fileID: 7548956467408711762}
   _harvestingGoldBtn: {fileID: 7548956466749845761}
   _harvestingSeedBtn: {fileID: 5117766492437693210}
-  _removeBtn: {fileID: 7548956467886048242}
+  _demolitionBtn: {fileID: 7548956467886048242}
   _goldText: {fileID: 7548956466737797693}
   _seedText: {fileID: 1941094402428981227}
   _growingText: {fileID: 7548956467360619167}

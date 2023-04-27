@@ -1,5 +1,6 @@
 using Code.Data.GardenData;
 using Code.Services.ResourceServices;
+using Code.UI;
 using UnityEngine;
 
 namespace Code.GameLogic.Gardens
@@ -10,6 +11,8 @@ namespace Code.GameLogic.Gardens
         
         [SerializeField]
         private GardenProduction _gardenProduction;
+        [SerializeField] 
+        private DisplayProductionAction _displayProductionAction;
 
         private IResourceService _resourceService;
         
@@ -26,6 +29,5 @@ namespace Code.GameLogic.Gardens
 
         public GardenProduction GetGardenProduction() => 
             _gardenProduction;
-
     }
 }

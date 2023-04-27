@@ -4,8 +4,11 @@ using Code.Data.GardenData;
 using Code.GameLogic;
 using Code.GameLogic.Gardens;
 using Code.Services.FactoryServices;
+using Code.Services.GardenHandlerService;
+using Code.Services.ProgressServices;
 using Code.Services.ResourceServices;
 using Code.Services.ShopServices;
+using Code.Services.UpgradeServices;
 using UnityEngine;
 
 namespace Code.Management
@@ -25,10 +28,13 @@ namespace Code.Management
         [SerializeField] private float _offsetX;
         [SerializeField] private float _offsetZ;
 
+        private IProgressDataService _progressDataService;
         private IGameFactory _gameFactory;
         private IShopService _shop;
         private IResourceService _resourceService;
-        
+        private IUpgradeService _upgradeService;
+        private IGardenHandlerService _gardenHandlerService;
+
         private ConstructionState _constructionState;
 
         private  List<GridSell> _listCells;
@@ -45,16 +51,21 @@ namespace Code.Management
         private Vector3 _createPos;
         private Vector3 _rowOffset;
         private Vector3 _gardenPosition;
-        
-        private readonly int _countCellPlanting = 3;
 
-        public void Init(IGameFactory gameFactory,IResourceService resourceService,
-            Controls controls,IShopService shop)
+        private const int NumberOfLoopCalls = 1;
+        private const int CountCellPlanting = 3;
+
+        public void Init(IProgressDataService progressDataService,IGameFactory gameFactory,
+            IResourceService resourceService,IShopService shop,IGardenHandlerService gardenHandlerService, 
+            Controls controls)
         {
             _gameFactory = gameFactory;
             _resourceService = resourceService;
             _controls = controls;
             _shop = shop;
+            _progressDataService = progressDataService;
+            _gardenHandlerService = gardenHandlerService;
+            _upgradeService = _progressDataService.GetUpgradeService;
         }
         
         private void Awake()
@@ -66,7 +77,7 @@ namespace Code.Management
             _startPosition = new Vector3(_offsetX,0f,_offsetZ);
             _createPos = _startPosition;
             
-            CreateCellForPlanting();
+            CreateCellForPlanting(NumberOfLoopCalls);
         }
 
         private void Start()
@@ -122,6 +133,8 @@ namespace Code.Management
             Garden createdGarden = _gameFactory.CreateGarden(_selectedCell.transform.position);
             createdGarden.Init(_resourceService,_activeGardenData);
             
+            _gardenHandlerService.AddGarden(createdGarden);
+            
             Destroy(_gardenAreaVisual.gameObject);
             
             _selectedCell.SetCellState(CellState.Occupied);
@@ -130,19 +143,22 @@ namespace Code.Management
             DeactivatedCellConstructionMode(BuildingState.None);
         }
 
-        private void CreateCellForPlanting()
+        private void CreateCellForPlanting(int numberOfLoopCalls)
         {
-            for (int i = 0; i < _countCellPlanting; i++)
+            for (int i = 0; i < numberOfLoopCalls; i++)
             {
-                _createdCells = _gameFactory.CreateCellForPlanting(_createPos,_containerForPlanting);
-                _createPos += new Vector3(-_offsetX,0f,0f);
-                _listCells.Add(_createdCells);
+                for (int j = 0; j < CountCellPlanting; j++)
+                {
+                    _createdCells = _gameFactory.CreateCellForPlanting(_createPos,_containerForPlanting);
+                    _createPos += new Vector3(-_offsetX,0f,0f);
+                    _listCells.Add(_createdCells);
+                }
+                _createPos = new Vector3(_startPosition.x, 0f, _createPos.z + _offsetZ);
             }
-            _createPos = new Vector3(_startPosition.x, 0f, _createPos.z + _offsetZ);
         }
 
-        private void ShopOnSoldGridCells() => 
-            CreateCellForPlanting();
+        public void AddGridCells(int numberOfLoopCalls) => 
+            CreateCellForPlanting(numberOfLoopCalls);
 
         private void ShopOnSoldGarden(GardenData gardenData)
         {
@@ -173,6 +189,7 @@ namespace Code.Management
         private void OnDestroy()
         {
             _shop.SoldGarden -= ShopOnSoldGarden;
+            _gardenHandlerService.ClearAll();
         }
     }
 }

@@ -1,13 +1,17 @@
-﻿using Code.Data.ResourceData;
+﻿using System;
+using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
 {
     public class GardenInteractiveButtons : MonoBehaviour
     {
+        public event Action DemolitionGardenActivated; 
+
         [SerializeField]
         private Button _wateringBtn;
         [SerializeField]
@@ -15,7 +19,7 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
         [SerializeField]
         private Button _harvestingSeedBtn;
         [SerializeField] 
-        private Button _removeBtn;
+        private Button _demolitionBtn;
 
         [SerializeField] 
         private TextMeshProUGUI _goldText;
@@ -31,6 +35,7 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
             _wateringBtn.onClick.AddListener(OnClickWatering);
             _harvestingGoldBtn.onClick.AddListener(OnClickGold);
             _harvestingSeedBtn.onClick.AddListener(OnClickSeed);
+            _demolitionBtn.onClick.AddListener(OnClickDemolition);
         }
 
         public void SetGardenProduction(GardenProduction gardenProduction)
@@ -65,6 +70,9 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
             _gardenProduction.Harvesting(ResourceType.Seed);
             Hide(_harvestingSeedBtn);
         }
+        
+        private void OnClickDemolition() => 
+            DemolitionGardenActivated?.Invoke();
 
         private void OnGardenProductionChangedState(ProductionState state)
         {

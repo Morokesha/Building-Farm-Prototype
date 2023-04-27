@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Code.Data.ShopData;
+using Code.Data.UpgradeData;
 using Code.Services.FactoryServices;
 using Code.Services.ShopServices;
 using Code.Services.StaticDataServices;
@@ -94,6 +95,8 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void ShowInformAboutItem(ShopItemData shopItemData) => 
             _informContainer.Show(shopItemData);
+        private void ShowInformAboutItem(UpgradeItemData upgradeItemData) => 
+            _informContainer.Show(upgradeItemData);
 
         private void HideInformAboutItem() => 
             _informContainer.Hide();
@@ -151,10 +154,14 @@ namespace Code.UI.Windows.Shop.WindowElements
                 
                 ContentItem item = _uiFactory.CreateContentItem(contentList[lustIndex]);
                 item.Init(_shopService, dataList[i],_staticDataService.
-                    GetGardenData(dataList[i].ProductType), _staticDataService.GetUpgradeData(dataList[i].UpgradeType));
+                    GetGardenData(dataList[i].ProductType));
                 item.SelectedItem += ShowInformAboutItem;
+                item.SelectedUpgradeItem += ShowInformAboutItem;
                 item.DeselectedItem += HideInformAboutItem;
 
+                if (dataList[i].ShopItemType == ShopItemType.Upgrade)
+                    item.SetUpgradeData(_staticDataService.GetUpgradeData(dataList[i].UpgradeType, 0));
+                
                 _contentItems.Add(item);
             }
         }
@@ -244,6 +251,7 @@ namespace Code.UI.Windows.Shop.WindowElements
             foreach (ContentItem item in _contentItems)
             {
                 item.SelectedItem -= ShowInformAboutItem;
+                item.SelectedUpgradeItem -= ShowInformAboutItem;
                 item.DeselectedItem -= HideInformAboutItem;
             }
         }

@@ -1,8 +1,9 @@
 ﻿using System;
 using Code.Data.GardenData;
 using Code.Data.ShopData;
-using Code.Data.ShopData.UpgradeData;
+using Code.Data.UpgradeData;
 using Code.Services.ShopServices;
+using Code.Services.StaticDataServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,6 +14,7 @@ namespace Code.UI.Windows.Shop.WindowElements
     public class ContentItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public event Action<ShopItemData> SelectedItem; 
+        public event Action<UpgradeItemData> SelectedUpgradeItem; 
         public event Action DeselectedItem;
 
         [SerializeField] 
@@ -27,20 +29,20 @@ namespace Code.UI.Windows.Shop.WindowElements
         [SerializeField] 
         private Button _itemBtn;
 
+        private IStaticDataService _staticDataService;
         private IShopService _shopService;
         private ShopItemData _shopItemData;
         private GardenData _gardenData;
         private UpgradeItemData _upgradeData;
 
-        public void Init(IShopService shopService,ShopItemData shopItemData,GardenData gardenData, 
-            UpgradeItemData upgradeData)
+        public void Init(IShopService shopService,
+            ShopItemData shopItemData,GardenData gardenData)
         {
             _shopService = shopService;
             _shopItemData = shopItemData;
             _gardenData = gardenData;
-            _upgradeData = upgradeData;
 
-            FillWithContent();
+            FullInItemWithContent();
             ActiveBackgroundOutline(false);
 
             _itemBtn.onClick.AddListener(BuyProduct);
@@ -49,7 +51,11 @@ namespace Code.UI.Windows.Shop.WindowElements
         public void OnPointerEnter(PointerEventData eventData)
         {
             ActiveBackgroundOutline(true);
-            SelectedItem?.Invoke(_shopItemData);
+
+            if (_shopItemData.ShopItemType == ShopItemType.Crops) 
+                SelectedItem?.Invoke(_shopItemData);
+            else
+                SelectedUpgradeItem?.Invoke(_upgradeData);
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -58,7 +64,21 @@ namespace Code.UI.Windows.Shop.WindowElements
             DeselectedItem?.Invoke();
         }
 
-        private void FillWithContent()
+        public void SetUpgradeData(UpgradeItemData upgradeItemData)
+        {
+            _upgradeData = upgradeItemData;
+            UpdateContentItem(_upgradeData);
+        }
+
+        private void UpdateContentItem(UpgradeItemData upgradeItemData)
+        {
+            _nameItem.text = upgradeItemData.NameUpgrade;
+            _logoItem.sprite = upgradeItemData.SpriteImage;
+            _cost.text = upgradeItemData.PriceData.GoldAmount + " Gold "
+                                                              + upgradeItemData.PriceData.SeedAmount + " Seed";
+        }
+
+        private void FullInItemWithContent()
         {
             _nameItem.text = _shopItemData.NameItem;
             _logoItem.sprite = _shopItemData.Logo;
@@ -71,11 +91,14 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void BuyProduct()
         {
-            if (_shopItemData.ShopItemType == ShopItemType.Crops) 
-                _shopService.BuyGarden(_shopItemData, _gardenData);
-            if (_shopItemData.ShopItemType == ShopItemType.Upgrade)
+            switch (_shopItemData.ShopItemType)
             {
-                _shopService.BuyUpgrade(_shopItemData,_upgradeData);
+                case ShopItemType.Crops:
+                    _shopService.BuyGarden(_shopItemData, _gardenData);
+                    break;
+                case ShopItemType.Upgrade:
+                    _shopService.BuyUpgrade(_shopItemData, _upgradeData);
+                    break;
             }
         }
 

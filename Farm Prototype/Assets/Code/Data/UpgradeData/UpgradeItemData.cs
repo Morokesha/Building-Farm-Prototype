@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Code.Data.ShopData;
+using UnityEngine;
 
-namespace Code.Data.ShopData.UpgradeData
+namespace Code.Data.UpgradeData
 {
     [CreateAssetMenu(menuName = "Data/UpgradeData/UpgradeItemData", order = 0)]
     public class UpgradeItemData : ScriptableObject
@@ -9,8 +10,11 @@ namespace Code.Data.ShopData.UpgradeData
         public UpgradeStage UpgradeStage;
 
         public Sprite SpriteImage;
+        public string NameUpgrade;
+        
         [Space(4)]
         [Header("Information Text")]
+        [TextArea]
         public string DescriptionUpgrade;
         [Header("Price Data")]
         public PriceData PriceData;
@@ -28,7 +32,6 @@ namespace Code.Data.ShopData.UpgradeData
     {
         First,
         Second,
-        Third,
-        Fourth
+        Third
     }
 }

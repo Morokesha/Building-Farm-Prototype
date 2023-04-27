@@ -1,5 +1,6 @@
 ﻿using Code.Common;
 using Code.Data.ShopData;
+using Code.Data.UpgradeData;
 using TMPro;
 using UnityEngine;
 
@@ -23,6 +24,12 @@ namespace Code.UI.Windows.Shop.WindowElements
             SetDescription(shopItemData);
         }
 
+        public void Show(UpgradeItemData upgradeItemData)
+        {
+            _canvasGroup.SetActive(true);
+            SetDescription(upgradeItemData);
+        }
+
         public void Hide() => 
             _canvasGroup.SetActive(false);
 
@@ -30,6 +37,11 @@ namespace Code.UI.Windows.Shop.WindowElements
         {
             _nameItem.SetText(itemData.NameItem);
             _informationArea.SetText(itemData.InformationAboutItem);
+        }
+        private void SetDescription(UpgradeItemData upgradeItemData)
+        {
+            _nameItem.SetText(upgradeItemData.NameUpgrade);
+            _informationArea.SetText(upgradeItemData.DescriptionUpgrade);
         }
     }
 }

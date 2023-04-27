@@ -15,7 +15,7 @@ MonoBehaviour:
   ProductType: 0
   ShopItemType: 1
   UpgradeType: 2
-  Logo: {fileID: 21300000, guid: dbd4f076c570f424d9c310351e1cd353, type: 3}
+  Logo: {fileID: 21300000, guid: da1aa81606a299743a5317dbf9008efc, type: 3}
   NameItem: Scrythe
   InformationAboutItem: 
   PriceData:

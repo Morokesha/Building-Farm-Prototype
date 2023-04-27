@@ -1,7 +1,7 @@
 ﻿using System;
 using Code.Data.GardenData;
 using Code.Data.ShopData;
-using Code.Data.ShopData.UpgradeData;
+using Code.Data.UpgradeData;
 using Code.Services.ResourceServices;
 
 namespace Code.Services.ShopServices

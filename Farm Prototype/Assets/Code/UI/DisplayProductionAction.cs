@@ -1,5 +1,7 @@
 ﻿using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
+using Code.Services.ProgressServices;
+using Code.Services.UpgradeServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,19 +10,21 @@ namespace Code.UI
     public class DisplayProductionAction : MonoBehaviour
     {
         [SerializeField] 
-        private Garden _garden;
-        [SerializeField] 
         private Button _wateringBtn;
         [SerializeField] 
         private Button _harvestingGoldBtn;
         [SerializeField]
         private Button _harvestingSeedBtn;
-        
+
+        private IProgressDataService _progressDataService;
+        private IUpgradeService _upgradeService;
         private GardenProduction _gardenProduction;
 
-        private void Start()
+        public void Init(IProgressDataService progressDataService,GardenProduction gardenProduction)
         {
-            _gardenProduction = _garden.GetGardenProduction();
+            _progressDataService = progressDataService;
+            _upgradeService = _progressDataService.GetUpgradeService;
+            _gardenProduction = gardenProduction;
             _gardenProduction.ProductionStateChanged += OnProductionStateChanged;
             
             _wateringBtn.onClick.AddListener(OnWateringClick);
@@ -51,14 +55,20 @@ namespace Code.UI
             switch (productionState)
             {
                 case ProductionState.WaitWatering:
-                    ActiveButton(_wateringBtn, true);
+                    if (_upgradeService.FirstWateringUpgradeActivated) 
+                        ActiveButton(_wateringBtn, true);
+                    
                     break;
                 case ProductionState.CompleteGrowth:
                 {
-                    if (_gardenProduction.GetHarvestingResourceType() == ResourceType.Gold)
-                        ActiveButton(_harvestingGoldBtn, true);
-                    if (_gardenProduction.GetHarvestingResourceType() == ResourceType.Seed)
-                        ActiveButton(_harvestingSeedBtn, true);
+                    if (_upgradeService.FirstHarvestingUpgradeActivated)
+                    {
+                        if (_gardenProduction.GetHarvestingResourceType() == ResourceType.Gold)
+                            ActiveButton(_harvestingGoldBtn, true);
+                        if (_gardenProduction.GetHarvestingResourceType() == ResourceType.Seed)
+                            ActiveButton(_harvestingSeedBtn, true);
+                    }
+                    
                     break;
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Services.UpgradeServices;
 
 namespace Code.Services.ProgressServices
 {
@@ -6,9 +7,15 @@ namespace Code.Services.ProgressServices
     {
         public event Action<int> GoldChanged;
         public event Action<int> SeedChanged;
-        
+        public IUpgradeService GetUpgradeService => _upgradeService;
+
         private int _gold;
         private int _seed;
+        private IUpgradeService _upgradeService;
+
+
+        public void Init(IUpgradeService upgradeService) => 
+            _upgradeService = upgradeService;
 
         public void AddGold(int amount)
         {

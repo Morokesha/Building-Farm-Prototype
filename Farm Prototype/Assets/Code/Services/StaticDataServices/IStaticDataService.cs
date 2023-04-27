@@ -2,7 +2,7 @@
 using Code.Data.GardenData;
 using Code.Data.ResourceData;
 using Code.Data.ShopData;
-using Code.Data.ShopData.UpgradeData;
+using Code.Data.UpgradeData;
 
 namespace Code.Services.StaticDataServices
 {
@@ -11,6 +11,6 @@ namespace Code.Services.StaticDataServices
         public ResourceHolder ResourceHolder { get; }
         public GardenData GetGardenData(ProductType type);
         public List<ShopItemData> LoadShopItemDataForType(ShopItemType type);
-        UpgradeItemData GetUpgradeData(UpgradeType upgradeType);
+        public UpgradeItemData GetUpgradeData(UpgradeType upgradeType, UpgradeStage upgradeStage);
     }
 }

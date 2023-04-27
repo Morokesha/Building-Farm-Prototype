@@ -1,5 +1,5 @@
 ﻿using Code.Data.GardenData;
-using Code.Data.ShopData.UpgradeData;
+using Code.Data.UpgradeData;
 using UnityEngine;
 
 namespace Code.Data.ShopData
