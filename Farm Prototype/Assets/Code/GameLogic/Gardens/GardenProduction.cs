@@ -45,11 +45,14 @@ namespace Code.GameLogic.Gardens
             
             _growingTime = _gardenData.TimeGrowing; 
             _percentDropSeed = _gardenData.DropData.SeedDropChance;
-            
-            SetCrops(_gardenData.colorCrops); 
         }
 
-    private void Update()
+        private void Start()
+        {
+            SetCrops(_gardenData.colorCrops);
+        }
+
+        private void Update()
     {
         if (_productionState == ProductionState.Growing && _growingTimer <= _growingTime)
             GrowingCycle();
@@ -82,9 +85,9 @@ namespace Code.GameLogic.Gardens
 
     private void SetCrops(Color color)
     {
-        _cropsVisual.SetActive(true);
         SetProductionState(ProductionState.WaitWatering);
-        
+        _cropsVisual.SetActive(true);
+
         MeshRenderer[] meshCrops = _cropsVisual.GetComponentsInChildren<MeshRenderer>();
         foreach (MeshRenderer meshCrop in meshCrops)
             meshCrop.material.color = color;

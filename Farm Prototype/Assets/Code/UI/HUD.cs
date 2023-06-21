@@ -15,7 +15,8 @@ namespace Code.UI
     public class HUD : MonoBehaviour
     {
         public event Action ClickWateringAll; 
-        public event Action ClickHarvestingAll; 
+        public event Action ClickHarvestingAll;
+        public event Action ClickCancel; 
 
         [SerializeField]
         private TextMeshProUGUI _goldTxt;
@@ -29,11 +30,14 @@ namespace Code.UI
         private Button _wateringAllBtn;
         [SerializeField]
         private Button _harvestingAllBtn;
+        [SerializeField] 
+        private Button _cancelBtn;
 
         private ShopWindow _shopWindow;
         private SelectedAreaWindow _selectedAreaWindow;
 
         private IProgressDataService _progressDataService;
+        private IUpgradeService _upgradeService;
 
         private ResourceHolder _resourceHolder;
 
@@ -50,10 +54,35 @@ namespace Code.UI
             
             _progressDataService.GoldChanged += OnGoldChanged;
             _progressDataService.SeedChanged += OnSeedChanged;
-            
+
             _shopMenuBtn.onClick.AddListener(ShowShopMenu);
             _wateringAllBtn.onClick.AddListener(OnClickWateringAll);
             _harvestingAllBtn.onClick.AddListener(OnClickHarvestingAll);
+            _cancelBtn.onClick.AddListener(OnClickCancel);
+        }
+
+        private void Start()
+        {
+            ActiveCancelBtn(false);
+
+            _upgradeService = _progressDataService.GetUpgradeService;
+            _upgradeService.SecondWateringUpgradeActivated += ActiveWateringAllBtn;
+            _upgradeService.SecondHarvestingUpgradeActivated += ActiveHarvestingAllBtn;
+        }
+
+        public void ActiveCancelBtn(bool active) => 
+            _cancelBtn.gameObject.SetActive(active);
+
+        private void ActiveHarvestingAllBtn() => 
+            _harvestingAllBtn.gameObject.SetActive(true);
+
+        private void ActiveWateringAllBtn() => 
+            _wateringAllBtn.gameObject.SetActive(true);
+
+        private void OnClickCancel()
+        {
+            ClickCancel?.Invoke();
+            ActiveCancelBtn(false);
         }
 
         private void OnGoldChanged(int amount) => 
@@ -61,11 +90,6 @@ namespace Code.UI
 
         private void OnSeedChanged(int amount) => 
             _seedTxt.SetText(amount.ToString());
-
-        private void Start()
-        {
-            CheckActiveUpgrades();
-        }
 
         private void ShowShopMenu()
         {
@@ -78,15 +102,8 @@ namespace Code.UI
 
         private void OnClickWateringAll() => 
             ClickWateringAll?.Invoke();
-
-        private void CheckActiveUpgrades()
-        {
-            if (_progressDataService.GetUpgradeService.SecondWateringUpgradeActivated)
-                _wateringAllBtn.gameObject.SetActive(true);
-            if (_progressDataService.GetUpgradeService.SecondHarvestingUpgradeActivated)
-                _harvestingAllBtn.gameObject.SetActive(true);
-        }
         
+
         private void OnDestroy()
         {
             _shopMenuBtn.onClick.RemoveListener(ShowShopMenu);
@@ -95,6 +112,9 @@ namespace Code.UI
             
             _progressDataService.GoldChanged -= OnGoldChanged;
             _progressDataService.SeedChanged -= OnSeedChanged;
+            
+            _upgradeService.SecondWateringUpgradeActivated -= ActiveWateringAllBtn;
+            _upgradeService.SecondHarvestingUpgradeActivated -= ActiveHarvestingAllBtn;
         }
     }
 }

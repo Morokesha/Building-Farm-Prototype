@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Code.Data.GardenData;
+using Code.Data.ShopData;
 using Code.GameLogic;
 using Code.GameLogic.Gardens;
 using Code.Services.FactoryServices;
@@ -9,6 +10,7 @@ using Code.Services.ProgressServices;
 using Code.Services.ResourceServices;
 using Code.Services.ShopServices;
 using Code.Services.UpgradeServices;
+using Code.UI;
 using UnityEngine;
 
 namespace Code.Management
@@ -39,9 +41,11 @@ namespace Code.Management
 
         private  List<GridSell> _listCells;
         private GardenData _activeGardenData;
+        private ShopItemData _activeShopItemData;
         private Garden _selectedGarden;
         private GardenAreaVisual _gardenAreaVisual;
 
+        private HUD _hud;
         private Controls _controls;
 
         private GridSell _createdCells;
@@ -56,16 +60,17 @@ namespace Code.Management
         private const int CountCellPlanting = 3;
 
         public void Init(IProgressDataService progressDataService,IGameFactory gameFactory,
-            IResourceService resourceService,IShopService shop,IGardenHandlerService gardenHandlerService, 
+            IResourceService resourceService,IShopService shop,IGardenHandlerService gardenHandlerService, HUD hud,
             Controls controls)
         {
             _gameFactory = gameFactory;
             _resourceService = resourceService;
-            _controls = controls;
             _shop = shop;
             _progressDataService = progressDataService;
             _gardenHandlerService = gardenHandlerService;
             _upgradeService = _progressDataService.GetUpgradeService;
+            _hud = hud;
+            _controls = controls;
         }
         
         private void Awake()
@@ -83,6 +88,7 @@ namespace Code.Management
         private void Start()
         {
             _shop.SoldGarden += ShopOnSoldGarden;
+            _hud.ClickCancel += OnClickCancel;
         }
 
         private void Update()
@@ -95,6 +101,12 @@ namespace Code.Management
                 SelectGarden();
         }
 
+        private void OnClickCancel()
+        {
+            ClearGardenAreaVisual();
+            DeactivatedCellConstructionMode(BuildingState.None);
+        }
+
         public void ClearSelectedGarden() => 
             _selectedGarden = null;
 
@@ -104,7 +116,7 @@ namespace Code.Management
         public void ClearGardenAreaVisual()
         {
             SetConstructionState(ConstructionState.Select);
-            Destroy(_gardenAreaVisual);
+            Destroy(_gardenAreaVisual.gameObject);
         }
 
         private void UpdateGardenVisualPosition()
@@ -116,9 +128,13 @@ namespace Code.Management
         private void BuiltGarden()
         {
             _selectedCell = _controls.GetGridCell();
-            if (_gardenAreaVisual != null)
-                if (_selectedCell != null && _selectedCell.GetGridCellState() == CellState.Free)
-                    CreateGardenOnCell();
+            if (_gardenAreaVisual != null && _selectedCell != null
+                                          && _selectedCell.GetGridCellState() == CellState.Free)
+            {
+                CreateGardenOnCell();
+                _resourceService.SpendResources(_activeShopItemData.PriceData);
+                _hud.ActiveCancelBtn(false);
+            }
         }
 
         private void SelectGarden()
@@ -131,7 +147,7 @@ namespace Code.Management
         private void CreateGardenOnCell()
         {
             Garden createdGarden = _gameFactory.CreateGarden(_selectedCell.transform.position);
-            createdGarden.Init(_resourceService,_activeGardenData);
+            createdGarden.Init(_progressDataService.GetUpgradeService,_resourceService,_activeGardenData);
             
             _gardenHandlerService.AddGarden(createdGarden);
             
@@ -160,9 +176,12 @@ namespace Code.Management
         public void AddGridCells(int numberOfLoopCalls) => 
             CreateCellForPlanting(numberOfLoopCalls);
 
-        private void ShopOnSoldGarden(GardenData gardenData)
+        private void ShopOnSoldGarden(GardenData gardenData,ShopItemData shopItemData)
         {
             _activeGardenData = gardenData;
+            _activeShopItemData = shopItemData;
+            _hud.ActiveCancelBtn(true);
+            
             _gardenAreaVisual = _gameFactory.CreateGardenAreaVisual
                 (_controls.GetMouseToWorldPosition());
             
@@ -174,8 +193,11 @@ namespace Code.Management
         {
             foreach (var cell in _listCells)
             {
-                if (cell.GetGridCellState() == CellState.Free) 
-                    cell.SetBuildingState(state);
+                if (cell.GetGridCellState() == CellState.Free)
+                {
+                    cell.SetBuildingState(state); 
+                    cell.ActiveVisualCell(true);
+                } 
             }
         }
 
@@ -183,7 +205,10 @@ namespace Code.Management
         {
             foreach (var cell in _listCells)
                 if (state == BuildingState.None)
+                {
                     cell.SetBuildingState(state);
+                    cell.ActiveVisualCell(false);
+                }
         }
 
         private void OnDestroy()

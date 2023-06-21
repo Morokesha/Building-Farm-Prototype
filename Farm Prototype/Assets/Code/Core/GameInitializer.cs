@@ -48,11 +48,11 @@ namespace Code.Core
             _shopService.Init(_resourceService);
             _controls.Init();
             _resourceService.Init(_progressDataService, _staticDataService.ResourceHolder);
-            _upgradeService.Init(_shopService, _constructionBuilder, _hud);
+            _upgradeService.Init(_shopService, _constructionBuilder);
             _progressDataService.Init(_upgradeService);
             _gardenHandlerService.Init(_hud);
             _constructionBuilder.Init(_progressDataService,_gameFactory,_resourceService,_shopService,
-                _gardenHandlerService,_controls);
+                _gardenHandlerService,_hud,_controls);
         }
 
         private void RegistrationService()

@@ -24,13 +24,13 @@ namespace Code.Management
         public void AddGold(DropData dropData)
         {
             _goldAmount += dropData.GoldAmount;
-            _progressDataService.AddGold(_goldAmount);
+            _progressDataService.GoldenChanged(_goldAmount);
         }
 
         public void AddSeed(DropData dropData)
         {
             _seedAmount += dropData.SeedAmount;
-            _progressDataService.AddSeed(_seedAmount);
+            _progressDataService.SeedResourceChanged(_seedAmount);
         }
 
         public void SpendResources(PriceData priceData)
@@ -41,9 +41,9 @@ namespace Code.Management
             _progressDataService.SpendResources(_goldAmount,_seedAmount);
         }
 
-        public bool CanAfford(PriceData dropData)
+        public bool CanAfford(PriceData priceData)
         {
-            if (_goldAmount >= dropData.GoldAmount && _seedAmount >= dropData.SeedAmount)
+            if (_goldAmount >= priceData.GoldAmount && _seedAmount >= priceData.SeedAmount)
                 return true;
             
             return false;
@@ -52,9 +52,9 @@ namespace Code.Management
         private void StartingResources()
         {
             _goldAmount = _resourceHolder.StartResource.GoldAmount;
-            _progressDataService.AddGold(_goldAmount);
+            _progressDataService.GoldenChanged(_goldAmount);
             _seedAmount = _resourceHolder.StartResource.SeedAmount;
-            _progressDataService.AddSeed(_seedAmount);
+            _progressDataService.SeedResourceChanged(_seedAmount);
         }
     }
 }

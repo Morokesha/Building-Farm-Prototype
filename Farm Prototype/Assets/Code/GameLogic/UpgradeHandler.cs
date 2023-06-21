@@ -10,44 +10,57 @@ namespace Code.GameLogic
 {
     public class UpgradeHandler: IUpgradeService
     {
-        public bool FirstWateringUpgradeActivated => _firstWateringUpdate;
-        public bool SecondWateringUpgradeActivated => _secondWateringUpdate;
-        public bool FirstHarvestingUpgradeActivated => _firstHarvestingUpgrade;
-        public bool SecondHarvestingUpgradeActivated => _secondHarvestingUpgrade;
-        public bool DemolitionUpgradeActivated => _demolitionUpgradeActivated;
+        public event Action FirstWateringUpgradeActivated;
+        public event Action SecondWateringUpgradeActivated;
+        public event Action FirstHarvestingUpgradeActivated;
+        public event Action SecondHarvestingUpgradeActivated;
+
+        public bool ShovelUpgradeActivated => _shovelUpgradeActivated;
 
         private IShopService _shopService;
         private UpgradeItemData _upgradeItemData;
         private ConstructionBuilder _constructionBuilder;
-        private HUD _hud;
-
-        private bool _firstWateringUpdate;
-        private bool _secondWateringUpdate;
-        private bool _firstHarvestingUpgrade;
-        private bool _secondHarvestingUpgrade;
-        private bool _demolitionUpgradeActivated;
         
-        public void Init(IShopService shopService, ConstructionBuilder constructionBuilder,HUD hud)
+        private bool _shovelUpgradeActivated;
+        
+        public void Init(IShopService shopService, ConstructionBuilder constructionBuilder)
         {
             _shopService = shopService;
             _constructionBuilder = constructionBuilder;
-            _hud = hud;
-            
+
             _shopService.SoldUpgrade += OnSoldUpgrade; 
         }
 
-        private void OnSoldUpgrade(UpgradeItemData data) => 
+        private void OnSoldUpgrade(UpgradeItemData data)
+        {
             _upgradeItemData = data;
+
+            switch (_upgradeItemData.UpgradeType)
+            {
+                case UpgradeType.Watering:
+                    ActivateWateringUpgrade();
+                    break;
+                case UpgradeType.Harvesting:
+                    ActivateHarvestingUpgrade();
+                    break;
+                case UpgradeType.Expansion:
+                    ExpandUpgrade();
+                    break;
+                case UpgradeType.Shovel:
+                    ActivateShovelUpgrade();
+                    break;
+            }
+        }
 
         private void ActivateWateringUpgrade()
         {
             switch (_upgradeItemData.UpgradeStage)
             {
                 case UpgradeStage.First:
-                    _firstWateringUpdate = true;
+                    FirstWateringUpgradeActivated!.Invoke();
                     break;
                 case UpgradeStage.Second:
-                    _secondWateringUpdate = true;
+                    SecondWateringUpgradeActivated?.Invoke();
                     break;
             }
         }
@@ -57,15 +70,16 @@ namespace Code.GameLogic
             switch (_upgradeItemData.UpgradeStage)
             {
                 case UpgradeStage.First:
-                    _firstHarvestingUpgrade = true;
+                    FirstHarvestingUpgradeActivated?.Invoke();
                     break;
                 case UpgradeStage.Second:
-                    _secondHarvestingUpgrade = true;
+                    
+                    SecondHarvestingUpgradeActivated?.Invoke();
                     break;
             }
         }
         
-        private void ExpansionTerritory()
+        private void ExpandUpgrade()
         {
             switch (_upgradeItemData.UpgradeStage)
             {
@@ -81,7 +95,7 @@ namespace Code.GameLogic
             }
         }
 
-        private void ActivateDemolitionUpgrade() => 
-            _demolitionUpgradeActivated = true;
+        private void ActivateShovelUpgrade() => 
+            _shovelUpgradeActivated = true;
     }
 }

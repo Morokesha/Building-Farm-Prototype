@@ -25,7 +25,7 @@ namespace Code.Data.UpgradeData
         Watering,
         Harvesting,
         Expansion,
-        Demolition
+        Shovel
     }
     
     public enum UpgradeStage

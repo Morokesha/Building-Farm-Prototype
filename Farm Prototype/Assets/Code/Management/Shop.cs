@@ -12,7 +12,7 @@ namespace Code.Management
         private IResourceService _resourceRepository;
 
         public event Action ProductPurchased;
-        public event Action<GardenData> SoldGarden;
+        public event Action<GardenData,ShopItemData> SoldGarden;
         public event Action<UpgradeItemData> SoldUpgrade;
 
         public void Init(IResourceService resourceRepository)
@@ -24,8 +24,7 @@ namespace Code.Management
         {
             if (_resourceRepository.CanAfford(shopItemData.PriceData))
             {
-                _resourceRepository.SpendResources(shopItemData.PriceData);
-                SoldGarden?.Invoke(gardenData);
+                SoldGarden?.Invoke(gardenData,shopItemData);
                 ProductPurchased?.Invoke();
             }
         }

@@ -31,11 +31,6 @@ namespace Code.GameLogic.Gardens
             SetBuildingState(BuildingState.None);
         }
 
-        private void Update()
-        {
-            ActivatedConstructionMode();
-        }
-
         public void SetCellState(CellState state) => 
             _cellState = state;
 
@@ -45,24 +40,19 @@ namespace Code.GameLogic.Gardens
         public CellState GetGridCellState() => 
             _cellState;
 
+        public void ActiveVisualCell(bool active) => 
+            _transparentSurface.SetActive(active);
+
         private void ActivatedFrame()
         {
             if (_buildingState == BuildingState.WaitBuilt || 
                 _cellState == CellState.Occupied && _buildingState == BuildingState.None) 
                 _frame.SetActive(true);
         }
-        
+
         private void DeactivatedFrame()
         {
             _frame.SetActive(false);
-        }
-
-        private void ActivatedConstructionMode()
-        {
-            if (_cellState == CellState.Free && _buildingState == BuildingState.WaitBuilt)
-                _transparentSurface.SetActive(true);
-            else
-                _transparentSurface.SetActive(false);
         }
 
         private void OnMouseEnter()

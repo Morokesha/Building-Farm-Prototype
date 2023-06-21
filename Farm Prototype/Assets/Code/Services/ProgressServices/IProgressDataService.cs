@@ -9,8 +9,8 @@ namespace Code.Services.ProgressServices
         public event Action<int> SeedChanged;
         IUpgradeService GetUpgradeService { get;}
         void Init(IUpgradeService upgradeService);
-        void AddGold(int amount);
-        void AddSeed(int amount);
+        void GoldenChanged(int amount);
+        void SeedResourceChanged(int amount);
         void SpendResources(int gold, int seed);
     }
 }

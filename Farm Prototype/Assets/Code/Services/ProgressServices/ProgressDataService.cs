@@ -17,24 +17,24 @@ namespace Code.Services.ProgressServices
         public void Init(IUpgradeService upgradeService) => 
             _upgradeService = upgradeService;
 
-        public void AddGold(int amount)
+        public void GoldenChanged(int amount)
         {
-            _gold += amount;
+            _gold = amount;
             GoldChanged?.Invoke(_gold);
         }
 
-        public void AddSeed(int amount)
+        public void SeedResourceChanged(int amount)
         {
-            _seed += amount;
+            _seed = amount;
             SeedChanged?.Invoke(_seed);
         }
 
         public void SpendResources(int gold, int seed)
         {
-            _gold -= gold;
+            _gold = gold;
             GoldChanged?.Invoke(_gold);
             
-            _seed -= seed;
+            _seed = seed;
             SeedChanged?.Invoke(_seed);
         }
     }
