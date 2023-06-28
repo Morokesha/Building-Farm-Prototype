@@ -2,6 +2,8 @@
 using Code.GameLogic.Gardens;
 using Code.Management;
 using Code.Services.GardenHandlerService;
+using Code.Services.ProgressServices;
+using Code.Services.UpgradeServices;
 using Code.UI.Windows.SelectedAreaWindow.WindowElements;
 using TMPro;
 using UnityEngine;
@@ -25,15 +27,19 @@ namespace Code.UI.Windows.SelectedAreaWindow
         private CanvasGroup _canvasGroup;
 
         private IGardenHandlerService _gardenHandlerService;
+        private IProgressDataService _progressService;
         private ConstructionBuilder _constructionBuilder;
         private Garden _garden;
 
-        public void Init(IGardenHandlerService gardenHandlerService,ConstructionBuilder constructionBuilder)
+        public void Init(IGardenHandlerService gardenHandlerService,IProgressDataService progressService,
+            ConstructionBuilder constructionBuilder)
         {
             _gardenHandlerService = gardenHandlerService;
+            _progressService = progressService;
             _constructionBuilder = constructionBuilder;
             _constructionBuilder.SelectedGarden += OnSelectedGarden;
-            _interactiveButtons.Init();
+            
+            _interactiveButtons.Init(_progressService);
             _interactiveButtons.DemolitionGardenActivated += RemoveGarden;
             
             _backBtn.onClick.AddListener(HideWindow);

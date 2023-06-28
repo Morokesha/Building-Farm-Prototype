@@ -11,6 +11,7 @@ namespace Code.Services.StaticDataServices
         public ResourceHolder ResourceHolder { get; }
         public GardenData GetGardenData(ProductType type);
         public List<ShopItemData> LoadShopItemDataForType(ShopItemType type);
+        public ShopItemData GetShopItemDataForUpgrade(UpgradeType type);
         public UpgradeItemData GetUpgradeData(UpgradeType upgradeType, UpgradeStage upgradeStage);
     }
 }

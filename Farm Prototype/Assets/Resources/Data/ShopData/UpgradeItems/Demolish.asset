@@ -15,9 +15,9 @@ MonoBehaviour:
   ProductType: 0
   ShopItemType: 1
   UpgradeType: 3
-  Logo: {fileID: 21300000, guid: 4882a1252e3d7ef469218585c131aa6d, type: 3}
-  NameItem: Demolish
-  InformationAboutItem: 
+  Sprite: {fileID: 21300000, guid: 4882a1252e3d7ef469218585c131aa6d, type: 3}
+  NameItem: Shovel
+  InformationAboutItem: Remove Garden
   PriceData:
     GoldAmount: 400
     SeedAmount: 0

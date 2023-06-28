@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProductType: 7
   ShopItemType: 0
-  Logo: {fileID: 21300000, guid: a029943a452ba644ab1b0477298e10f1, type: 3}
+  UpgradeType: 0
+  Sprite: {fileID: 21300000, guid: a029943a452ba644ab1b0477298e10f1, type: 3}
   NameItem: Carrot
   InformationAboutItem: Carrots are root vegetables that are typically orange in
     color and are high in vitamins and fiber. They are commonly eaten raw or cooked

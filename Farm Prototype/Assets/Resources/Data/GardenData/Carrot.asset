@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b403cbce43574afdbc3eed24c1ca8660, type: 3}
   m_Name: Carrot
   m_EditorClassIdentifier: 
-  ProductType: 8
+  ProductType: 7
   colorCrops: {r: 0.7924528, g: 0.340365, b: 0.056069765, a: 1}
   NameGarden: Carrot
   TimeGrowing: 15

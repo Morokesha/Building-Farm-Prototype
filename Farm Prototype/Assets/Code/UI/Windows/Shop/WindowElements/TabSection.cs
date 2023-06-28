@@ -6,6 +6,7 @@ using Code.Data.UpgradeData;
 using Code.Services.FactoryServices;
 using Code.Services.ShopServices;
 using Code.Services.StaticDataServices;
+using Code.Services.UpgradeServices;
 using UnityEngine;
 using DG.Tweening;
 using ShopItemData = Code.Data.ShopData.ShopItemData;
@@ -31,29 +32,32 @@ namespace Code.UI.Windows.Shop.WindowElements
         private IUIFactory _uiFactory;
         private IShopService _shopService;
         private IStaticDataService _staticDataService;
+        private IUpgradeService _upgradeService;
 
         private List<ShopItemData> _shopItemDataList;
         private List<ShopItemData> _shopItemUpgradeList;
         private List<ContentItem> _contentItems;
-        private List<RectTransform> _cropsContentList;
-        private List<RectTransform> _upgradeContentList;
+        private List<RectTransform> _cropsContentPanelList;
+        private List<RectTransform> _upgradeContentPanelList;
 
         private ShopItemType _shopItemType;
 
         private int _currentIndexOpenPanel;
         private readonly int _amountItemsOnPanel = 6;
 
-        public void Init(IStaticDataService staticDataService,IUIFactory uiFactory,IShopService shopService)
+        public void Init(IStaticDataService staticDataService,IUIFactory uiFactory,IShopService shopService,
+            IUpgradeService upgradeService)
         {
             _staticDataService = staticDataService;
             _uiFactory = uiFactory;
             _shopService = shopService;
+            _upgradeService = upgradeService;
             
             _shopItemDataList = new List<ShopItemData>();
             _shopItemUpgradeList = new List<ShopItemData>();
             _contentItems = new List<ContentItem>();
-            _cropsContentList = new List<RectTransform>();
-            _upgradeContentList = new List<RectTransform>();
+            _cropsContentPanelList = new List<RectTransform>();
+            _upgradeContentPanelList = new List<RectTransform>();
 
             CreateSortListShopData();
         }
@@ -61,8 +65,40 @@ namespace Code.UI.Windows.Shop.WindowElements
         private void Start()
         {
             _navigationButtons.OnClickNavigation += OnOnClickNavigation;
+            
+            _upgradeService.FirstWateringUpgradeActivated += OnFirstWateringUpgradeActivated;
+            _upgradeService.FirstHarvestingUpgradeActivated += OnFirstHarvestingUpgradeActivated;
+            _upgradeService.SecondWateringUpgradeActivated += OnSecondWateringUpgradeActivated;
+            _upgradeService.SecondHarvestingUpgradeActivated += OnSecondHarvestingUpgradeActivated;
+            _upgradeService.FirstExpansionUpgradeActivated += OnFirstExpansionUpgradeActivated;
+            _upgradeService.SecondExpansionUpgradeActivated += OnSecondExpansionUpgradeActivated;
+            _upgradeService.ActivatedShovel += OnActivatedShovel;
+            
             ChangeOpenedTabSection(_shopItemType);
         }
+
+        private void OnFirstWateringUpgradeActivated() => 
+            ChangeContentItem(UpgradeType.Watering, UpgradeStage.Second);
+
+        private void OnFirstHarvestingUpgradeActivated() => 
+            ChangeContentItem(UpgradeType.Harvesting, UpgradeStage.Second);
+
+        private void OnSecondWateringUpgradeActivated(ContentItem contentItem) => 
+            contentItem.Hide();
+
+        private void OnSecondHarvestingUpgradeActivated(ContentItem contentItem) => 
+            contentItem.Hide();
+
+        private void OnFirstExpansionUpgradeActivated()
+        {
+            ChangeContentItem(UpgradeType.Expansion,UpgradeStage.Second);
+        }
+        
+        private void OnSecondExpansionUpgradeActivated(ContentItem contentItem) => 
+            contentItem.Hide();
+
+        private void OnActivatedShovel(ContentItem contentItem) => 
+            contentItem.Hide();
 
         public void ActiveShopSection(ShopItemType shopItemType)
         {
@@ -76,22 +112,20 @@ namespace Code.UI.Windows.Shop.WindowElements
             switch (shopItemType)
             {
                 case ShopItemType.Crops:
-                    ActivatedSelectedSection(_cropsContentList, _upgradeContentList);
-                    CheckNavigationButtons(_cropsContentList);
+                    ActivatedSelectedSection(_cropsContentPanelList, _upgradeContentPanelList);
+                    CheckNavigationButtons(_cropsContentPanelList);
                     break;
                 case ShopItemType.Upgrade:
-                    ActivatedSelectedSection(_upgradeContentList, _cropsContentList);
-                    CheckNavigationButtons(_upgradeContentList);
+                    ActivatedSelectedSection(_upgradeContentPanelList, _cropsContentPanelList);
+                    CheckNavigationButtons(_upgradeContentPanelList);
                     break;
             }
         }
 
         #region Events Methods
 
-        private void OnOnClickNavigation(NavigationMode navigationMode)
-        {
+        private void OnOnClickNavigation(NavigationMode navigationMode) => 
             PanelSwipeAnimation(navigationMode);
-        }
 
         private void ShowInformAboutItem(ShopItemData shopItemData) => 
             _informContainer.Show(shopItemData);
@@ -107,13 +141,13 @@ namespace Code.UI.Windows.Shop.WindowElements
         {
             _shopItemDataList = _staticDataService.LoadShopItemDataForType(ShopItemType.Crops).
                 OrderBy(x => x.PriceData.GoldAmount).ToList();
-            AddContentPanel(_shopItemDataList, _cropsContentList);
-            CreateContentItem(_shopItemDataList, _cropsContentList);
+            AddContentPanel(_shopItemDataList, _cropsContentPanelList);
+            CreateContentItem(_shopItemDataList, _cropsContentPanelList);
             
             _shopItemUpgradeList = _staticDataService.LoadShopItemDataForType(ShopItemType.Upgrade).
                 OrderBy(x => x.PriceData.GoldAmount).ToList();
-            AddContentPanel(_shopItemUpgradeList, _upgradeContentList);
-            CreateContentItem(_shopItemUpgradeList, _upgradeContentList);
+            AddContentPanel(_shopItemUpgradeList, _upgradeContentPanelList);
+            CreateContentItem(_shopItemUpgradeList, _upgradeContentPanelList);
         }
 
         private void AddContentPanel(List<ShopItemData> shopItemList, List<RectTransform> panelList)
@@ -156,13 +190,30 @@ namespace Code.UI.Windows.Shop.WindowElements
                 item.Init(_shopService, dataList[i],_staticDataService.
                     GetGardenData(dataList[i].ProductType));
                 item.SelectedItem += ShowInformAboutItem;
-                item.SelectedUpgradeItem += ShowInformAboutItem;
                 item.DeselectedItem += HideInformAboutItem;
 
                 if (dataList[i].ShopItemType == ShopItemType.Upgrade)
-                    item.SetUpgradeData(_staticDataService.GetUpgradeData(dataList[i].UpgradeType, 0));
-                
+                {
+                    item.SetUpgradeData(_staticDataService.GetUpgradeData(dataList[i].UpgradeType,UpgradeStage.First));
+                    item.SelectedUpgradeItem += ShowInformAboutItem;
+                }
+
                 _contentItems.Add(item);
+            }
+        }
+
+        private void ChangeContentItem(UpgradeType type, UpgradeStage stage)
+        {
+            foreach (var item in _contentItems)
+            {
+                if (item.GetUpgradeItemData != null && item.GetUpgradeItemData.UpgradeType == type)
+                {
+                    foreach (var dataItem in _shopItemUpgradeList)
+                        if (dataItem.UpgradeType == type)
+                            item.SetUpgradeData(_staticDataService.GetUpgradeData(type, stage));
+                    item.SelectedUpgradeItem -= ShowInformAboutItem;
+                    item.SelectedUpgradeItem += ShowInformAboutItem;
+                }
             }
         }
 
@@ -172,7 +223,7 @@ namespace Code.UI.Windows.Shop.WindowElements
             int prevIndex = _currentIndexOpenPanel - 1;
 
             List<RectTransform> sectionsList = _shopItemType == ShopItemType.Crops ? 
-                _cropsContentList : _upgradeContentList;
+                _cropsContentPanelList : _upgradeContentPanelList;
             
             switch (navigationMode)
             {
@@ -248,6 +299,11 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void OnDestroy()
         {
+            _upgradeService.FirstWateringUpgradeActivated -= OnFirstWateringUpgradeActivated;
+            _upgradeService.FirstHarvestingUpgradeActivated -= OnFirstHarvestingUpgradeActivated;
+            _upgradeService.SecondWateringUpgradeActivated -= OnSecondWateringUpgradeActivated;
+            _upgradeService.SecondHarvestingUpgradeActivated -= OnSecondHarvestingUpgradeActivated;
+            
             foreach (ContentItem item in _contentItems)
             {
                 item.SelectedItem -= ShowInformAboutItem;

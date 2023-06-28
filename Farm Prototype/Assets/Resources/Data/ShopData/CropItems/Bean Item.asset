@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProductType: 8
   ShopItemType: 0
-  Logo: {fileID: 21300000, guid: f95f02912f3ba72469bc9c398a3f64f4, type: 3}
+  UpgradeType: 0
+  Sprite: {fileID: 21300000, guid: f95f02912f3ba72469bc9c398a3f64f4, type: 3}
   NameItem: Bean
   InformationAboutItem: Beans are a type of legume that come in a variety of colors
     and sizes. They are a good source of protein and fiber, and can be cooked and

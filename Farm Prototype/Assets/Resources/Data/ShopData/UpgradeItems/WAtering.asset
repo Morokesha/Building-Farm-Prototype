@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8ecccddc0f44962b8da6d6ae3af455a, type: 3}
-  m_Name: WAtering
+  m_Name: Watering
   m_EditorClassIdentifier: 
   ProductType: 0
   ShopItemType: 1
   UpgradeType: 0
-  Logo: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 7f0de0f3c6723d2479d2fcb42c5de3e6, type: 3}
   NameItem: Watering Can
-  InformationAboutItem: A vessel for watering plants. Watering can is the simplest
-    tool for drip irrigation. Modern drip and micro-drip irrigation systems are more
-    complex, but also more efficient
+  InformationAboutItem: A watering can is a container with a spout used for watering
+    plants. It typically has a handle for easy pouring and comes in various sizes
+    and styles.
   PriceData:
     GoldAmount: 100
     SeedAmount: 0

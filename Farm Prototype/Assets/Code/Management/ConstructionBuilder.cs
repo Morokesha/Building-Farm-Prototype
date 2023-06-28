@@ -30,11 +30,10 @@ namespace Code.Management
         [SerializeField] private float _offsetX;
         [SerializeField] private float _offsetZ;
 
-        private IProgressDataService _progressDataService;
+        private IProgressDataService _progressService;
         private IGameFactory _gameFactory;
         private IShopService _shop;
         private IResourceService _resourceService;
-        private IUpgradeService _upgradeService;
         private IGardenHandlerService _gardenHandlerService;
 
         private ConstructionState _constructionState;
@@ -59,16 +58,17 @@ namespace Code.Management
         private const int NumberOfLoopCalls = 1;
         private const int CountCellPlanting = 3;
 
-        public void Init(IProgressDataService progressDataService,IGameFactory gameFactory,
+        private static LayerMask _layerGarden;
+        private static LayerMask _layerSell;
+        public void Init(IProgressDataService progressService,IGameFactory gameFactory,
             IResourceService resourceService,IShopService shop,IGardenHandlerService gardenHandlerService, HUD hud,
             Controls controls)
         {
             _gameFactory = gameFactory;
             _resourceService = resourceService;
             _shop = shop;
-            _progressDataService = progressDataService;
+            _progressService = progressService;
             _gardenHandlerService = gardenHandlerService;
-            _upgradeService = _progressDataService.GetUpgradeService;
             _hud = hud;
             _controls = controls;
         }
@@ -76,7 +76,9 @@ namespace Code.Management
         private void Awake()
         {
             _constructionState = ConstructionState.Select;
-            
+
+            _layerSell = 1 << LayerMask.NameToLayer("Cell");
+            _layerGarden = 1 << LayerMask.NameToLayer("Garden");
             _listCells = new List<GridSell>();
             
             _startPosition = new Vector3(_offsetX,0f,_offsetZ);
@@ -127,7 +129,7 @@ namespace Code.Management
 
         private void BuiltGarden()
         {
-            _selectedCell = _controls.GetGridCell();
+            _selectedCell = _controls.GetRaycastGridSell(_layerSell);
             if (_gardenAreaVisual != null && _selectedCell != null
                                           && _selectedCell.GetGridCellState() == CellState.Free)
             {
@@ -139,7 +141,7 @@ namespace Code.Management
 
         private void SelectGarden()
         {
-            _selectedGarden = _controls.GetGarden();
+            _selectedGarden = _controls.GetRaycastGarden(_layerGarden);
             if (_selectedGarden != null) 
                 SelectedGarden?.Invoke(_selectedGarden);
         }
@@ -147,7 +149,7 @@ namespace Code.Management
         private void CreateGardenOnCell()
         {
             Garden createdGarden = _gameFactory.CreateGarden(_selectedCell.transform.position);
-            createdGarden.Init(_progressDataService.GetUpgradeService,_resourceService,_activeGardenData);
+            createdGarden.Init(_progressService,_resourceService,_activeGardenData);
             
             _gardenHandlerService.AddGarden(createdGarden);
             

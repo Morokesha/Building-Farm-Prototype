@@ -4,24 +4,24 @@ using Code.Management;
 using Code.Services.ShopServices;
 using Code.Services.UpgradeServices;
 using Code.UI;
+using Code.UI.Windows.Shop.WindowElements;
 using UnityEngine;
 
 namespace Code.GameLogic
 {
-    public class UpgradeHandler: IUpgradeService
+    public class  UpgradeHandler: IUpgradeService
     {
         public event Action FirstWateringUpgradeActivated;
-        public event Action SecondWateringUpgradeActivated;
+        public event Action<ContentItem> SecondWateringUpgradeActivated;
         public event Action FirstHarvestingUpgradeActivated;
-        public event Action SecondHarvestingUpgradeActivated;
-
-        public bool ShovelUpgradeActivated => _shovelUpgradeActivated;
-
+        public event Action<ContentItem> SecondHarvestingUpgradeActivated;
+        public event Action FirstExpansionUpgradeActivated;
+        public event Action<ContentItem> SecondExpansionUpgradeActivated;
+        public event Action<ContentItem> ActivatedShovel;
+        
         private IShopService _shopService;
         private UpgradeItemData _upgradeItemData;
         private ConstructionBuilder _constructionBuilder;
-        
-        private bool _shovelUpgradeActivated;
         
         public void Init(IShopService shopService, ConstructionBuilder constructionBuilder)
         {
@@ -31,41 +31,41 @@ namespace Code.GameLogic
             _shopService.SoldUpgrade += OnSoldUpgrade; 
         }
 
-        private void OnSoldUpgrade(UpgradeItemData data)
+        private void OnSoldUpgrade(UpgradeItemData data,ContentItem contentItem)
         {
             _upgradeItemData = data;
 
             switch (_upgradeItemData.UpgradeType)
             {
                 case UpgradeType.Watering:
-                    ActivateWateringUpgrade();
+                    ActivateWateringUpgrade(contentItem);
                     break;
                 case UpgradeType.Harvesting:
-                    ActivateHarvestingUpgrade();
+                    ActivateHarvestingUpgrade(contentItem);
                     break;
                 case UpgradeType.Expansion:
-                    ExpandUpgrade();
+                    ExpandUpgrade(contentItem);
                     break;
                 case UpgradeType.Shovel:
-                    ActivateShovelUpgrade();
+                    ActivateShovelUpgrade(contentItem);
                     break;
             }
         }
 
-        private void ActivateWateringUpgrade()
+        private void ActivateWateringUpgrade(ContentItem contentItem)
         {
             switch (_upgradeItemData.UpgradeStage)
             {
                 case UpgradeStage.First:
-                    FirstWateringUpgradeActivated!.Invoke();
+                    FirstWateringUpgradeActivated?.Invoke();
                     break;
                 case UpgradeStage.Second:
-                    SecondWateringUpgradeActivated?.Invoke();
+                    SecondWateringUpgradeActivated?.Invoke(contentItem);
                     break;
             }
         }
 
-        private void ActivateHarvestingUpgrade()
+        private void ActivateHarvestingUpgrade(ContentItem contentItem)
         {
             switch (_upgradeItemData.UpgradeStage)
             {
@@ -74,28 +74,27 @@ namespace Code.GameLogic
                     break;
                 case UpgradeStage.Second:
                     
-                    SecondHarvestingUpgradeActivated?.Invoke();
+                    SecondHarvestingUpgradeActivated?.Invoke(contentItem);
                     break;
             }
         }
         
-        private void ExpandUpgrade()
+        private void ExpandUpgrade(ContentItem contentItem)
         {
             switch (_upgradeItemData.UpgradeStage)
             {
-                case UpgradeStage.First :
+                case UpgradeStage.First:
                     _constructionBuilder.AddGridCells(1);
+                    FirstExpansionUpgradeActivated?.Invoke();
                     break;
                 case UpgradeStage.Second :
-                    _constructionBuilder.AddGridCells(1);
-                    break;
-                case UpgradeStage.Third:
                     _constructionBuilder.AddGridCells(2);
+                    SecondExpansionUpgradeActivated?.Invoke(contentItem);
                     break;
             }
         }
 
-        private void ActivateShovelUpgrade() => 
-            _shovelUpgradeActivated = true;
+        private void ActivateShovelUpgrade(ContentItem contentItem) => 
+            ActivatedShovel?.Invoke(contentItem);
     }
 }

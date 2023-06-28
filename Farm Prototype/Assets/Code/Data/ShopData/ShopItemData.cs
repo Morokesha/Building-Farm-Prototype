@@ -1,6 +1,7 @@
 ﻿using Code.Data.GardenData;
 using Code.Data.UpgradeData;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.Data.ShopData
 {
@@ -12,7 +13,7 @@ namespace Code.Data.ShopData
     public UpgradeType UpgradeType;
 
     [Header("DisplayData")] 
-    public Sprite Logo;
+    public Sprite Sprite;
 
     public string NameItem;
     [Space(4)]

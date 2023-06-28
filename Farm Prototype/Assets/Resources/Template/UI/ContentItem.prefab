@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 2805362705808192840}
   - component: {fileID: 2805362705808192823}
   - component: {fileID: 4264335626371419285}
+  - component: {fileID: -6795214644585907396}
   m_Layer: 5
   m_Name: ContentItem
   m_TagString: Untagged
@@ -493,6 +494,19 @@ MonoBehaviour:
   _logoItem: {fileID: 2805362705267144146}
   _backgroundOutline: {fileID: 5342175241409767729}
   _itemBtn: {fileID: 2805362705808192823}
+  _canvasGroup: {fileID: -6795214644585907396}
+--- !u!225 &-6795214644585907396
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2805362705808192821}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8634593179171125371
 GameObject:
   m_ObjectHideFlags: 0

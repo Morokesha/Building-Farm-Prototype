@@ -2,6 +2,7 @@
 using Code.Services.FactoryServices;
 using Code.Services.ShopServices;
 using Code.Services.StaticDataServices;
+using Code.Services.UpgradeServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,21 +24,22 @@ namespace Code.UI.Windows.Shop.WindowElements
         private IStaticDataService _staticDataService;
         private IUIFactory _uiFactory;
         private IShopService _shopService;
-
-
-        public void Init(IStaticDataService staticDataService, IUIFactory uiFactory, IShopService shopService)
+        private IUpgradeService _upgradeService;
+        
+        public void Init(IStaticDataService staticDataService, IUIFactory uiFactory, IShopService shopService, 
+            IUpgradeService upgradeService)
         {
             _staticDataService = staticDataService;
             _uiFactory = uiFactory;
             _shopService = shopService;
+            _upgradeService = upgradeService;
 
-            _tabSection.Init(_staticDataService,_uiFactory,_shopService);
+            _tabSection.Init(_staticDataService,_uiFactory,_shopService, _upgradeService);
             _tabSection.ActiveShopSection(ShopItemType.Crops);
             
             _cropsBtn.onClick.AddListener(OnCropClick);
             _upgradeBtn.onClick.AddListener(OnUpgradeClick);
         }
-
 
         private void OnCropClick() =>
             _tabSection.ActiveShopSection(ShopItemType.Crops);

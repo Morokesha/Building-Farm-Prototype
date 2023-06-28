@@ -12,7 +12,6 @@ using Code.Services.UpgradeServices;
 using Code.UI;
 using Code.UI.Windows.SelectedAreaWindow;
 using Code.UI.Windows.Shop;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Code.Core
@@ -75,10 +74,10 @@ namespace Code.Core
             
             _shopWindow = _uiFactory.CreateShopUI(uiRoot);
             _selectedAreaWindow = _uiFactory.CreateGardenWindow(uiRoot); 
+            _selectedAreaWindow.Init(_gardenHandlerService,_progressDataService,_constructionBuilder);
             _hud = _uiFactory.CreateHud(_progressDataService,_shopWindow,_selectedAreaWindow,uiRoot);
             
-            _selectedAreaWindow.Init(_gardenHandlerService,_constructionBuilder);
-            _shopWindow.Init(_staticDataService,_shopService,_uiFactory,_constructionBuilder);
+            _shopWindow.Init(_staticDataService,_shopService,_uiFactory,_upgradeService,_constructionBuilder);
         }
     }
 }

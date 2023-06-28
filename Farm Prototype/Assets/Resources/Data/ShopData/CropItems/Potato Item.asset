@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProductType: 1
   ShopItemType: 0
-  Logo: {fileID: 21300000, guid: 1715542e8907edd4f9740abaf17f14b0, type: 3}
+  UpgradeType: 0
+  Sprite: {fileID: 21300000, guid: 1715542e8907edd4f9740abaf17f14b0, type: 3}
   NameItem: Potato
   InformationAboutItem: Potatoes are a starchy root vegetable that are a staple in
     many cuisines around the world. They can be boiled, fried, mashed, or baked and

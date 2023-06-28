@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Auto Watering
   m_EditorClassIdentifier: 
   UpgradeType: 0
-  UpgradeStage: 1
-  SpriteImage: {fileID: 21300000, guid: 15c9688eb1c8e4643914701953e4b821, type: 3}
+  UpgradeStage: 0
+  SpriteImage: {fileID: 21300000, guid: 7f0de0f3c6723d2479d2fcb42c5de3e6, type: 3}
   NameUpgrade: Auto Watering
   DescriptionUpgrade: Auto Watering
   PriceData:

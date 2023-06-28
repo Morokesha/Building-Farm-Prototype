@@ -1,4 +1,5 @@
 using Code.Data.GardenData;
+using Code.Services.ProgressServices;
 using Code.Services.ResourceServices;
 using Code.Services.UpgradeServices;
 using Code.UI;
@@ -15,20 +16,20 @@ namespace Code.GameLogic.Gardens
         [SerializeField] 
         private DisplayProductionAction _displayProductionAction;
 
-        private IUpgradeService _upgradeService;
+        private IProgressDataService _progressService;
         private IResourceService _resourceService;
 
         private GardenData _gardenData;
 
-        public void Init(IUpgradeService upgradeService, IResourceService resourceService,
+        public void Init(IProgressDataService progressService, IResourceService resourceService,
             GardenData gardenData)
         {
-            _upgradeService = upgradeService;
+            _progressService = progressService;
             _resourceService = resourceService;
             _gardenData = gardenData;
 
             _gardenProduction.Init(_resourceService, _gardenData);
-            _displayProductionAction.Init(upgradeService,_gardenProduction);
+            _displayProductionAction.Init(_progressService,_gardenProduction);
         }
 
         public GardenProduction GetGardenProduction() => 

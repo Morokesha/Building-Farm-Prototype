@@ -3,6 +3,7 @@ using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
 using Code.Services.ProgressServices;
 using Code.Services.UpgradeServices;
+using Code.UI.Windows.Shop.WindowElements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,20 +18,23 @@ namespace Code.UI
         [SerializeField]
         private Button _harvestingSeedBtn;
         
-        private IUpgradeService _upgradeService;
+        private IProgressDataService _progressService;
         private GardenProduction _gardenProduction;
         
-        public void Init(IUpgradeService upgradeService,GardenProduction gardenProduction)
+        public void Init(IProgressDataService progressService,GardenProduction gardenProduction)
         {
-            _upgradeService = upgradeService;
+            _progressService = progressService;
             _gardenProduction = gardenProduction;
+            
             _gardenProduction.ProductionStateChanged += OnProductionStateChanged;
-            _upgradeService.FirstWateringUpgradeActivated += ActiveWateringInteraction;
-            _upgradeService.FirstHarvestingUpgradeActivated += ActiveHarvestingInteraction;
+            _progressService.GetUpgradeService.FirstWateringUpgradeActivated += ActiveWateringInteraction;
+            _progressService.GetUpgradeService.FirstHarvestingUpgradeActivated += ActiveHarvestingInteraction;
 
             _wateringBtn.onClick.AddListener(OnWateringClick);
             _harvestingGoldBtn.onClick.AddListener(OnHarvestingGoldClick);
             _harvestingSeedBtn.onClick.AddListener(OnHarvestingSeedClick);
+            
+            CheckUpgrade();
         }
 
         private void ActiveHarvestingInteraction()
@@ -84,6 +88,17 @@ namespace Code.UI
             ActiveButton(_wateringBtn, false);
         }
 
+        private void CheckUpgrade()
+        {
+            if (_progressService.InteractionWateringActivated) 
+                ActivateBtnInteraction(_wateringBtn);
+            if (_progressService.InteractionHarvestingActivated)
+            {
+                ActivateBtnInteraction(_harvestingGoldBtn);
+                ActivateBtnInteraction(_harvestingSeedBtn);
+            }
+        }
+
         private void ActiveButton(Button button,bool active) => 
             button.gameObject.SetActive(active);
 
@@ -103,8 +118,8 @@ namespace Code.UI
             _harvestingSeedBtn.onClick.RemoveListener(OnHarvestingSeedClick);
             
             _gardenProduction.ProductionStateChanged -= OnProductionStateChanged;
-            _upgradeService.FirstHarvestingUpgradeActivated -= ActiveWateringInteraction;
-            _upgradeService.SecondHarvestingUpgradeActivated -= ActiveHarvestingInteraction;
+            _progressService.GetUpgradeService.FirstHarvestingUpgradeActivated -= ActiveWateringInteraction;
+            _progressService.GetUpgradeService.FirstWateringUpgradeActivated -= ActiveHarvestingInteraction;
         }
     }
 }

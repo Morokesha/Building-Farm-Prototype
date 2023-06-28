@@ -1,9 +1,10 @@
 ﻿using System;
 using Code.Data.ResourceData;
 using Code.GameLogic.Gardens;
+using Code.Services.ProgressServices;
+using Code.Services.UpgradeServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
@@ -19,7 +20,7 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
         [SerializeField]
         private Button _harvestingSeedBtn;
         [SerializeField] 
-        private Button _demolitionBtn;
+        private Button _shovelBtn;
 
         [SerializeField] 
         private TextMeshProUGUI _goldText;
@@ -28,14 +29,19 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
         [SerializeField] 
         private TextMeshProUGUI _growingText;
         
+        private IProgressDataService _progressService;
         private GardenProduction _gardenProduction;
 
-        public void Init()
+        public void Init(IProgressDataService progressService)
         {
+            _progressService = progressService;
+            
             _wateringBtn.onClick.AddListener(OnClickWatering);
             _harvestingGoldBtn.onClick.AddListener(OnClickGold);
             _harvestingSeedBtn.onClick.AddListener(OnClickSeed);
-            _demolitionBtn.onClick.AddListener(OnClickDemolition);
+            _shovelBtn.onClick.AddListener(OnClickDemolition);
+            
+            CheckShovelUpgrade();
         }
 
         public void SetGardenProduction(GardenProduction gardenProduction)
@@ -124,6 +130,12 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
             Hide(_harvestingGoldBtn);
             Hide(_harvestingSeedBtn);
             _growingText.gameObject.SetActive(false);
+        }
+
+        private void CheckShovelUpgrade()
+        {
+            if (_progressService.ShovelActivated) 
+                Show(_shovelBtn);
         }
 
         private void OnDestroy()

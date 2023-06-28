@@ -37,6 +37,7 @@ namespace Code.Services.StaticDataServices
             _resourceHolder = Resources.Load<ResourceHolder>(AssetPath.ResourceHolderPath);
             _shopItemDataHolder = Resources.Load<ShopItemDataHolder>(AssetPath.ShopItemDataHolderPath);
             _shopItemDataList = new List<ShopItemData>();
+            _upgradeItemDataList = new List<UpgradeItemData>();
 
             LoadShopItemData();
             LoadUpgradeData();
@@ -54,10 +55,12 @@ namespace Code.Services.StaticDataServices
         public List<ShopItemData> LoadShopItemDataForType(ShopItemType type) => 
             _shopItemDataList.Where(item => item.ShopItemType == type).ToList();
 
-        public UpgradeItemData GetUpgradeData(UpgradeType upgradeType, UpgradeStage upgradeStage)
-        {
-            return _upgradeItemDataList.FirstOrDefault
+        public ShopItemData GetShopItemDataForUpgrade(UpgradeType type) =>
+            _shopItemDataList.FirstOrDefault
+                (upgradeData => upgradeData.UpgradeType == type);
+        public UpgradeItemData GetUpgradeData(UpgradeType upgradeType, UpgradeStage upgradeStage) =>
+            _upgradeItemDataList.FirstOrDefault
                 (upgradeData => upgradeData.UpgradeType == upgradeType && upgradeData.UpgradeStage == upgradeStage);
-        }
+
     }
 }

@@ -15,9 +15,10 @@ MonoBehaviour:
   ProductType: 0
   ShopItemType: 1
   UpgradeType: 2
-  Logo: {fileID: 21300000, guid: da1aa81606a299743a5317dbf9008efc, type: 3}
-  NameItem: Scrythe
-  InformationAboutItem: 
+  Sprite: {fileID: 21300000, guid: da1aa81606a299743a5317dbf9008efc, type: 3}
+  NameItem: Expand I
+  InformationAboutItem: Makes it possible to install an additional 3 cells for planting
+    vegetable gardens
   PriceData:
     GoldAmount: 400
     SeedAmount: 0

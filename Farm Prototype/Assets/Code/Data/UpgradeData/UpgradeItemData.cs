@@ -32,6 +32,5 @@ namespace Code.Data.UpgradeData
     {
         First,
         Second,
-        Third
     }
 }

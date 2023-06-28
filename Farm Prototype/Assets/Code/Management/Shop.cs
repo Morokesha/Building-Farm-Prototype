@@ -4,6 +4,7 @@ using Code.Data.ShopData;
 using Code.Data.UpgradeData;
 using Code.Services.ResourceServices;
 using Code.Services.ShopServices;
+using Code.UI.Windows.Shop.WindowElements;
 
 namespace Code.Management
 {
@@ -13,7 +14,7 @@ namespace Code.Management
 
         public event Action ProductPurchased;
         public event Action<GardenData,ShopItemData> SoldGarden;
-        public event Action<UpgradeItemData> SoldUpgrade;
+        public event Action<UpgradeItemData,ContentItem> SoldUpgrade;
 
         public void Init(IResourceService resourceRepository)
         {
@@ -29,12 +30,12 @@ namespace Code.Management
             }
         }
 
-        public void BuyUpgrade(ShopItemData shopItemData, UpgradeItemData upgradeData)
+        public void BuyUpgrade(UpgradeItemData upgradeData,ContentItem contentItem)
         {
-            if (_resourceRepository.CanAfford(shopItemData.PriceData))
+            if (_resourceRepository.CanAfford(upgradeData.PriceData))
             {
-                _resourceRepository.SpendResources(shopItemData.PriceData);
-                SoldUpgrade?.Invoke(upgradeData);
+                _resourceRepository.SpendResources(upgradeData.PriceData);
+                SoldUpgrade?.Invoke(upgradeData,contentItem);
                 ProductPurchased?.Invoke();
             }
         }

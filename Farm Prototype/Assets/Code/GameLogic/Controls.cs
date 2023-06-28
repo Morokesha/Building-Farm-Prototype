@@ -10,34 +10,38 @@ namespace Code.GameLogic
         private GridSell _gridCell;
         private Garden _raycastGarden;
 
-        public void Init() =>
+        public void Init() => 
             _camera = Camera.main;
 
-        public GridSell GetGridCell()
+        public GridSell GetRaycastGridSell(LayerMask mask)
         {
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            GridSell gridSellRaycast = null;
+            var hit = Hittable(mask, out var hits);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                if (hit.collider.TryGetComponent(out GridSell gridCell))
-                {
-                    _gridCell = gridCell;
-                }
-            }
+            if (hit)
+                if (hits.collider.TryGetComponent(out GridSell gridSell))
+                    gridSellRaycast = gridSell;
 
-            return _gridCell;
+            return gridSellRaycast;
         }
 
-        public Garden GetGarden()
+        public Garden GetRaycastGarden(LayerMask mask)
+        {
+            Garden gardenRaycast = null;
+            var hit = Hittable(mask, out var hits);
+
+            if (hit)
+                if (hits.collider.TryGetComponent(out Garden garden))
+                    gardenRaycast = garden;
+
+            return gardenRaycast;
+        }
+        
+        private bool Hittable(LayerMask mask, out RaycastHit hits)
         {
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                _raycastGarden = hit.collider.TryGetComponent(out Garden garden) ? garden : null;
-            }
-
-            return _raycastGarden;
+            bool hit = Physics.Raycast(ray.origin, ray.direction, out hits, 100f, mask);
+            return hit;
         }
 
         public Vector3 GetMouseToWorldPosition()

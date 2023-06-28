@@ -5,6 +5,7 @@ using Code.Services.ProgressServices;
 using Code.Services.UpgradeServices;
 using Code.UI.Windows.SelectedAreaWindow;
 using Code.UI.Windows.Shop;
+using Code.UI.Windows.Shop.WindowElements;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -73,10 +74,10 @@ namespace Code.UI
         public void ActiveCancelBtn(bool active) => 
             _cancelBtn.gameObject.SetActive(active);
 
-        private void ActiveHarvestingAllBtn() => 
+        private void ActiveHarvestingAllBtn(ContentItem contentItem) => 
             _harvestingAllBtn.gameObject.SetActive(true);
 
-        private void ActiveWateringAllBtn() => 
+        private void ActiveWateringAllBtn(ContentItem contentItem) => 
             _wateringAllBtn.gameObject.SetActive(true);
 
         private void OnClickCancel()

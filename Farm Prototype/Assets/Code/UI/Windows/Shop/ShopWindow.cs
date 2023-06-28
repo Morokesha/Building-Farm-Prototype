@@ -1,7 +1,9 @@
-﻿using Code.Management;
+﻿using Code.Common;
+using Code.Management;
 using Code.Services.FactoryServices;
 using Code.Services.ShopServices;
 using Code.Services.StaticDataServices;
+using Code.Services.UpgradeServices;
 using Code.UI.Windows.Shop.WindowElements;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,17 +25,19 @@ namespace Code.UI.Windows.Shop
         private IStaticDataService _staticData;
         private IShopService _shopService;
         private IUIFactory _uiFactory;
+        private IUpgradeService _upgradeService;
         private ConstructionBuilder _constructionBuilder;
 
-        public void Init(IStaticDataService staticData,IShopService shopService,IUIFactory uiFactory,
-            ConstructionBuilder constructionBuilder)
+        public void Init(IStaticDataService staticData,IShopService shopService,IUIFactory uiFactory, 
+            IUpgradeService upgradeService,ConstructionBuilder constructionBuilder)
         {
             _staticData = staticData;
             _shopService = shopService;
             _uiFactory = uiFactory;
+            _upgradeService = upgradeService;
             _constructionBuilder = constructionBuilder;
 
-            _tabHandler.Init(_staticData,_uiFactory, _shopService);
+            _tabHandler.Init(_staticData,_uiFactory, _shopService, _upgradeService);
             
             HideShopMenu();
         }
@@ -63,18 +67,14 @@ namespace Code.UI.Windows.Shop
 
         private void HideShopMenu()
         {
-            _canvasGroup.alpha = 0;
-            _canvasGroup.interactable = false;
-            _canvasGroup.blocksRaycasts = false;
+            _canvasGroup.SetActive(false);
             
             _removeGardenBtn.gameObject.SetActive(false);
         }
 
         public void ActivatedShopMenu()
         {
-            _canvasGroup.alpha = 1;
-            _canvasGroup.interactable = true;
-            _canvasGroup.blocksRaycasts = true;
+            _canvasGroup.SetActive(true);
             
             _constructionBuilder.SetConstructionState(ConstructionState.WaitBuilt);
         }

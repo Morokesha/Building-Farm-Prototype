@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProductType: 6
   ShopItemType: 0
-  Logo: {fileID: 21300000, guid: 134bec58cd3a7d740a8ecbf99660de00, type: 3}
+  UpgradeType: 0
+  Sprite: {fileID: 21300000, guid: 134bec58cd3a7d740a8ecbf99660de00, type: 3}
   NameItem: Rice
   InformationAboutItem: Rice is a staple food and a cereal grain that is widely consumed
     around the world. It is rich in carbohydrates and is often used as a base for

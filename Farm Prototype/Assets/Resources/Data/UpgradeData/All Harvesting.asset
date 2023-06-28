@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f90ea196425b4da582572cdf98af419e, type: 3}
-  m_Name: WateringCan
+  m_Name: All Harvesting
   m_EditorClassIdentifier: 
-  UpgradeType: 0
-  UpgradeStage: 0
-  SpriteImage: {fileID: 21300000, guid: 7f0de0f3c6723d2479d2fcb42c5de3e6, type: 3}
-  NameUpgrade: Watering can
-  DescriptionUpgrade: A watering can is a container with a spout used for watering
-    plants. It typically has a handle for easy pouring and comes in various sizes
-    and styles.
+  UpgradeType: 1
+  UpgradeStage: 1
+  SpriteImage: {fileID: 21300000, guid: dbd4f076c570f424d9c310351e1cd353, type: 3}
+  NameUpgrade: All Harvesting
+  DescriptionUpgrade: Harvesting all cells
   PriceData:
-    GoldAmount: 300
+    GoldAmount: 450
     SeedAmount: 0

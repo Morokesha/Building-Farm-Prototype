@@ -29,6 +29,7 @@ namespace Code.GameLogic.Gardens
         {
             SetCellState(CellState.Free);
             SetBuildingState(BuildingState.None);
+            DeactivatedFrame();
         }
 
         public void SetCellState(CellState state) => 

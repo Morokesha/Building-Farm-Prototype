@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f90ea196425b4da582572cdf98af419e, type: 3}
-  m_Name: Sickle
+  m_Name: All Watering
   m_EditorClassIdentifier: 
-  UpgradeType: 1
-  UpgradeStage: 0
-  SpriteImage: {fileID: 21300000, guid: ab87d2ab9f5c55143b6ac4ae95fba007, type: 3}
-  NameUpgrade: ' Sickle'
-  DescriptionUpgrade: A sickle is a curved agricultural tool used for harvesting
-    crops such as wheat or corn. Its sharp blade is designed to cut through the stalks
-    of plants, making it an essential tool for farmers.
+  UpgradeType: 0
+  UpgradeStage: 1
+  SpriteImage: {fileID: 21300000, guid: 15c9688eb1c8e4643914701953e4b821, type: 3}
+  NameUpgrade: All Watering
+  DescriptionUpgrade: Auto Watering
   PriceData:
-    GoldAmount: 100
+    GoldAmount: 400
     SeedAmount: 0

@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Common;
 using Code.Data.GardenData;
 using Code.Data.ShopData;
 using Code.Data.UpgradeData;
@@ -29,20 +30,24 @@ namespace Code.UI.Windows.Shop.WindowElements
         [SerializeField] 
         private Button _itemBtn;
 
+        [SerializeField] 
+        private CanvasGroup _canvasGroup;
+
         private IStaticDataService _staticDataService;
         private IShopService _shopService;
         private ShopItemData _shopItemData;
         private GardenData _gardenData;
         private UpgradeItemData _upgradeData;
 
+        public UpgradeItemData GetUpgradeItemData => _upgradeData;
         public void Init(IShopService shopService,
             ShopItemData shopItemData,GardenData gardenData)
         {
             _shopService = shopService;
             _shopItemData = shopItemData;
             _gardenData = gardenData;
-
-            FullInItemWithContent();
+            
+            UpdateContentItem(_shopItemData);
             ActiveBackgroundOutline(false);
 
             _itemBtn.onClick.AddListener(BuyProduct);
@@ -70,6 +75,9 @@ namespace Code.UI.Windows.Shop.WindowElements
             UpdateContentItem(_upgradeData);
         }
 
+        public void Hide() => 
+            _canvasGroup.SetActive(false);
+
         private void UpdateContentItem(UpgradeItemData upgradeItemData)
         {
             _nameItem.text = upgradeItemData.NameUpgrade;
@@ -77,13 +85,13 @@ namespace Code.UI.Windows.Shop.WindowElements
             _cost.text = upgradeItemData.PriceData.GoldAmount + " Gold "
                                                               + upgradeItemData.PriceData.SeedAmount + " Seed";
         }
-
-        private void FullInItemWithContent()
+        
+        private void UpdateContentItem(ShopItemData shopItemData)
         {
-            _nameItem.text = _shopItemData.NameItem;
-            _logoItem.sprite = _shopItemData.Logo;
-            _cost.text = _shopItemData.PriceData.GoldAmount + " Gold "
-                            + _shopItemData.PriceData.SeedAmount + " Seed";
+            _nameItem.text = shopItemData.NameItem;
+            _logoItem.sprite = shopItemData.Sprite;
+            _cost.text = shopItemData.PriceData.GoldAmount + " Gold "
+                                                           + shopItemData.PriceData.SeedAmount + " Seed";
         }
 
         private void ActiveBackgroundOutline(bool active) => 
@@ -97,7 +105,7 @@ namespace Code.UI.Windows.Shop.WindowElements
                     _shopService.BuyGarden(_shopItemData, _gardenData);
                     break;
                 case ShopItemType.Upgrade:
-                    _shopService.BuyUpgrade(_shopItemData, _upgradeData);
+                    _shopService.BuyUpgrade(_upgradeData,this);
                     break;
             }
         }
