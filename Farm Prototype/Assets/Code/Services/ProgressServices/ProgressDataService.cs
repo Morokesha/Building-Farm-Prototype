@@ -1,6 +1,7 @@
 ﻿using System;
 using Code.Services.UpgradeServices;
 using Code.UI.Windows.Shop.WindowElements;
+using UnityEngine;
 
 namespace Code.Services.ProgressServices
 {
@@ -8,15 +9,17 @@ namespace Code.Services.ProgressServices
     {
         public event Action<int> GoldChanged;
         public event Action<int> SeedChanged;
+
+        public event Action ShovelActivated; 
         public IUpgradeService GetUpgradeService => _upgradeService;
         private IUpgradeService _upgradeService;
         
         public bool InteractionWateringActivated => _interactionWateringActivated;
         public bool InteractionHarvestingActivated => _interactionHarvestingActivated;
 
-        public bool ShovelActivated => _shovelActivated;
+        public bool ShovelIsActivated => _shovelIsActivated;
 
-        private bool _shovelActivated = false;
+        private bool _shovelIsActivated = false;
         private bool _interactionWateringActivated = false;
         private bool _interactionHarvestingActivated = false;
         
@@ -31,8 +34,11 @@ namespace Code.Services.ProgressServices
             _upgradeService.ActivatedShovel += OnActivatedShovel;
         }
 
-        private void OnActivatedShovel(ContentItem contentItem) => 
-            _shovelActivated = true;
+        private void OnActivatedShovel(ContentItem contentItem)
+        {
+            _shovelIsActivated = true;
+            ShovelActivated?.Invoke();
+        }
 
         private void OnFirstHarvestingUpgradeActivated() => 
             _interactionHarvestingActivated = true;

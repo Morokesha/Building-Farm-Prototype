@@ -35,6 +35,7 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
         public void Init(IProgressDataService progressService)
         {
             _progressService = progressService;
+            _progressService.ShovelActivated += OnShovelActivated;
             
             _wateringBtn.onClick.AddListener(OnClickWatering);
             _harvestingGoldBtn.onClick.AddListener(OnClickGold);
@@ -43,6 +44,9 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
             
             CheckShovelUpgrade();
         }
+
+        private void OnShovelActivated() => 
+            CheckShovelUpgrade();
 
         public void SetGardenProduction(GardenProduction gardenProduction)
         {
@@ -115,14 +119,11 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
             }
         }
 
-        private void Show(Button button)
-        {
+        private void Show(Button button) => 
             button.gameObject.SetActive(true);
-        }
-        private void Hide(Button button)
-        {
+
+        private void Hide(Button button) => 
             button.gameObject.SetActive(false);
-        }
 
         private void HideAllInteraction()
         {
@@ -134,8 +135,10 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
 
         private void CheckShovelUpgrade()
         {
-            if (_progressService.ShovelActivated) 
+            if (_progressService.ShovelIsActivated == true) 
                 Show(_shovelBtn);
+            else
+                Hide(_shovelBtn);
         }
 
         private void OnDestroy()
@@ -143,6 +146,8 @@ namespace Code.UI.Windows.SelectedAreaWindow.WindowElements
             _wateringBtn.onClick.RemoveListener(OnClickWatering);
             _harvestingGoldBtn.onClick.RemoveListener(OnClickGold);
             _harvestingSeedBtn.onClick.RemoveListener(OnClickSeed);
+
+            _progressService.ShovelActivated -= OnShovelActivated;
         }
     }
 }

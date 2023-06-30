@@ -15,8 +15,8 @@ MonoBehaviour:
   UpgradeType: 1
   UpgradeStage: 1
   SpriteImage: {fileID: 21300000, guid: dbd4f076c570f424d9c310351e1cd353, type: 3}
-  NameUpgrade: All Harvesting
-  DescriptionUpgrade: Harvesting all cells
+  NameUpgrade: Scythe
+  DescriptionUpgrade: Harvesting all your crops
   PriceData:
     GoldAmount: 450
     SeedAmount: 0

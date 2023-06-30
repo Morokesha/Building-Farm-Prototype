@@ -215,6 +215,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _frame: {fileID: 7940243491489437734}
   _transparentSurface: {fileID: 5772897143507236254}
+  _frameMaterials:
+  - {fileID: 7734786283160741118}
+  - {fileID: 2737990147695100338}
+  - {fileID: 4699029924069841243}
+  - {fileID: 4908224165749944064}
 --- !u!65 &4949630929273782783
 BoxCollider:
   m_ObjectHideFlags: 0

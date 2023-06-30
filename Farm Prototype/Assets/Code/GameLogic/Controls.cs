@@ -7,22 +7,22 @@ namespace Code.GameLogic
     {
         private Camera _camera;
 
-        private GridSell _gridCell;
+        private GridCell _gridCell;
         private Garden _raycastGarden;
 
         public void Init() => 
             _camera = Camera.main;
 
-        public GridSell GetRaycastGridSell(LayerMask mask)
+        public GridCell GetRaycastGridSell(LayerMask mask)
         {
-            GridSell gridSellRaycast = null;
+            GridCell gridCellRaycast = null;
             var hit = Hittable(mask, out var hits);
 
             if (hit)
-                if (hits.collider.TryGetComponent(out GridSell gridSell))
-                    gridSellRaycast = gridSell;
+                if (hits.collider.TryGetComponent(out GridCell gridSell))
+                    gridCellRaycast = gridSell;
 
-            return gridSellRaycast;
+            return gridCellRaycast;
         }
 
         public Garden GetRaycastGarden(LayerMask mask)

@@ -11,7 +11,7 @@ namespace Code.Services.AssetServices
     {
         public GardenAreaVisual GardenAreaVisual => _gardenAreaVisual;
         public Garden Garden => _garden;
-        public GridSell GridSell => _gridCell;
+        public GridCell GridCell => _gridCell;
         public SelectedAreaWindow SelectedAreaWindow => _selectedAreaWindow;
         public ShopWindow ShopWindow => _shopWindow;
         public HUD HUD => _hud;
@@ -20,7 +20,7 @@ namespace Code.Services.AssetServices
         public RectTransform ContentPanel => _contentPanel;
 
         private Garden _garden;
-        private GridSell _gridCell;
+        private GridCell _gridCell;
         private SelectedAreaWindow _selectedAreaWindow;
         private ShopWindow _shopWindow;
         private HUD _hud;
@@ -37,7 +37,7 @@ namespace Code.Services.AssetServices
         {
             _gardenAreaVisual = Resources.Load<GardenAreaVisual>(AssetPath.GardenAreaVisual);
             _garden = Resources.Load<Garden>(AssetPath.GardenPath);
-            _gridCell = Resources.Load<GridSell>(AssetPath.GridCellPath);
+            _gridCell = Resources.Load<GridCell>(AssetPath.GridCellPath);
             
             _selectedAreaWindow = Resources.Load<SelectedAreaWindow>(AssetPath.SelectedAreaWindowPath);
             _shopWindow = Resources.Load<ShopWindow>(AssetPath.ShopUIPath);

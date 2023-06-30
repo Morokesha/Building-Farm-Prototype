@@ -12,7 +12,7 @@ namespace Code.Services.AssetServices
         
         GardenAreaVisual GardenAreaVisual { get; }
         Garden Garden { get; }
-        GridSell GridSell { get; }
+        GridCell GridCell { get; }
         SelectedAreaWindow SelectedAreaWindow { get; }
         ShopWindow ShopWindow { get; }
         HUD HUD { get; }

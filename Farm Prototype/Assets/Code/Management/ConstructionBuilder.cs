@@ -38,7 +38,7 @@ namespace Code.Management
 
         private ConstructionState _constructionState;
 
-        private  List<GridSell> _listCells;
+        private  List<GridCell> _listCells;
         private GardenData _activeGardenData;
         private ShopItemData _activeShopItemData;
         private Garden _selectedGarden;
@@ -47,8 +47,8 @@ namespace Code.Management
         private HUD _hud;
         private Controls _controls;
 
-        private GridSell _createdCells;
-        private GridSell _selectedCell;
+        private GridCell _createdCells;
+        private GridCell _selectedCell;
 
         private Vector3 _startPosition;
         private Vector3 _createPos;
@@ -79,7 +79,7 @@ namespace Code.Management
 
             _layerSell = 1 << LayerMask.NameToLayer("Cell");
             _layerGarden = 1 << LayerMask.NameToLayer("Garden");
-            _listCells = new List<GridSell>();
+            _listCells = new List<GridCell>();
             
             _startPosition = new Vector3(_offsetX,0f,_offsetZ);
             _createPos = _startPosition;
@@ -149,7 +149,7 @@ namespace Code.Management
         private void CreateGardenOnCell()
         {
             Garden createdGarden = _gameFactory.CreateGarden(_selectedCell.transform.position);
-            createdGarden.Init(_progressService,_resourceService,_activeGardenData);
+            createdGarden.Init(_progressService,_resourceService,_activeGardenData,_selectedCell);
             
             _gardenHandlerService.AddGarden(createdGarden);
             

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartResource:
     GoldAmount: 2500
-    SeedAmount: 30
+    SeedAmount: 0

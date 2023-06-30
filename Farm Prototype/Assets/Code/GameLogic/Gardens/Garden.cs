@@ -20,15 +20,17 @@ namespace Code.GameLogic.Gardens
         private IResourceService _resourceService;
 
         private GardenData _gardenData;
+        private GridCell _gridCell;
 
         public void Init(IProgressDataService progressService, IResourceService resourceService,
-            GardenData gardenData)
+            GardenData gardenData,GridCell gridCell)
         {
             _progressService = progressService;
             _resourceService = resourceService;
             _gardenData = gardenData;
+            _gridCell = gridCell;
 
-            _gardenProduction.Init(_resourceService, _gardenData);
+            _gardenProduction.Init(_resourceService, _gardenData,_gridCell);
             _displayProductionAction.Init(_progressService,_gardenProduction);
         }
 

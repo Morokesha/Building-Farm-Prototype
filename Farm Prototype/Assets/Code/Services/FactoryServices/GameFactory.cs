@@ -11,9 +11,9 @@ namespace Code.Services.FactoryServices
         public GameFactory(IAssetProvider assetProvider) => 
             _assetProvider = assetProvider;
 
-        public GridSell CreateCellForPlanting(Vector3 position,Transform container)
+        public GridCell CreateCellForPlanting(Vector3 position,Transform container)
         {
-            GridSell cell = Object.Instantiate(_assetProvider.GridSell,position, Quaternion.identity);
+            GridCell cell = Object.Instantiate(_assetProvider.GridCell,position, Quaternion.identity);
             cell.transform.SetParent(container);
             return cell;
         }

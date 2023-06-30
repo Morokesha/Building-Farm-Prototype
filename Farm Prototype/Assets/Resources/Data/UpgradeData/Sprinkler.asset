@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f90ea196425b4da582572cdf98af419e, type: 3}
-  m_Name: All Watering
+  m_Name: Sprinkler
   m_EditorClassIdentifier: 
   UpgradeType: 0
   UpgradeStage: 1
   SpriteImage: {fileID: 21300000, guid: 15c9688eb1c8e4643914701953e4b821, type: 3}
-  NameUpgrade: All Watering
-  DescriptionUpgrade: Auto Watering
+  NameUpgrade: Sprinkler
+  DescriptionUpgrade: Watering all gardens
   PriceData:
     GoldAmount: 400
     SeedAmount: 0

@@ -13,7 +13,6 @@ namespace Code.GameLogic.Gardens
         Growing,
         CompleteGrowth
     }
-
     public class GardenProduction : MonoBehaviour
     { 
         public event Action<float> GrowingChanged;
@@ -24,6 +23,7 @@ namespace Code.GameLogic.Gardens
         
         private IResourceService _resourceRepository;
         private GardenData _gardenData;
+        private GridCell _gridCell;
 
         private int _currentChanceDrop;
 
@@ -38,10 +38,12 @@ namespace Code.GameLogic.Gardens
         
         private ResourceType _harvestingResourceType; 
         private ProductionState _productionState;
-        public void Init(IResourceService resourceRepository, GardenData gardenData) 
+       
+        public void Init(IResourceService resourceRepository, GardenData gardenData,GridCell gridCell) 
         { 
             _resourceRepository = resourceRepository; 
             _gardenData = gardenData;
+            _gridCell = gridCell;
             
             _growingTime = _gardenData.TimeGrowing; 
             _percentDropSeed = _gardenData.DropData.SeedDropChance;
@@ -72,6 +74,7 @@ namespace Code.GameLogic.Gardens
 
         SetLocalScaleHeight(_cropsVisual.transform, _defaultScale);
         SetProductionState(ProductionState.WaitWatering);
+        _gridCell.SetFrameState(FrameState.WaitWatering);
     }
 
     public GardenData GetGardenData() =>
@@ -86,6 +89,7 @@ namespace Code.GameLogic.Gardens
     private void SetCrops(Color color)
     {
         SetProductionState(ProductionState.WaitWatering);
+        _gridCell.SetFrameState(FrameState.WaitWatering);
         _cropsVisual.SetActive(true);
 
         MeshRenderer[] meshCrops = _cropsVisual.GetComponentsInChildren<MeshRenderer>();
@@ -95,8 +99,9 @@ namespace Code.GameLogic.Gardens
 
     public void Growing()
     {
+        _gridCell.SetFrameState(FrameState.None);
         SetProductionState(ProductionState.Growing);
-        
+
         _growingTimer = 0f;
     }
 
@@ -128,11 +133,17 @@ namespace Code.GameLogic.Gardens
         if (_currentChanceDrop <= _percentDropSeed)
         {
             _harvestingResourceType = ResourceType.Seed;
+            _gridCell.SetFrameState(FrameState.TakeSeed);
+            print("seed");
             SetProductionState(ProductionState.CompleteGrowth);
         }
-
-        _harvestingResourceType = ResourceType.Gold;
-        SetProductionState(ProductionState.CompleteGrowth);
+        else
+        {
+            _harvestingResourceType = ResourceType.Gold;
+            _gridCell.SetFrameState(FrameState.TakeGold);
+            print("gold");
+            SetProductionState(ProductionState.CompleteGrowth);
+        }
     }
 
     private void SetProductionState(ProductionState state)
