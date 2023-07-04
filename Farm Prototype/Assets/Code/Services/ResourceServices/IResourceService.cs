@@ -6,7 +6,7 @@ namespace Code.Services.ResourceServices
 {
     public interface IResourceService
     {
-        void Init(IProgressDataService progressDataService,ResourceHolder resourceHolder);
+        void Init(IProgressService progressService,ResourceHolder resourceHolder);
         void AddGold(DropData dropData);
         void AddSeed(DropData dropData);
         void SpendResources(PriceData priceData);

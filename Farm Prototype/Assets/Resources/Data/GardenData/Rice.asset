@@ -15,8 +15,8 @@ MonoBehaviour:
   ProductType: 6
   colorCrops: {r: 0.9433962, g: 0.9211463, b: 0.9211463, a: 1}
   NameGarden: Rice
-  TimeGrowing: 50
+  TimeGrowing: 60
   DropData:
-    SeedDropChance: 10
-    GoldAmount: 25
-    SeedAmount: 3
+    SeedDropChance: 5
+    GoldAmount: 50
+    SeedAmount: 1

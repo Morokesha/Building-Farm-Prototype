@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cb84b7b4c124de98fa6b79687c8769b, type: 3}
+  m_Name: BuyImprovement
+  m_EditorClassIdentifier: 
+  TaskData:
+    Description: Continue growing your farm. Save up 50 coins to buy upgrade "Sickle"
+    TaskNumber: 6
+    IsLastTask: 0

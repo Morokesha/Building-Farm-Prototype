@@ -15,8 +15,8 @@ MonoBehaviour:
   ProductType: 1
   colorCrops: {r: 0.07604219, g: 0.6627451, b: 0.043137252, a: 1}
   NameGarden: Potato
-  TimeGrowing: 60
+  TimeGrowing: 40
   DropData:
-    SeedDropChance: 0
-    GoldAmount: 25
-    SeedAmount: 0
+    SeedDropChance: 10
+    GoldAmount: 10
+    SeedAmount: 1

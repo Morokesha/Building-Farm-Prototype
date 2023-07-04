@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Code.Data.ResourceData;
 using Code.Services.GardenHandlerService;
-using Code.UI;
+using Code.UI.Windows.HUDWindow;
 
 namespace Code.GameLogic.Gardens
 {

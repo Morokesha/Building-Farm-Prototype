@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Code.Data.ShopData;
 using Code.Data.UpgradeData;
@@ -299,10 +298,15 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void OnDestroy()
         {
+            _navigationButtons.OnClickNavigation -= OnOnClickNavigation;
+            
             _upgradeService.FirstWateringUpgradeActivated -= OnFirstWateringUpgradeActivated;
             _upgradeService.FirstHarvestingUpgradeActivated -= OnFirstHarvestingUpgradeActivated;
             _upgradeService.SecondWateringUpgradeActivated -= OnSecondWateringUpgradeActivated;
             _upgradeService.SecondHarvestingUpgradeActivated -= OnSecondHarvestingUpgradeActivated;
+            _upgradeService.FirstExpansionUpgradeActivated -= OnFirstExpansionUpgradeActivated;
+            _upgradeService.SecondExpansionUpgradeActivated -= OnSecondExpansionUpgradeActivated;
+            _upgradeService.ActivatedShovel -= OnActivatedShovel;
             
             foreach (ContentItem item in _contentItems)
             {

@@ -21,5 +21,5 @@ MonoBehaviour:
     many cuisines around the world. They can be boiled, fried, mashed, or baked and
     are often used as a side dish or in soups and stews.
   PriceData:
-    GoldAmount: 60
-    SeedAmount: 0
+    GoldAmount: 25
+    SeedAmount: 1

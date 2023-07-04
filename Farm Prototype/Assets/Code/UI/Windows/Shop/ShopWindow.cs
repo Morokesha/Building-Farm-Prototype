@@ -16,9 +16,6 @@ namespace Code.UI.Windows.Shop
 
         [SerializeField] 
         private Button _hideBtn;
-        [SerializeField] 
-        private Button _removeGardenBtn;
-        
         [SerializeField]
         private CanvasGroup _canvasGroup;
 
@@ -26,16 +23,16 @@ namespace Code.UI.Windows.Shop
         private IShopService _shopService;
         private IUIFactory _uiFactory;
         private IUpgradeService _upgradeService;
-        private ConstructionBuilder _constructionBuilder;
+        private FarmController _farmController;
 
         public void Init(IStaticDataService staticData,IShopService shopService,IUIFactory uiFactory, 
-            IUpgradeService upgradeService,ConstructionBuilder constructionBuilder)
+            IUpgradeService upgradeService,FarmController farmController)
         {
             _staticData = staticData;
             _shopService = shopService;
             _uiFactory = uiFactory;
             _upgradeService = upgradeService;
-            _constructionBuilder = constructionBuilder;
+            _farmController = farmController;
 
             _tabHandler.Init(_staticData,_uiFactory, _shopService, _upgradeService);
             
@@ -45,8 +42,7 @@ namespace Code.UI.Windows.Shop
         private void Start()
         {
             _hideBtn.onClick.AddListener(ExitShopMenu);
-            _removeGardenBtn.onClick.AddListener(RemoveGarden);
-            
+
             _shopService.ProductPurchased += OnProductPurchased;
         }
 
@@ -55,34 +51,24 @@ namespace Code.UI.Windows.Shop
 
         private void ExitShopMenu()
         {
-            _constructionBuilder.SetConstructionState(ConstructionState.Select);
+            _farmController.SetConstructionState(ConstructionState.Select);
             HideShopMenu();
-        }
-
-        private void RemoveGarden()
-        {
-            _constructionBuilder.ClearGardenAreaVisual();
-            _removeGardenBtn.gameObject.SetActive(false);
         }
 
         private void HideShopMenu()
         {
             _canvasGroup.SetActive(false);
-            
-            _removeGardenBtn.gameObject.SetActive(false);
         }
 
         public void ActivatedShopMenu()
         {
             _canvasGroup.SetActive(true);
-            
-            _constructionBuilder.SetConstructionState(ConstructionState.WaitBuilt);
+            _farmController.SetConstructionState(ConstructionState.WaitBuilt);
         }
 
         private void OnDestroy()
         {
             _hideBtn.onClick.RemoveListener(ExitShopMenu);
-            _removeGardenBtn.onClick.RemoveListener(RemoveGarden);
 
             _shopService.ProductPurchased -= OnProductPurchased;
         }

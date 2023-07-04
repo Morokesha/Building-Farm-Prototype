@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Scythe
   m_EditorClassIdentifier: 
   UpgradeType: 1
-  UpgradeStage: 0
-  SpriteImage: {fileID: 21300000, guid: ab87d2ab9f5c55143b6ac4ae95fba007, type: 3}
+  UpgradeStage: 1
+  SpriteImage: {fileID: 21300000, guid: dbd4f076c570f424d9c310351e1cd353, type: 3}
   NameUpgrade: Scythe
-  DescriptionUpgrade: Auto harvesting
+  DescriptionUpgrade: Harvesting all your crops
   PriceData:
-    GoldAmount: 150
+    GoldAmount: 400
     SeedAmount: 0

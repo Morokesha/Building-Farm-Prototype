@@ -40,5 +40,11 @@ namespace Code.UI.Windows.Shop.WindowElements
 
         private void ClickNavigationRight() => 
             OnClickNavigation?.Invoke(NavigationMode.Forward);
+
+        private void OnDestroy()
+        {
+            _leftButton.onClick.RemoveListener(ClickNavigationLeft);
+            _rightButton.onClick.RemoveListener(ClickNavigationRight);
+        }
     }
 }

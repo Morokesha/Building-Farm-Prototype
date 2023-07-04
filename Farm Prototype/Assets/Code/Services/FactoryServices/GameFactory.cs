@@ -13,18 +13,16 @@ namespace Code.Services.FactoryServices
 
         public GridCell CreateCellForPlanting(Vector3 position,Transform container)
         {
-            GridCell cell = Object.Instantiate(_assetProvider.GridCell,position, Quaternion.identity);
-            cell.transform.SetParent(container);
+            GridCell cell = _assetProvider.Instantiate<GridCell>(AssetPath.GridCellPath,position,container);
             return cell;
         }
 
-        public GardenAreaVisual CreateGardenAreaVisual(Vector3 spawnPos) => 
-            Object.Instantiate(_assetProvider.GardenAreaVisual, spawnPos, Quaternion.identity);
+        public GardenAreaVisual CreateGardenAreaVisual(Vector3 spawnPos) =>
+            _assetProvider.Instantiate<GardenAreaVisual>(AssetPath.GardenAreaVisual,spawnPos);
 
         public Garden CreateGarden(Vector3 spawnPos)
         {
-            Garden garden = Object.Instantiate(_assetProvider.Garden, spawnPos, Quaternion.identity);
-
+            Garden garden = _assetProvider.Instantiate<Garden>(AssetPath.GardenPath,spawnPos);
             return garden;
         }
     }

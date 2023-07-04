@@ -11,6 +11,7 @@ namespace Code.Services.StaticDataServices
 {
     public class StaticDataService : IStaticDataService
     {
+        private readonly IAssetProvider _assetProvider;
         public ResourceHolder ResourceHolder => _resourceHolder;
 
         private GardenDataHolder _gardenDataHolder;
@@ -20,8 +21,11 @@ namespace Code.Services.StaticDataServices
         private List<UpgradeItemData> _upgradeItemDataList;
         private GardenData _gardenData;
 
-        public StaticDataService() => 
+        public StaticDataService(IAssetProvider assetProvider)
+        {
+            _assetProvider = assetProvider;
             LoadData();
+        }
 
         public GardenData GetGardenData(ProductType type)
         {
@@ -33,9 +37,9 @@ namespace Code.Services.StaticDataServices
 
         private void LoadData()
         {
-            _gardenDataHolder = Resources.Load<GardenDataHolder>(AssetPath.GardenTypeHolderPath);
-            _resourceHolder = Resources.Load<ResourceHolder>(AssetPath.ResourceHolderPath);
-            _shopItemDataHolder = Resources.Load<ShopItemDataHolder>(AssetPath.ShopItemDataHolderPath);
+            _gardenDataHolder = _assetProvider.Load<GardenDataHolder>(AssetPath.GardenTypeHolderPath);
+            _resourceHolder = _assetProvider.Load<ResourceHolder>(AssetPath.ResourceHolderPath);
+            _shopItemDataHolder = _assetProvider.Load<ShopItemDataHolder>(AssetPath.ShopItemDataHolderPath);
             _shopItemDataList = new List<ShopItemData>();
             _upgradeItemDataList = new List<UpgradeItemData>();
 
@@ -50,7 +54,7 @@ namespace Code.Services.StaticDataServices
         }
 
         private void LoadUpgradeData() => 
-            _upgradeItemDataList = Resources.LoadAll<UpgradeItemData>(AssetPath.UpgradeDataPath).ToList();
+            _upgradeItemDataList = _assetProvider.LoadAll<UpgradeItemData>(AssetPath.UpgradeDataPath).ToList();
 
         public List<ShopItemData> LoadShopItemDataForType(ShopItemType type) => 
             _shopItemDataList.Where(item => item.ShopItemType == type).ToList();

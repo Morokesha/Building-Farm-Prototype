@@ -1,5 +1,5 @@
 ﻿using Code.GameLogic.Gardens;
-using Code.UI;
+using Code.UI.Windows.HUDWindow;
 
 namespace Code.Services.GardenHandlerService
 {

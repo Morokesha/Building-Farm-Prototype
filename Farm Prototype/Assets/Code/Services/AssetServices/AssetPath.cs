@@ -14,6 +14,7 @@ namespace Code.Services.AssetServices
         public const string ResourceHolderPath = "Data/ResourceData/ResourceHolder";
         public const string ShopItemDataHolderPath = "Data/ShopData/ShopItemHolder";
         public const string UpgradeDataPath = "Data/UpgradeData";
+        public const string TutorialTaskPath = "Data/TutorialData";
 
 
         [Header("UI Templates")]
@@ -22,5 +23,6 @@ namespace Code.Services.AssetServices
         public const string HudPath = "Template/UI/Hud Window";
         public const string ContentItemPath = "Template/UI/ContentItem";
         public const string ContentPanelPath = "Template/UI/ContentPanel";
+        public const string TutorialWindowPath = "Template/UI/TutorialWindow";
     }
 }

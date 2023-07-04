@@ -19,5 +19,5 @@ MonoBehaviour:
   DescriptionUpgrade: Makes it possible to demolish the previously installed vegetable
     garden and buy another one in its place
   PriceData:
-    GoldAmount: 200
+    GoldAmount: 150
     SeedAmount: 0

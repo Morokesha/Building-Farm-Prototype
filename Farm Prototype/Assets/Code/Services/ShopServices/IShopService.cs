@@ -3,6 +3,7 @@ using Code.Data.GardenData;
 using Code.Data.ShopData;
 using Code.Data.UpgradeData;
 using Code.Services.ResourceServices;
+using Code.UI.Windows.HUDWindow;
 using Code.UI.Windows.Shop.WindowElements;
 
 namespace Code.Services.ShopServices
@@ -12,7 +13,7 @@ namespace Code.Services.ShopServices
         public event Action ProductPurchased;
         event Action<GardenData,ShopItemData> SoldGarden;
         public event Action<UpgradeItemData,ContentItem> SoldUpgrade;
-        void Init(IResourceService resourceRepository);
+        void Init(IResourceService resourceRepository,HUD hud);
         void BuyGarden(ShopItemData shopItemData,GardenData gardenData);
         void BuyUpgrade(UpgradeItemData upgradeData,ContentItem contentItem);
     }

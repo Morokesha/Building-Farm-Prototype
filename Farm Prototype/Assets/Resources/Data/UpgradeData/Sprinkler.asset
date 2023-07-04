@@ -18,5 +18,5 @@ MonoBehaviour:
   NameUpgrade: Sprinkler
   DescriptionUpgrade: Watering all gardens
   PriceData:
-    GoldAmount: 400
+    GoldAmount: 500
     SeedAmount: 0

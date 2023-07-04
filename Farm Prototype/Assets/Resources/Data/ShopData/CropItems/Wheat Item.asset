@@ -21,5 +21,5 @@ MonoBehaviour:
     food for millions of people around the world. It is rich in nutrients, including
     fiber, protein, and various vitamins and minerals.
   PriceData:
-    GoldAmount: 5
-    SeedAmount: 0
+    GoldAmount: 0
+    SeedAmount: 1

@@ -3,7 +3,6 @@ using Code.Data.UpgradeData;
 using Code.Management;
 using Code.Services.ShopServices;
 using Code.Services.UpgradeServices;
-using Code.UI;
 using Code.UI.Windows.Shop.WindowElements;
 using UnityEngine;
 
@@ -21,14 +20,19 @@ namespace Code.GameLogic
         
         private IShopService _shopService;
         private UpgradeItemData _upgradeItemData;
-        private ConstructionBuilder _constructionBuilder;
+        private FarmController _farmController;
         
-        public void Init(IShopService shopService, ConstructionBuilder constructionBuilder)
+        public void Init(IShopService shopService, FarmController farmController)
         {
             _shopService = shopService;
-            _constructionBuilder = constructionBuilder;
+            _farmController = farmController;
 
             _shopService.SoldUpgrade += OnSoldUpgrade; 
+        }
+
+        public void Clear()
+        {
+            _shopService.SoldUpgrade -= OnSoldUpgrade; 
         }
 
         private void OnSoldUpgrade(UpgradeItemData data,ContentItem contentItem)
@@ -71,9 +75,9 @@ namespace Code.GameLogic
             {
                 case UpgradeStage.First:
                     FirstHarvestingUpgradeActivated?.Invoke();
+                    Debug.Log("First harvesting activate");
                     break;
                 case UpgradeStage.Second:
-                    
                     SecondHarvestingUpgradeActivated?.Invoke(contentItem);
                     break;
             }
@@ -84,11 +88,11 @@ namespace Code.GameLogic
             switch (_upgradeItemData.UpgradeStage)
             {
                 case UpgradeStage.First:
-                    _constructionBuilder.AddGridCells(1);
+                    _farmController.AddGridCells(1);
                     FirstExpansionUpgradeActivated?.Invoke();
                     break;
                 case UpgradeStage.Second :
-                    _constructionBuilder.AddGridCells(2);
+                    _farmController.AddGridCells(2);
                     SecondExpansionUpgradeActivated?.Invoke(contentItem);
                     break;
             }

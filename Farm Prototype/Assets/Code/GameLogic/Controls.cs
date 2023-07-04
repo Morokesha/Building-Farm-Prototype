@@ -55,8 +55,5 @@ namespace Code.GameLogic
 
             return position;
         }
-
-        public bool GetMouseClick() => 
-            Input.GetMouseButton(0);
     }
 }

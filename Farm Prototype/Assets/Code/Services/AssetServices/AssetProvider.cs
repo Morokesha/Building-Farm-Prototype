@@ -1,49 +1,37 @@
-﻿using Code.GameLogic.Gardens;
-using Code.UI;
-using Code.UI.Windows.SelectedAreaWindow;
-using Code.UI.Windows.Shop;
-using Code.UI.Windows.Shop.WindowElements;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Code.Services.AssetServices
 {
     public class AssetProvider : IAssetProvider
     {
-        public GardenAreaVisual GardenAreaVisual => _gardenAreaVisual;
-        public Garden Garden => _garden;
-        public GridCell GridCell => _gridCell;
-        public SelectedAreaWindow SelectedAreaWindow => _selectedAreaWindow;
-        public ShopWindow ShopWindow => _shopWindow;
-        public HUD HUD => _hud;
-
-        public ContentItem ContentItem => _contentItem;
-        public RectTransform ContentPanel => _contentPanel;
-
-        private Garden _garden;
-        private GridCell _gridCell;
-        private SelectedAreaWindow _selectedAreaWindow;
-        private ShopWindow _shopWindow;
-        private HUD _hud;
-        private GardenAreaVisual _gardenAreaVisual;
-
-        private ContentItem _contentItem;
-        private RectTransform _contentPanel;
-        public AssetProvider()
+        public T Instantiate<T>(string path, Vector3 at) where T : Object
         {
-            LoadAssets();
+            var prefab = ResourceLoader.Load<T>(path);
+            return Object.Instantiate(prefab, at, Quaternion.identity);
+        }
+
+        public T Instantiate<T>(string path, Transform parent) where T : Object
+        {
+            var prefab = ResourceLoader.Load<T>(path);
+            return Object.Instantiate(prefab, parent,false);
         }
         
-        private void LoadAssets()
+        public T Instantiate<T>(string path,Vector3 pos, Transform parent) where T : Object
         {
-            _gardenAreaVisual = Resources.Load<GardenAreaVisual>(AssetPath.GardenAreaVisual);
-            _garden = Resources.Load<Garden>(AssetPath.GardenPath);
-            _gridCell = Resources.Load<GridCell>(AssetPath.GridCellPath);
-            
-            _selectedAreaWindow = Resources.Load<SelectedAreaWindow>(AssetPath.SelectedAreaWindowPath);
-            _shopWindow = Resources.Load<ShopWindow>(AssetPath.ShopUIPath);
-            _hud = Resources.Load<HUD>(AssetPath.HudPath);
-            _contentItem = Resources.Load<ContentItem>(AssetPath.ContentItemPath);
-            _contentPanel = Resources.Load<RectTransform>(AssetPath.ContentPanelPath);
+            var prefab = ResourceLoader.Load<T>(path);
+            return Object.Instantiate(prefab, pos, Quaternion.identity,parent);
         }
+
+        public T Instantiate<T>(string path) where T : Object
+        {
+            var prefab = ResourceLoader.Load<T>(path);
+            return Object.Instantiate(prefab);
+        }
+
+        public T Load<T>(string path) where T : Object => 
+            ResourceLoader.Load<T>(path);
+
+        public T[] LoadAll<T>(string path) where T : Object => 
+            ResourceLoader.LoadAll<T>(path);
     }
 }

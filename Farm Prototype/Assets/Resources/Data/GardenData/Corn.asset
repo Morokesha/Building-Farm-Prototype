@@ -15,8 +15,8 @@ MonoBehaviour:
   ProductType: 4
   colorCrops: {r: 0.8301887, g: 0.5350065, b: 0.043075833, a: 0}
   NameGarden: Corn
-  TimeGrowing: 52
+  TimeGrowing: 42
   DropData:
     SeedDropChance: 15
-    GoldAmount: 20
-    SeedAmount: 4
+    GoldAmount: 7
+    SeedAmount: 2

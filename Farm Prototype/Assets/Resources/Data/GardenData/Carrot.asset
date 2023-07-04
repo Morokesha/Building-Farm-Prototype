@@ -15,8 +15,8 @@ MonoBehaviour:
   ProductType: 7
   colorCrops: {r: 0.7924528, g: 0.340365, b: 0.056069765, a: 1}
   NameGarden: Carrot
-  TimeGrowing: 15
+  TimeGrowing: 36
   DropData:
-    SeedDropChance: 40
-    GoldAmount: 5
+    SeedDropChance: 25
+    GoldAmount: 20
     SeedAmount: 2

@@ -15,8 +15,8 @@ MonoBehaviour:
   UpgradeType: 0
   UpgradeStage: 0
   SpriteImage: {fileID: 21300000, guid: 7f0de0f3c6723d2479d2fcb42c5de3e6, type: 3}
-  NameUpgrade: Auto Watering
-  DescriptionUpgrade: Auto Watering
+  NameUpgrade: Watering Can
+  DescriptionUpgrade: Watering for 1 click to Cell
   PriceData:
     GoldAmount: 100
     SeedAmount: 0

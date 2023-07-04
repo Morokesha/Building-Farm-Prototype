@@ -1,7 +1,6 @@
 ﻿using System;
 using Code.Management;
 using Code.Services.ShopServices;
-using Code.UI;
 using Code.UI.Windows.Shop.WindowElements;
 
 namespace Code.Services.UpgradeServices
@@ -16,6 +15,7 @@ namespace Code.Services.UpgradeServices
         public event Action<ContentItem> SecondExpansionUpgradeActivated;
         public event Action<ContentItem> ActivatedShovel;
 
-        public void Init(IShopService shopService, ConstructionBuilder constructionBuilder);
+        public void Init(IShopService shopService, FarmController farmController);
+        public void Clear();
     }
 }

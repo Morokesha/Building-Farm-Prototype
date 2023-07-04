@@ -19,5 +19,5 @@ MonoBehaviour:
   DescriptionUpgrade: Makes it possible to install an additional 3 cells for planting
     vegetable gardens
   PriceData:
-    GoldAmount: 600
+    GoldAmount: 500
     SeedAmount: 0

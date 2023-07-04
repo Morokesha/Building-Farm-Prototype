@@ -15,8 +15,8 @@ MonoBehaviour:
   ProductType: 3
   colorCrops: {r: 1, g: 0, b: 0.009225845, a: 1}
   NameGarden: Strawberry
-  TimeGrowing: 45
+  TimeGrowing: 60
   DropData:
-    SeedDropChance: 10
-    GoldAmount: 20
-    SeedAmount: 5
+    SeedDropChance: 30
+    GoldAmount: 35
+    SeedAmount: 2

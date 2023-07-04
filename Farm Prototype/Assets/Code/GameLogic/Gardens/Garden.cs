@@ -1,8 +1,7 @@
 using Code.Data.GardenData;
 using Code.Services.ProgressServices;
 using Code.Services.ResourceServices;
-using Code.Services.UpgradeServices;
-using Code.UI;
+using Code.UI.Windows.HUDWindow;
 using UnityEngine;
 
 namespace Code.GameLogic.Gardens
@@ -16,13 +15,13 @@ namespace Code.GameLogic.Gardens
         [SerializeField] 
         private DisplayProductionAction _displayProductionAction;
 
-        private IProgressDataService _progressService;
+        private IProgressService _progressService;
         private IResourceService _resourceService;
 
         private GardenData _gardenData;
         private GridCell _gridCell;
 
-        public void Init(IProgressDataService progressService, IResourceService resourceService,
+        public void Init(IProgressService progressService, IResourceService resourceService,
             GardenData gardenData,GridCell gridCell)
         {
             _progressService = progressService;

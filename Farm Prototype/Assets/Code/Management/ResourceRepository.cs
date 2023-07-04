@@ -7,15 +7,15 @@ namespace Code.Management
 {
     public class ResourceRepository : IResourceService
     {
-        private IProgressDataService _progressDataService;
+        private IProgressService _progressService;
         private ResourceHolder _resourceHolder;
 
         private int _goldAmount;
         private int _seedAmount;
 
-        public void Init(IProgressDataService progressDataService, ResourceHolder resourceHolder)
+        public void Init(IProgressService progressService, ResourceHolder resourceHolder)
         {
-            _progressDataService = progressDataService;
+            _progressService = progressService;
             _resourceHolder = resourceHolder;
 
             StartingResources();
@@ -24,13 +24,13 @@ namespace Code.Management
         public void AddGold(DropData dropData)
         {
             _goldAmount += dropData.GoldAmount;
-            _progressDataService.GoldenChanged(_goldAmount);
+            _progressService.GoldenChanged(_goldAmount);
         }
 
         public void AddSeed(DropData dropData)
         {
             _seedAmount += dropData.SeedAmount;
-            _progressDataService.SeedResourceChanged(_seedAmount);
+            _progressService.SeedResourceChanged(_seedAmount);
         }
 
         public void SpendResources(PriceData priceData)
@@ -38,7 +38,7 @@ namespace Code.Management
             _goldAmount -= priceData.GoldAmount;
             _seedAmount -= priceData.SeedAmount;
             
-            _progressDataService.SpendResources(_goldAmount,_seedAmount);
+            _progressService.SpendResources(_goldAmount,_seedAmount);
         }
 
         public bool CanAfford(PriceData priceData)
@@ -52,9 +52,9 @@ namespace Code.Management
         private void StartingResources()
         {
             _goldAmount = _resourceHolder.StartResource.GoldAmount;
-            _progressDataService.GoldenChanged(_goldAmount);
+            _progressService.GoldenChanged(_goldAmount);
             _seedAmount = _resourceHolder.StartResource.SeedAmount;
-            _progressDataService.SeedResourceChanged(_seedAmount);
+            _progressService.SeedResourceChanged(_seedAmount);
         }
     }
 }

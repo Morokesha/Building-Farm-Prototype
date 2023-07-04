@@ -1,7 +1,6 @@
 ﻿using Code.Data.GardenData;
 using Code.Data.UpgradeData;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.Data.ShopData
 {
