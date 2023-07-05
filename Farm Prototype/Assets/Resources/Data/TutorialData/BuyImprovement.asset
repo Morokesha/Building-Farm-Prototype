@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BuyImprovement
   m_EditorClassIdentifier: 
   TaskData:
-    Description: Continue growing your farm. Save up 50 coins to buy upgrade "Sickle"
+    Description: Continue growing your farm. Save up 10 coins to buy upgrade "Sickle"
     TaskNumber: 6
     IsLastTask: 0

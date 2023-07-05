@@ -38,6 +38,7 @@ namespace Code.GameLogic
         private void OnSoldUpgrade(UpgradeItemData data,ContentItem contentItem)
         {
             _upgradeItemData = data;
+            _farmController.SetConstructionState(ConstructionState.Select);
 
             switch (_upgradeItemData.UpgradeType)
             {

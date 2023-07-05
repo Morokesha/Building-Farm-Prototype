@@ -17,6 +17,6 @@ MonoBehaviour:
   NameGarden: Wheat
   TimeGrowing: 20
   DropData:
-    SeedDropChance: 40
+    SeedDropChance: 60
     GoldAmount: 5
     SeedAmount: 1

@@ -18,5 +18,5 @@ MonoBehaviour:
   NameUpgrade: Sickle
   DescriptionUpgrade: Harvesting for 1 click to Cell
   PriceData:
-    GoldAmount: 50
+    GoldAmount: 10
     SeedAmount: 0

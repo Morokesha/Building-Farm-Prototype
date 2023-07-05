@@ -112,8 +112,11 @@ namespace Code.Management
         public void ClearSelectedGarden() => 
             _selectedGarden = null;
 
-        public void SetConstructionState(ConstructionState state) => 
+        public void SetConstructionState(ConstructionState state)
+        {
             _constructionState = state;
+            print("Construction State Changed  " + _constructionState);
+        }
 
         public void ClearGardenAreaVisual()
         {
